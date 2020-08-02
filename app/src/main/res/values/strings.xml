@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Mehrkala coroutine</string>
+    <string name="username">نام کاربری</string>
+    <string name="phone_number">شماره تماس</string>
+    <string name="name">نام و نام خانوادگی</string>
+    <string name="password">رمز عبور</string>
+    <string name="login"> ورود </string>
+    <!-- nor common strings-->
+    <string name="create_new_account">ایجاد حساب کاربری</string>
+    <string name="account">حساب کاربری</string>
+    <string name="shopping_basket">سبد خرید</string>
+    <string name="top_products">محصولات برتر</string>
+    <string name="top_sale">فروش ویژه</string>
+    <string name="item_count">تعداد محصول</string>
+    <string name="all_products">محصولات</string>
+</resources>

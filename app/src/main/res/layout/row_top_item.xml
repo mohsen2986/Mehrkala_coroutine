@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="item"
+            type="com.example.mehrkala.model.Item" />
+        <variable
+            name="onClick"
+            type="com.example.mehrkalacoroutine.ui.utils.OnClickHandler"/>
+        <import type="android.view.View"/>
+    </data>
+    <androidx.cardview.widget.CardView
+        app:cardCornerRadius="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="165dp"
+        android:layout_height="294dp"
+        android:paddingEnd="@dimen/spacing_medium"
+        android:paddingStart="@dimen/spacing_medium"
+        android:layoutDirection="ltr"
+        android:background="@drawable/round_price_background"
+        android:layout_marginStart="3dp"
+        android:layout_marginLeft="3dp"
+        android:onClick="@{(v) -> onClick.onClick(item)}"
+        >
+        <ImageView
+            android:id="@+id/row_item_image"
+            android:layout_width="140dp"
+            android:layout_height="175dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:loadImage="@{item.image}"
+            />
+        <TextView
+            android:id="@+id/row_item_txt_title"
+            android:text="@{item.name}"
+            android:fontFamily="@font/text_font"
+            android:textSize="16dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textColor="@color/overlay_dark_80"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_marginStart="3dp"
+            >
+            <TextView
+                android:id="@+id/row_item_txt_price"
+                android:text="@{item.price}"
+                android:background="@{item.offer.equals(`0`) ? null :@drawable/strike_through}"
+                android:textSize="15dp"
+                android:textColor="@color/overlay_dark_90"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+            <TextView
+                android:id="@+id/row_item_txt_offer"
+                android:text="@{item.offer + '%'}"
+                android:visibility="@{item.offer.equals(`0`) ?View.INVISIBLE:View.VISIBLE}"
+                android:backgroundTint="@color/red_600"
+                android:textColor="@color/white"
+                android:paddingStart="@dimen/spacing_middle"
+                android:paddingEnd="@dimen/spacing_middle"
+                android:paddingTop="@dimen/spacing_xsmall"
+                android:paddingBottom="@dimen/spacing_xsmall"
+                android:layout_gravity="end"
+                android:background="@drawable/round_price_background"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+        </FrameLayout>
+        <TextView
+            android:id="@+id/row_item_txt_offer_price"
+            android:text="@{item.offerPrice}"
+            android:visibility="@{item.offer.equals(`0`) ?View.INVISIBLE:View.VISIBLE}"
+            android:textSize="12dp"
+            android:textColor="@color/overlay_dark_70"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            />
+
+    </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

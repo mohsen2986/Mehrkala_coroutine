@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <data>
+        <variable
+            name="item"
+            type="com.example.mehrkala.model.Item" />
+        <variable
+            name="onClick"
+            type="com.example.mehrkalacoroutine.ui.utils.OnClickHandler" />
+        <import type="android.view.View"/>
+    </data>
+    <androidx.cardview.widget.CardView
+        app:cardCornerRadius="7dp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="4dp"
+        android:layoutDirection="ltr"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="12dp"
+        android:onClick="@{(V) -> onClick.onClick(item)}"
+        >
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/row_item_vertical_view_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="
+                          row_item_vertical_line
+                        , row_item_vertical_offer
+                        , row_item_vertical_offer_price"
+            android:visibility="@{item.offer.equals(`0`) ?View.INVISIBLE:View.VISIBLE}"
+            />
+        <View
+            android:id="@+id/row_item_vertical_line"
+            android:layout_width="match_parent"
+            android:background="@color/red_A400"
+            android:layout_height="2dp"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+        <ImageView
+            android:id="@+id/row_item_vertical_img"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:loadImage="@{item.image}"
+            app:layout_constraintTop_toBottomOf="@id/row_item_vertical_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+        <ImageView
+            android:id="@+id/row_item_vertical_top_product"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="4dp"
+            android:src="@drawable/ic_top_product"
+            app:layout_constraintStart_toStartOf="@id/row_item_vertical_img"
+            app:layout_constraintBottom_toBottomOf="@id/row_item_vertical_img"/>
+        <TextView
+            android:id="@+id/row_item_vertical_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="13dp"
+            android:fontFamily="@font/iran_sans_bold"
+            android:textSize="15dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{item.name}"
+            android:textColor="@color/overlay_dark_80"
+            app:layout_constraintEnd_toStartOf="@id/row_item_vertical_img"
+            app:layout_constraintTop_toTopOf="@id/row_item_vertical_line"
+            />
+        <TextView
+            android:id="@+id/row_item_vertical_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.price}"
+            android:background="@{item.offer.equals(`0`) ? null :@drawable/strike_through}"
+            android:textStyle="bold"
+            android:textColor="@color/overlay_dark_80"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/row_item_vertical_offer_price"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="تومان"
+            android:textColor="@color/overlay_dark_80"
+            android:fontFamily="@font/font_one"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@id/row_item_vertical_price"
+            app:layout_constraintBottom_toBottomOf="@id/row_item_vertical_price"/>
+        <TextView
+            android:id="@+id/row_item_vertical_offer_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.offerPrice}"
+            android:textColor="@color/overlay_dark_80"
+            app:layout_constraintBottom_toBottomOf="@id/row_item_vertical_img"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+        <TextView
+            android:id="@+id/row_item_vertical_offer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.offer + '%'}"
+            android:textColor="@color/white"
+            android:paddingStart="@dimen/spacing_middle"
+            android:paddingEnd="@dimen/spacing_middle"
+            android:paddingTop="@dimen/spacing_xsmall"
+            android:paddingBottom="@dimen/spacing_xsmall"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="7dp"
+            android:background="@drawable/round_price_background"
+            android:backgroundTint="@color/red_600"
+            app:layout_constraintEnd_toStartOf="@id/row_item_vertical_img"
+            app:layout_constraintBottom_toBottomOf="@id/row_item_vertical_img"
+            />
+        <TextView
+            android:id="@+id/row_basket_txt_item_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/item_count"
+            android:fontFamily="@font/iran_sans_bold"
+            android:textColor="@color/overlay_dark_80"
+            android:textSize="10dp"
+            android:layout_marginTop="11dp"
+            app:layout_constraintEnd_toEndOf="@id/row_item_vertical_img"
+            app:layout_constraintTop_toBottomOf="@id/row_item_vertical_img"
+            />
+        <androidx.appcompat.widget.AppCompatImageView
+            app:srcCompat="@drawable/ic_plus"
+            android:id="@+id/row_basket_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="11dp"
+            android:onClick="@{(v) -> onClick.onClickView(v,item)}"
+            app:layout_constraintEnd_toStartOf="@id/row_basket_txt_item_count"
+            app:layout_constraintTop_toTopOf="@id/row_basket_txt_item_count"
+            />
+        <TextView
+            android:id="@+id/row_basket_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf(item.countItem)}"
+            android:layout_marginEnd="5dp"
+            app:layout_constraintEnd_toStartOf="@id/row_basket_plus"
+            app:layout_constraintTop_toTopOf="@id/row_basket_txt_item_count"
+            />
+        <ImageView
+            app:srcCompat="@drawable/ic_minus"
+            android:id="@+id/row_basket_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:onClick="@{(v) -> onClick.onClickView( v ,item)}"
+            app:layout_constraintEnd_toStartOf="@id/row_basket_count"
+            app:layout_constraintTop_toTopOf="@id/row_basket_txt_item_count"
+            />
+        <ImageView
+            android:id="@+id/row_basket_delete"
+            app:srcCompat="@drawable/ic_remove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
+            android:onClick="@{(v) -> onClick.onClickView( v ,item)}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/row_basket_txt_item_count"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

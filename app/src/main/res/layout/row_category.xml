@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="category"
+            type="com.example.mehrkalacoroutine.data.network.model.Category" />
+
+        <variable
+            name="onClick"
+            type="com.example.mehrkalacoroutine.ui.utils.OnClickHandler" />
+        <import type="android.view.View"/>
+    </data>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:onClick="@{(v) -> onClick.onClick(category)}"
+    android:layout_marginTop="10dp"
+    android:layout_marginStart="6dp"
+    android:orientation="vertical"
+    >
+    <TextView
+        android:id="@+id/row_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@{category.categoty}"
+        android:textColor="@color/overlay_dark_70"
+        android:fontFamily="@font/lalezar"
+        android:textSize="20sp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/overlay_dark_70"
+        />
+</LinearLayout>
+</layout>

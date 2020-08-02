@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    android:id="@+id/fra_show_items_drawer"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragment.showItems.ShowitemsFragment"
+    >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/overlay_light_60"
+        >
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/fra_show_items_sr"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fra_show_items_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="45dp"
+                android:background="@color/overlay_light_60"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                />
+            <com.arlib.floatingsearchview.FloatingSearchView
+                android:id="@+id/fra_show_items_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:floatingSearch_searchBarMarginLeft="10dp"
+                app:floatingSearch_searchBarMarginTop="10dp"
+                app:floatingSearch_searchBarMarginRight="10dp"
+                app:floatingSearch_searchHint="   جست و جو ....."
+                android:fontFamily="@font/text_font"
+                android:textColor="@color/overlay_dark_80"
+                app:floatingSearch_hintTextColor="@color/overlay_dark_70"
+                app:floatingSearch_suggestionsListAnimDuration="250"
+                app:floatingSearch_showSearchKey="true"
+                app:floatingSearch_leftActionMode="showHamburger"
+                app:floatingSearch_close_search_on_keyboard_dismiss="true"
+                app:floatingSearch_dismissOnOutsideTouch="true"
+                app:floatingSearch_dimBackground="false"
+                />
+        </FrameLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <Button
+        android:id="@+id/fra_show_details_buy"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="bottom"
+        android:layout_margin="7dp"
+        android:text="ارسال سبد خرید"
+        android:fontFamily="@font/text_font"
+        android:textSize="25dp"
+        android:textColor="@color/white"
+        android:background="@color/red_400"
+        />
+    </FrameLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/fra_show_items_navigation"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:text="دسته بندی"
+            android:fontFamily="@font/lalezar"
+            android:textColor="@color/overlay_dark_70"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="75dp"
+            android:layout_gravity="end"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fra_show_items_categories_rv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            android:layout_gravity="end"
+            android:layout_marginTop="40dp"
+            />
+    </com.google.android.material.navigation.NavigationView>
+
+</androidx.drawerlayout.widget.DrawerLayout>

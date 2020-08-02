@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="item"
+            type="com.example.mehrkala.model.Item" />
+        <import type="com.example.mehrkalacoroutine.ui.utils.DataBindingUtils"/>
+        <variable
+            name="onClick"
+            type="com.example.mehrkalacoroutine.ui.utils.OnClickHandler"/>
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:onClick="@{(v) ->onClick.onClick(item)}"
+    >
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:loadImage="@{item.image}"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
