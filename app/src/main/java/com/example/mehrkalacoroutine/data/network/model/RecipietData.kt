@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class RecipietData(
     @SerializedName("receipt")
     val receipt:String ,
+    @SerializedName("offer")
+    val offer:String ,
     @SerializedName("receipt_offer")
     val receiptOffer:String
 )

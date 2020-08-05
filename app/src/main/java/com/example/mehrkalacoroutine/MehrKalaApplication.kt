@@ -16,6 +16,7 @@ import com.example.mehrkalacoroutine.ui.fragment.ShowItemDetailsFragment.ShowIte
 import com.example.mehrkalacoroutine.ui.fragment.account.AccountViewModelFactory
 import com.example.mehrkalacoroutine.ui.fragment.basket.BillsViewModelFactory
 import com.example.mehrkalacoroutine.ui.fragment.mainPage.MainPageViewModelFactory
+import com.example.mehrkalacoroutine.ui.fragment.paymentgateway.PaymentGatewayViewModelFactory
 import com.example.mehrkalacoroutine.ui.fragment.showImage.ShowImageViewModelFactory
 import com.example.mehrkalacoroutine.ui.fragment.showItems.ShowItemsViewModleFactory
 import com.example.mehrkalacoroutine.ui.fragment.splashScreen.loading.LoadingViewModelFactory
@@ -53,5 +54,6 @@ class MehrKalaApplication(): MultiDexApplication() , KodeinAware{
         bind() from provider { ShowImageViewModelFactory() }
         bind() from provider { AccountViewModelFactory(instance()) }
         bind() from provider { BillsViewModelFactory(instance())}
+        bind() from provider { PaymentGatewayViewModelFactory()}
     }
 }

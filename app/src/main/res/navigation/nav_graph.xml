@@ -185,4 +185,18 @@
         android:id="@+id/biilsFragment"
         android:name="com.example.mehrkalacoroutine.ui.fragment.basket.BiilsFragment"
         android:label="BiilsFragment" />
+    <fragment
+        android:id="@+id/paymentGatewayFragment"
+        android:name="com.example.mehrkalacoroutine.ui.fragment.paymentgateway.PaymentGatewayFragment"
+        android:label="PaymentGatewayFragment" >
+        <argument
+            android:name="receipt"
+            app:nullable="true"
+            />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="payment://zarrinpal/"
+            />
+    </fragment>
+
 </navigation>

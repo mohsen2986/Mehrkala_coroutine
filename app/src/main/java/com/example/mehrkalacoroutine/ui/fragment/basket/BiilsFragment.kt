@@ -1,6 +1,7 @@
 package com.example.mehrkalacoroutine.ui.fragment.basket
 
 import android.app.Dialog
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -24,6 +25,7 @@ import com.example.mehrkalacoroutine.ui.adapter.selectableRecycler.SelectableRec
 import com.example.mehrkalacoroutine.ui.base.ScopedFragment
 import com.example.mehrkalacoroutine.ui.utils.OnItemSelected
 import com.haroldadmin.cnradapter.NetworkResponse
+import com.zarinpal.ewallets.purchase.ZarinPal
 import kotlinx.android.synthetic.main.biils_fragment.*
 import kotlinx.android.synthetic.main.dialog_add_address.*
 import kotlinx.android.synthetic.main.dialog_choose_address.*
@@ -48,6 +50,7 @@ class BiilsFragment : ScopedFragment() , KodeinAware {
     private lateinit var receiptAdapter: RecyclerViewAdapter<Item>
     private var addresses:List<Address> = listOf()
     private var recivers :List<ReciverInformation> = listOf()
+    private lateinit var receipt: Receipt
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -69,6 +72,7 @@ class BiilsFragment : ScopedFragment() , KodeinAware {
         bindAdapters()
         bindUI()
         UIActions()
+        initPayment()
     }
     private fun bindUI() = launch{
         when(val callback = viewModel.addresses.await()){
@@ -82,6 +86,7 @@ class BiilsFragment : ScopedFragment() , KodeinAware {
             is NetworkResponse.Success -> {
                 receiptAdapter.datas = datas.body.item.toMutableList()
                 viewBinding.receipt = datas.body
+                receipt = datas.body
             }
         }
     }
@@ -103,6 +108,11 @@ class BiilsFragment : ScopedFragment() , KodeinAware {
         }
         fra_bills_choose_reciver.setOnClickListener{
             chooseReciverInformation()
+        }
+        fra_bills_buy.setOnClickListener{
+            if(receipt?.receipt.receiptOffer.toInt() > 0)
+                startPayment(receipt.receipt.receiptOffer.toInt())
+
         }
 //        fra_bills_choose_address.setOnClickListener{
 //            chooseAddress()
@@ -242,6 +252,33 @@ class BiilsFragment : ScopedFragment() , KodeinAware {
             GlobalScope.launch(Main) {
                 fra_bills_reciver.text = name
                 dialog.dismiss()
+            }
+        }
+    }
+    private fun initPayment(){
+        val data :Uri ?= activity?.intent?.data
+        ZarinPal.getPurchase(context).verificationPayment(data){
+            isPaymentSuccess, refID, paymentRequest ->
+            if(isPaymentSuccess){
+                Toast.makeText(context , "$refID" , Toast.LENGTH_LONG).show()
+            }else{
+                Toast.makeText(context, "$refID", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+    private fun startPayment( cost :Int){
+        val purchase = ZarinPal.getPurchase(activity)
+        val payment = ZarinPal.getSandboxPaymentRequest()
+        payment.merchantID = "71c705f8-bd37-11e6-aa0c-000c295eb8fc"
+        payment.description = "صحفه پرداخت مهر کالا"
+        payment.amount = cost.toLong()
+        payment.setCallbackURL("payment://zarrinpal/")
+        purchase.startPayment(payment){
+            status, authority, paymentGatewayUri, intent ->
+            if (status == 100)
+                activity!!.startActivity(intent)
+            else{
+                Toast.makeText(context, "خطا در ایجاد درخواست پرداخت" , Toast.LENGTH_LONG).show()
             }
         }
     }

@@ -85,7 +85,7 @@
         <FrameLayout
             android:id="@+id/fra_bills_consts"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="80dp"
             app:layout_constraintBottom_toTopOf="@id/fra_bills_info_card"
             >
             <TextView
@@ -100,18 +100,17 @@
                 />
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="@{receipt.receipt.receipt}"
                 android:layout_marginStart="9dp"
                 android:textColor="@color/overlay_dark_80"
                 />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="مجموع نهایی خرید با تخفیف:"
+                android:text="تخفیف :"
                 android:fontFamily="@font/text_font"
                 android:textColor="@color/overlay_dark_80"
                 android:layout_marginTop="30dp"
@@ -120,7 +119,24 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{ receipt != null ? '-' + receipt.receipt.offer : String.valueOf(0)}"
+                android:textColor="@color/overlay_dark_80"
                 android:layout_marginTop="25dp"
+                android:layout_marginStart="9dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="مجموع نهایی خرید بااعمال  تخفیف:"
+                android:fontFamily="@font/text_font"
+                android:textColor="@color/overlay_dark_80"
+                android:layout_marginTop="50dp"
+                android:layout_gravity="end"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="45dp"
                 android:layout_marginStart="9dp"
                 android:text="@{receipt.receipt.receiptOffer}"
                 android:textColor="@color/overlay_dark_80"
