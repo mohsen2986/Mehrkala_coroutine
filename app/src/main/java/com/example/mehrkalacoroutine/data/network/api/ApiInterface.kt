@@ -119,5 +119,5 @@ interface ApiInterface{
         @Query("address_id") addressId:String ,
         @Query("reciver_id") reciverId:String ,
         @Query("ref_id") refId:String
-    ): NetworkResponse< StateRequest , StateRequest>
+    ): NetworkResponse< Receipt , Receipt>
 }
