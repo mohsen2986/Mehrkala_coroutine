@@ -208,18 +208,21 @@ class BiilsFragment : ScopedFragment() , KodeinAware {
         }
         dialog.show()
         dialog.window?.attributes = lp
-        var city:String =""
+        var address:Address? = null
         dialog.dialog_choose_address_rv.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = SelectableRecyclerAdapter<Address>( addresses , object :OnItemSelected<Address>{
                 override fun onItemSelected(item: Address) {
-                    city = item.address
+                    address = item
                 }
             })
         }
         dialog.dialog_choose_address_submit.setOnClickListener {
             GlobalScope.launch(Main) {
-                fra_bills_city.text = city
+                address?.let {
+                    fra_bills_city.text = it.address
+                    viewModel.setAddress(it)
+                }
                 dialog.dismiss()
             }
         }
@@ -239,18 +242,21 @@ class BiilsFragment : ScopedFragment() , KodeinAware {
         }
         dialog.show()
         dialog.window?.attributes = lp
-        var name :String = ""
+        var reciver: ReciverInformation? = null
         dialog.dialog_choose_reciver_rv.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = SelectableRecyclerAdapter<ReciverInformation>( recivers , object :OnItemSelected<ReciverInformation>{
                 override fun onItemSelected(item: ReciverInformation) {
-                    name = item.name
+                    reciver = item
                 }
             })
         }
         dialog.dialog_choose_reciver_submit.setOnClickListener {
             GlobalScope.launch(Main) {
-                fra_bills_reciver.text = name
+                reciver?.let {
+                    fra_bills_reciver.text = it.name
+                    viewModel.setReciver(it)
+                }
                 dialog.dismiss()
             }
         }

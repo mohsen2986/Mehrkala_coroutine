@@ -2,6 +2,8 @@ package com.example.mehrkalacoroutine.ui.fragment.basket
 
 import androidx.lifecycle.ViewModel
 import com.example.mehrkalacoroutine.data.network.api.ApiInterface
+import com.example.mehrkalacoroutine.data.network.model.Address
+import com.example.mehrkalacoroutine.data.network.model.ReciverInformation
 import com.example.mehrkalacoroutine.data.repository.OrdersRepository
 import com.example.mehrkalacoroutine.ui.base.lazyDeferred
 
@@ -22,5 +24,11 @@ class BillsViewModel(
     }
     val receipt by lazyDeferred{
         order.getReceipt()
+    }
+    fun setAddress(address: Address) {
+        order.address = address
+    }
+    fun setReciver(reciver:ReciverInformation){
+        order.reciver = reciver
     }
 }

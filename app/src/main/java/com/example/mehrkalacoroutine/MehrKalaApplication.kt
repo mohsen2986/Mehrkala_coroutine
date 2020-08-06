@@ -54,6 +54,6 @@ class MehrKalaApplication(): MultiDexApplication() , KodeinAware{
         bind() from provider { ShowImageViewModelFactory() }
         bind() from provider { AccountViewModelFactory(instance()) }
         bind() from provider { BillsViewModelFactory(instance())}
-        bind() from provider { PaymentGatewayViewModelFactory()}
+        bind() from provider { PaymentGatewayViewModelFactory(instance())}
     }
 }

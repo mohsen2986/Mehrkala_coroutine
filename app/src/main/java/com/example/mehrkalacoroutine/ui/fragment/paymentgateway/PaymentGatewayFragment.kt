@@ -17,6 +17,7 @@ import com.example.mehrkalacoroutine.R
 import com.example.mehrkalacoroutine.databinding.PaymentGatewayFragmentBinding
 import com.example.mehrkalacoroutine.ui.base.ScopedFragment
 import com.zarinpal.ewallets.purchase.ZarinPal
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -64,6 +65,9 @@ class PaymentGatewayFragment : ScopedFragment() , KodeinAware {
         ZarinPal.getPurchase(context).verificationPayment(data){
                 isPaymentSuccess, refID, paymentRequest ->
             if(isPaymentSuccess){
+                GlobalScope.launch {
+                    viewModel.sendPaymentInfo(refID.toString())
+                }
                 Toast.makeText(context , "$refID" , Toast.LENGTH_LONG).show()
             }else{
                 Toast.makeText(context, "$refID", Toast.LENGTH_LONG).show()

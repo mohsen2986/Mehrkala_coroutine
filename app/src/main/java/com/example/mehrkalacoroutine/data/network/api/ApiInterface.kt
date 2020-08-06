@@ -113,4 +113,11 @@ interface ApiInterface{
     @POST("getReceipt.php")
     suspend fun getReceipt(
     ): NetworkResponse<Receipt , Receipt>
+
+    @POST("payment.php")
+    suspend fun sendPaymentInformation(
+        @Query("address_id") addressId:String ,
+        @Query("reciver_id") reciverId:String ,
+        @Query("ref_id") refId:String
+    ): NetworkResponse< StateRequest , StateRequest>
 }
