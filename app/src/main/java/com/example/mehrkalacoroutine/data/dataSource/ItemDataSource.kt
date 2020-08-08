@@ -7,6 +7,8 @@ import androidx.paging.PageKeyedDataSource
 import com.example.mehrkala.model.Item
 import com.example.mehrkala.model.ItemsResponse
 import com.example.mehrkalacoroutine.data.network.NetworkState
+import com.example.mehrkalacoroutine.data.network.model.OrdersHistory
+import com.example.mehrkalacoroutine.data.network.model.OrdersHistoryResponse
 import com.example.mehrkalacoroutine.data.repository.ItemRepository
 import com.haroldadmin.cnradapter.NetworkResponse
 import kotlinx.coroutines.*
@@ -49,11 +51,16 @@ class ItemDataSource<T>(
             retryQuery = null
             networkState.postValue(NetworkState.SUCCESS)
             when(request){
-                is NetworkResponse.Success ->
-                    callBack(request.body.datas as List<T>)
+                is NetworkResponse.Success ->{
+                    if (request.body is OrdersHistoryResponse)
+                        callBack((request.body as OrdersHistoryResponse).datas as List<T>)
+                    else if(request.body is ItemsResponse)
+                        callBack((request.body as ItemsResponse).datas as List<T>)
+                    }
+                }
             }
         }
-    }
+
     private fun loadInitial(callBack:(List<T>) -> Unit ){
         scope.launch (getJobErrorHandler() + supervisorJob){
             pages = repository.getPages(query)

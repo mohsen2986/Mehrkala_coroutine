@@ -15,7 +15,10 @@ class   ItemRepository (
 ){
 
     suspend fun getItems(page:Int , query:String)  =
-        apiInterface.getItemsPerPage(page , query)
+        when(query){
+            "payment" ->apiInterface.getOrderHistoryPerPage(page)
+            else ->     apiInterface.getItemsPerPage(page , query)
+        }
 
     suspend fun getPages(query:String):Int {
         val result = apiInterface.getItemsPerPage(0 , query)
@@ -97,6 +100,8 @@ class   ItemRepository (
         }
         return emptyList()
     }
-
+    // Orders items
+    suspend fun getOrderItems(paymentId:String) =
+        apiInterface.getOrdersItems(paymentId)
 
 }

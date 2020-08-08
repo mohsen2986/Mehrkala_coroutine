@@ -101,6 +101,14 @@
             app:popEnterAnim="@anim/fade_slide_in_left"
             app:exitAnim="@anim/fade_slide_out_left"
             />
+        <action
+            android:id="@+id/action_showitemsFragment_to_showOrdersHistory"
+            app:destination="@id/showOrdersHistory"
+            app:enterAnim="@anim/fade_slide_in_right"
+            app:popExitAnim="@anim/fade_slide_out_right"
+            app:popEnterAnim="@anim/fade_slide_in_left"
+            app:exitAnim="@anim/fade_slide_out_left"
+            />
     </fragment>
     <fragment
         android:id="@+id/mainPageFragment"
@@ -180,7 +188,16 @@
         android:id="@+id/accountFragment"
         android:name="com.example.mehrkalacoroutine.ui.fragment.account.AccountFragment"
         android:label="account_fragment"
-        tools:layout="@layout/account_fragment" />
+        tools:layout="@layout/account_fragment" >
+        <action
+            android:id="@+id/action_accountFragment_to_showitemsFragment"
+            app:destination="@id/showitemsFragment"
+            app:enterAnim="@anim/fade_slide_in_right"
+            app:popExitAnim="@anim/fade_slide_out_right"
+            app:popEnterAnim="@anim/fade_slide_in_left"
+            app:exitAnim="@anim/fade_slide_out_left"
+            />
+    </fragment>
     <fragment
         android:id="@+id/biilsFragment"
         android:name="com.example.mehrkalacoroutine.ui.fragment.basket.BiilsFragment"
@@ -196,6 +213,15 @@
         <deepLink
             android:id="@+id/deepLink"
             app:uri="payment://zarrinpal/"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/showOrdersHistory"
+        android:name="com.example.mehrkalacoroutine.ui.fragment.showOrdersHistory.ShowOrdersHistory"
+        android:label="ShowOrdersHistory" >
+        <argument
+            android:name="paymentId"
+            android:defaultValue="Non"
             />
     </fragment>
 

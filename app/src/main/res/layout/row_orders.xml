@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="order"
+            type="com.example.mehrkalacoroutine.data.network.model.OrdersHistory"
+            />
+        <variable
+            name="onClick"
+            type="com.example.mehrkalacoroutine.ui.utils.OnClickHandler" />
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:onClick="@{ (v) -> onClick.onClick(order)}"
+    >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@{order.name}"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

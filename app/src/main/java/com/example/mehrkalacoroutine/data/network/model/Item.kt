@@ -6,7 +6,6 @@ import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
-import java.util.*
 
 @Parcelize
 data class Item(

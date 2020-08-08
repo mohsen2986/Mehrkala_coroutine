@@ -21,5 +21,4 @@ class MainPageViewModel(
     val category by lazyDeferred{
         itemRepository.getImageCategories()
     }
-
 }

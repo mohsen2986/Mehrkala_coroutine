@@ -9,9 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mehrkala.model.Item
 import com.example.mehrkalacoroutine.R
 import com.example.mehrkalacoroutine.data.network.NetworkState
+import com.example.mehrkalacoroutine.data.network.model.OrdersHistory
 import com.example.mehrkalacoroutine.databinding.RowBasketBinding
 import com.example.mehrkalacoroutine.databinding.RowItemBinding
 import com.example.mehrkalacoroutine.databinding.RowLoadingBinding
+import com.example.mehrkalacoroutine.databinding.RowOrdersBinding
 import com.example.mehrkalacoroutine.ui.utils.OnClickHandler
 
 class RecyclerAdapter<T> (
@@ -42,7 +44,7 @@ class RecyclerAdapter<T> (
 
 
     // FOR DATA--
-    lateinit var onClickHandler: OnClickHandler<Item>
+    lateinit var onClickHandler: OnClickHandler<Any>
     private var networkState: NetworkState? = null
     interface OnClickListener{
         fun onRefresh()
@@ -64,6 +66,9 @@ class RecyclerAdapter<T> (
             R.layout.row_basket -> BasketViewHolder(
                 RowBasketBinding.inflate(layoutInflater , parent , false)
             )
+            R.layout.row_orders -> OrdersHistoryViewHolder(
+                RowOrdersBinding.inflate(layoutInflater , parent , false)
+            )
             else -> throw IllegalArgumentException("unknown view type: $viewType")
         }
     }
@@ -73,13 +78,15 @@ class RecyclerAdapter<T> (
             R.layout.row_loading -> (holder as LoadingViewHolder).bind()
             R.layout.row_item -> (holder as ItemViewHolder).bind(getItem(position) as Item , onClick = onClickHandler)
             R.layout.row_basket -> (holder as BasketViewHolder).bind(getItem(position) as Item , onClickHandler)
+            R.layout.row_orders -> (holder as OrdersHistoryViewHolder).bind(getItem(position) as OrdersHistory , onClick = onClickHandler)
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        println("debug: ${(getItem(0) as Item).count}")
         return if(hasExtraRow() && position == itemCount-1)
             R.layout.row_loading
+        else if(getItem(0) is OrdersHistory)
+            R.layout.row_orders
         else if((getItem(0) as Item).count == 0)
             R.layout.row_item
         else

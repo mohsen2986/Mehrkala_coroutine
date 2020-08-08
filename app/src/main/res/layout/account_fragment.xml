@@ -238,6 +238,18 @@
                 app:layout_constraintEnd_toStartOf="@id/fra_account_save_ic"
                 />
             <TextView
+                android:id="@+id/fra_account_orders_history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="شفارش های پرداخت شده"
+                android:fontFamily="@font/text_font"
+                android:textColor="@color/overlay_dark_80"
+                android:textSize="18dp"
+                android:layout_marginTop="9dp"
+                app:layout_constraintEnd_toEndOf="@id/fra_account_save_ic"
+                app:layout_constraintTop_toBottomOf="@id/fra_account_save_ic"
+                />
+            <TextView
                 android:id="@+id/fra_account_logout_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

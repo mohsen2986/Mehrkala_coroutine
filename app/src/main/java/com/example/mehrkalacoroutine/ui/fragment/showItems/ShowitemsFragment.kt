@@ -15,12 +15,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.example.mehrkala.model.Item
 import com.example.mehrkalacoroutine.R
 import com.example.mehrkalacoroutine.data.network.NetworkState
 import com.example.mehrkalacoroutine.data.network.model.Category
+import com.example.mehrkalacoroutine.data.network.model.OrdersHistory
 import com.example.mehrkalacoroutine.ui.adapter.horizontalRecycler.RecyclerViewAdapter
 import com.example.mehrkalacoroutine.ui.adapter.paging.RecyclerAdapter
 import com.example.mehrkalacoroutine.ui.base.ScopedFragment
@@ -38,7 +40,7 @@ class ShowitemsFragment : ScopedFragment() , KodeinAware  , RecyclerAdapter.OnCl
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: ShowItemsViewModleFactory by instance()
     // FOR DATA ---
-    private lateinit var adapter : RecyclerAdapter<Item>
+    private lateinit var adapter : RecyclerAdapter<Any>
     private val categoryAdapter = RecyclerViewAdapter<Category>()
     private lateinit var viewModel: ShowitemsViewModel
     private lateinit var navController:NavController
@@ -70,33 +72,51 @@ class ShowitemsFragment : ScopedFragment() , KodeinAware  , RecyclerAdapter.OnCl
         adapter =
             RecyclerAdapter(this)
 
-        adapter.onClickHandler = object: OnClickHandler<Item> {
-            override fun onClick(element: Item) {
-                 launch {
-                     viewModel.visitItem(element.id)
-                 }
-                val bundle = bundleOf("item" to element)
-                navController.navigate(R.id.action_showitemsFragment_to_showItemDetailsFragment ,
-                    bundle)
-            }
-
-            override fun onClickView(view: View, element: Item)  {
-                when(view.id){
-                    R.id.row_basket_plus ->{
-                        element.setCountItem(element.count+1)
-                        launch { viewModel.addItemCount(element.id)}
-                    }
-                    R.id.row_basket_minus ->{
-                        if(element.count>1) {
-                            element.setCountItem(element.count - 1)
-                            launch { viewModel.minusItemCount(element.id) }
+        adapter.onClickHandler =
+                object : OnClickHandler<Any> {
+                    override fun onClick(element: Any) {
+                        when(element) {
+                            is OrdersHistory ->{
+                                val bundle = bundleOf("paymentId" to element.id)
+                                navController.navigate(
+                                    R.id.action_showitemsFragment_to_showOrdersHistory ,
+                                    bundle
+                                )
+                            }
+                            is Item -> {
+                                launch {
+                                    viewModel.visitItem(element.id)
+                                }
+                                val bundle = bundleOf("item" to element)
+                                navController.navigate(
+                                    R.id.action_showitemsFragment_to_showItemDetailsFragment,
+                                    bundle
+                                )
+                            }
                         }
                     }
-                    R.id.row_basket_delete ->{
-                        DeleteDialog(element.id)
+
+                    override fun onClickView(view: View, element: Any) {
+                        when(element) {
+                            is Item -> {
+                                when (view.id) {
+                                    R.id.row_basket_plus -> {
+                                        element.setCountItem(element.count + 1)
+                                        launch { viewModel.addItemCount(element.id) }
+                                    }
+                                    R.id.row_basket_minus -> {
+                                        if (element.count > 1) {
+                                            element.setCountItem(element.count - 1)
+                                            launch { viewModel.minusItemCount(element.id) }
+                                        }
+                                    }
+                                    R.id.row_basket_delete -> {
+                                        DeleteDialog(element.id)
+                                    }
+                                }
+                            }
+                        }
                     }
-                }
-            }
         }
 
         fra_show_items_rv.adapter = adapter
@@ -130,7 +150,7 @@ class ShowitemsFragment : ScopedFragment() , KodeinAware  , RecyclerAdapter.OnCl
 
     private fun configureObservables() {
         viewModel.networkState.observe(viewLifecycleOwner, Observer { adapter.updateNetworkState(it) })
-        viewModel.users.observe(viewLifecycleOwner, Observer { adapter.submitList(it) })
+        viewModel.users.observe(viewLifecycleOwner, Observer { adapter.submitList(it as PagedList<Any>) })
     }
 
     private fun bindUI() = launch{
@@ -158,14 +178,6 @@ class ShowitemsFragment : ScopedFragment() , KodeinAware  , RecyclerAdapter.OnCl
         categories.add(Category(0 , "همه محصولات" , "product"))
         categories.addAll(viewModel.categories.await())
         categoryAdapter.datas = categories
-    }
-    private fun showBasket() = launch{
-        startActivity(
-            Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse(viewModel.url.await())
-            )
-        )
     }
     private fun configViewModel(bundle:String){
         viewModel.fetchQuery(bundle)

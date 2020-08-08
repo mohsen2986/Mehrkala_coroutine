@@ -30,6 +30,17 @@ interface ApiInterface{
         @Query("page") page: Int ,
         @Query("query") query: String
     ): NetworkResponse<ItemsResponse , ItemsResponse>
+    // orders history
+    @POST("getProducts.php")
+    suspend fun getOrderHistoryPerPage(
+        @Query("page") page:Int ,
+        @Query("query") query:String = "payment"
+    ): NetworkResponse<OrdersHistoryResponse , OrdersHistoryResponse>
+    // get orders items
+    @POST("paymentItemProducts.php")
+    suspend fun getOrdersItems(
+        @Query("payment_id") paymentId:String
+    ): NetworkResponse<ItemsResponse , ItemsResponse>
     // get OFFERS
     @POST("getProducts.php")
     suspend fun getOffers(

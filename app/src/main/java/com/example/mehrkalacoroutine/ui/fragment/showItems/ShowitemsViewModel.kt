@@ -41,6 +41,7 @@ class ShowitemsViewModel(
         if(itemDataSource.getQuery() == query) return
         itemDataSource.updateQuery(query = query)
     }
+    fun getQuery() = itemDataSource.getQuery()
     // PUBLIC API
     suspend fun addItemCount(id:Int) =
         itemRepository.plusItemCount(id)

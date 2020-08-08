@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -69,6 +70,12 @@ class AccountFragment : ScopedFragment() , KodeinAware {
         }
         fra_account_logout_txt.setOnClickListener{
             logOutDialog()
+        }
+        fra_account_orders_history.setOnClickListener{
+            val bundle = bundleOf("query" to "payment")
+            navController.navigate(R.id.action_accountFragment_to_showitemsFragment ,
+                bundle
+            )
         }
     }
     private fun updateAccount() = launch {
