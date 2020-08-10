@@ -71,6 +71,9 @@ class ShowitemsFragment : ScopedFragment() , KodeinAware  , RecyclerAdapter.OnCl
         // show items rv
         adapter =
             RecyclerAdapter(this)
+        when(viewModel.getQuery()){
+            "payment" -> adapter.animation = R.anim.fade_scale_transaction_animation
+        }
 
         adapter.onClickHandler =
                 object : OnClickHandler<Any> {
@@ -129,12 +132,26 @@ class ShowitemsFragment : ScopedFragment() , KodeinAware  , RecyclerAdapter.OnCl
                     parent: RecyclerView,
                     state: RecyclerView.State
                 ) {
-                    with(outRect){
-                        top = 10
-                        left = 8
-                        right = 8
-                        bottom = 10
+                    when(viewModel.getQuery()){
+                        "payment" -> {
+                            with(outRect){
+                                top = 17
+                                left = 10
+                                right =10
+                                bottom = 17
+                            }
+                        }
+                        else ->{
+                            with(outRect){
+                                top = 10
+                                left = 8
+                                right = 8
+                                bottom = 10
+                            }
+
+                        }
                     }
+
                 }
             })
         }
@@ -187,7 +204,6 @@ class ShowitemsFragment : ScopedFragment() , KodeinAware  , RecyclerAdapter.OnCl
                 fra_show_items_search.setLeftActionMode(FloatingSearchView.LEFT_ACTION_MODE_SHOW_SEARCH)
             }
             "payment" ->{
-//                fra_show_items_drawer.visibility = View.INVISIBLE
                 fra_show_items_search.visibility = View.INVISIBLE
                 fra_show_details_buy.visibility = View.GONE
             }

@@ -3,6 +3,8 @@ package com.example.mehrkalacoroutine.ui.adapter.paging
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -45,6 +47,7 @@ class RecyclerAdapter<T> (
 
     // FOR DATA--
     lateinit var onClickHandler: OnClickHandler<Any>
+    var animation: Int? = null
     private var networkState: NetworkState? = null
     interface OnClickListener{
         fun onRefresh()
@@ -78,7 +81,7 @@ class RecyclerAdapter<T> (
             R.layout.row_loading -> (holder as LoadingViewHolder).bind()
             R.layout.row_item -> (holder as ItemViewHolder).bind(getItem(position) as Item , onClick = onClickHandler)
             R.layout.row_basket -> (holder as BasketViewHolder).bind(getItem(position) as Item , onClickHandler)
-            R.layout.row_orders -> (holder as OrdersHistoryViewHolder).bind(getItem(position) as OrdersHistory , onClick = onClickHandler)
+            R.layout.row_orders -> (holder as OrdersHistoryViewHolder).bind(getItem(position) as OrdersHistory , onClick = onClickHandler , animation = animation)
         }
     }
 
@@ -112,14 +115,6 @@ class RecyclerAdapter<T> (
         }else if(hadExtraRow && previousNetworkState != networkState){
             notifyItemChanged(itemCount -1)
         }
-    }
-
-    fun removeItem(id:Int){
-        for (i in 0..itemCount-1){
-            if ((getItem(i) as Item).id == id )
-                notifyItemRemoved(i)
-        }
-
     }
 
 }
