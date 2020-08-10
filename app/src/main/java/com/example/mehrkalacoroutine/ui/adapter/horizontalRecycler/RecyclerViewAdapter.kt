@@ -9,6 +9,7 @@ import com.example.mehrkalacoroutine.R
 import com.example.mehrkalacoroutine.data.network.model.Category
 import com.example.mehrkalacoroutine.data.network.model.CategoryImage
 import com.example.mehrkalacoroutine.databinding.*
+import com.example.mehrkalacoroutine.ui.adapter.paging.ItemViewHolder
 import com.example.mehrkalacoroutine.ui.utils.OnClickHandler
 
 class RecyclerViewAdapter<T>(
@@ -24,6 +25,8 @@ class RecyclerViewAdapter<T>(
 
     lateinit var onClick: OnClickHandler<T>
     lateinit var onBoarderClick : OnClickHandler<Boarder>
+
+    var itemType = 1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         layoutInflater = LayoutInflater.from(parent.context)
@@ -48,6 +51,10 @@ class RecyclerViewAdapter<T>(
                 CategoryImageViewHolder(
                     RowCategoryImgBinding.inflate(layoutInflater , parent , false)
                 )
+            R.layout.row_item ->
+                ItemViewHolder(
+                    RowItemBinding.inflate(layoutInflater , parent , false)
+                )
 
             else -> throw IllegalArgumentException("unknown view type:$viewType")
         }
@@ -62,6 +69,7 @@ class RecyclerViewAdapter<T>(
             is CategoryViewHolder-> holder.bind(datas[position] as Category, onClick = onClick)
             is ReceiptViewHolder -> holder.bind(datas[position] as Item)
             is CategoryImageViewHolder -> holder.bind(datas[position] as CategoryImage , onClick = onClick)
+            is ItemViewHolder -> holder.bind(datas[position] as Item , onClick = onClick)
             else -> throw IllegalArgumentException("unknown holse:$holder")
         }
 
@@ -72,6 +80,8 @@ class RecyclerViewAdapter<T>(
                 R.layout.row_top_item
         else if(datas[0] is Category)
                 R.layout.row_category
+        else if(datas[0] is Item && itemType == 2)
+            R.layout.row_item
         else if(datas[0] is Item)
             R.layout.row_receipt
         else if(datas[0] is CategoryImage)

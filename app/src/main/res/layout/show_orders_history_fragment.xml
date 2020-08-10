@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-
     </data>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -10,10 +9,14 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.showOrdersHistory.ShowOrdersHistory">
 
-    <TextView
-        android:layout_width="match_parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fra_show_orders_history_rv"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
         android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_width="match_parent"
+        tools:listitem="@layout/row_item"
+        />
 
 </FrameLayout>
 </layout>

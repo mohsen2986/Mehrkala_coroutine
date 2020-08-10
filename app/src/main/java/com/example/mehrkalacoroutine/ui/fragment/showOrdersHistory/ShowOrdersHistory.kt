@@ -8,13 +8,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.mehrkala.model.Item
 
 import com.example.mehrkalacoroutine.R
 import com.example.mehrkalacoroutine.databinding.ShowOrdersHistoryFragmentBinding
+import com.example.mehrkalacoroutine.ui.adapter.horizontalRecycler.RecyclerViewAdapter
+import com.example.mehrkalacoroutine.ui.adapter.paging.RecyclerAdapter
 import com.example.mehrkalacoroutine.ui.base.ScopedFragment
+import com.example.mehrkalacoroutine.ui.utils.OnClickHandler
+import com.haroldadmin.cnradapter.NetworkResponse
+import kotlinx.android.synthetic.main.show_orders_history_fragment.*
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -29,6 +38,7 @@ class ShowOrdersHistory : ScopedFragment() , KodeinAware{
     private lateinit var navController:NavController
     private lateinit var viewBinding:ShowOrdersHistoryFragmentBinding
     // -- FOR DATA
+    private lateinit var adapter : RecyclerViewAdapter<Item>
     private lateinit var paymentId:String
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,16 +58,32 @@ class ShowOrdersHistory : ScopedFragment() , KodeinAware{
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this , viewModelFactory).get(ShowOrdersHistoryViewModel::class.java)
         paymentId = arguments?.getString("paymentId")!!
-        Toast.makeText(context , "$id" , Toast.LENGTH_LONG).show()
+        configureAdapters()
         bindUI()
         UIActions()
     }
     private fun bindUI() = launch{
         val datas = viewModel.getOrderItems(paymentId)
-        Log.i("debug:", "$datas")
+        when(datas){
+            is NetworkResponse.Success -> adapter.datas = datas.body.datas.toMutableList()
+        }
     }
     private fun UIActions(){
 
+    }
+    private fun configureAdapters(){
+        adapter = RecyclerViewAdapter()
+        adapter.itemType = 2
+        adapter.onClick = object: OnClickHandler<Item>{
+            override fun onClick(element: Item) {
+                val bundle = bundleOf("item" to element)
+                navController.navigate(R.id.action_showOrdersHistory_to_showItemDetailsFragment ,
+                    bundle
+                )
+            }
+            override fun onClickView(view: View, element: Item) {}
+        }
+        fra_show_orders_history_rv.adapter = adapter
     }
 
 }

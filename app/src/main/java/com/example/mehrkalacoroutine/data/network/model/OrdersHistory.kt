@@ -10,7 +10,7 @@ data class OrdersHistory(
     @SerializedName("offer_cost")
     val OfferCost:String ,
     @SerializedName("is_send")
-    val isSend:Int ,
+    val isSend:String ,
     @SerializedName("address")
     val address:String ,
     @SerializedName("post_number")

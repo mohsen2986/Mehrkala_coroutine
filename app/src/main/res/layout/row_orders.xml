@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="order"
@@ -10,16 +11,280 @@
             type="com.example.mehrkalacoroutine.ui.utils.OnClickHandler" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="45dp"
+    android:layout_height="wrap_content"
+    android:elevation="4dp"
+    android:layoutDirection="ltr"
     android:onClick="@{ (v) -> onClick.onClick(order)}"
+    android:background="@drawable/order_history_background"
     >
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@{order.name}"
+        android:id="@+id/row_orders_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text='@{` سفارش شماره ` + order.basketName , default ="mohsen aliakbari"}'
+        android:textColor="@color/overlay_dark_80"
+        android:textSize="19dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         />
+    <View
+        android:id="@+id/row_receipt_section"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/red_A400"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="7dp"
+        app:layout_constraintTop_toBottomOf="@+id/row_orders_name"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="مبلغ خرید"
+        android:textColor="@color/overlay_dark_80"
+        android:fontFamily="@font/app_font_bold"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@id/row_orders_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+    <TextView
+        android:id="@+id/row_cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="مجموع خرید:"
+        android:fontFamily="@font/text_font"
+        android:textColor="@color/overlay_dark_80"
+        android:textSize="13dp"
+        android:layout_marginTop="27dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="@id/row_receipt_section"
+        app:layout_constraintTop_toBottomOf="@id/row_receipt_section"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text='@{order.cost , default = "1200"}'
+        android:textColor="@color/overlay_dark_80"
+        android:fontFamily="@font/text_font"
+        android:layout_marginTop="28dp"
+        app:layout_constraintStart_toStartOf="@id/row_receipt_section"
+        app:layout_constraintTop_toTopOf="@id/row_receipt_section"
+        />
+    <TextView
+        android:id="@+id/row_offer_cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="مجموع خرید با اعمال تخفیف:"
+        android:textColor="@color/overlay_dark_80"
+        android:fontFamily="@font/text_font"
+        android:textSize="13dp"
+        android:layout_marginTop="7dp"
+        app:layout_constraintTop_toBottomOf="@id/row_cost"
+        app:layout_constraintEnd_toEndOf="@id/row_cost"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text='@{order.offerCost , default ="12000"}'
+        android:textColor="@color/overlay_dark_80"
+        android:fontFamily="@font/text_font"
+        android:layout_marginBottom="9dp"
+        app:layout_constraintStart_toStartOf="@id/row_receipt_section"
+        app:layout_constraintBottom_toBottomOf="@id/row_orders_reciver_info_section"
+        />
+    <View
+        android:id="@+id/row_orders_reciver_info_section"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@color/red_A400"
+        app:layout_constraintTop_toBottomOf="@id/row_offer_cost"
+        />
+    <androidx.cardview.widget.CardView
+        android:id="@+id/fra_bills_info_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="15dp"
+        android:layout_marginTop="7dp"
+        android:background="@color/grey_40"
+        android:backgroundTint="@color/grey_10"
+        android:layout_marginStart="7dp"
+        android:layout_marginEnd="7dp"
+        app:layout_constraintTop_toBottomOf="@id/row_orders_reciver_info_section"
+        >
+        <com.rey.material.widget.FrameLayout
+            android:id="@+id/fra_bills_info"
+            android:layout_width="match_parent"
+            android:layout_height="227dp"
+            android:layout_margin="7dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="مشخصات دریافت کننده"
+                android:fontFamily="@font/text_font"
+                android:textColor="@color/overlay_dark_80"
+                android:layout_gravity="center_horizontal"
+                />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_location"
+                android:layout_gravity="end"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="7dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ادرس:"
+                android:fontFamily="@font/text_font"
+                android:textColor="@color/overlay_dark_80"
+                android:layout_gravity="end"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="35dp"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="75dp"
+                android:layout_marginTop="33dp"
+                android:text='@{order.address , default="tehran"}'
+                android:textColor="@color/overlay_dark_80"
+                android:fontFamily="@font/text_font"
+                />
+            <ImageView
+                android:id="@+id/fra_bills_add_address"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:srcCompat="@drawable/ic_post_number"
+                android:layout_gravity="end"
+                android:layout_marginTop="69dp"
+                android:layout_marginEnd="7dp"
+                />
+            <TextView
+                android:id="@+id/fra_bills_add_address_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="شماره پست :"
+                android:fontFamily="@font/text_font"
+                android:textColor="@color/overlay_dark_80"
+                android:layout_gravity="end"
+                android:layout_marginTop="68dp"
+                android:layout_marginEnd="39dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{order.postNumber , default="123123"}'
+                android:textColor="@color/overlay_dark_80"
+                android:fontFamily="@font/text_font"
+                android:layout_marginTop="70dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="125dp"
+                />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/red_400"
+                android:layout_marginTop="100dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="مشخصات دریافت کننده"
+                android:fontFamily="@font/text_font"
+                android:textColor="@color/overlay_dark_80"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="110dp"
+                />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_person_black_24dp"
+                android:layout_marginTop="140dp"
+                android:layout_marginEnd="7dp"
+                android:layout_gravity="end"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="143dp"
+                android:layout_marginEnd="35dp"
+                android:layout_gravity="end"
+                android:text="نام:"
+                android:fontFamily="@font/text_font"
+                android:textColor="@color/overlay_dark_80"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{order.name , default="mohsen"}'
+                android:textColor="@color/overlay_dark_80"
+                android:fontFamily="@font/text_font"
+                android:layout_marginTop="145dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="64dp"
+                />
+            <ImageView
+                android:id="@+id/fra_bills_add_reciver_info"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                app:srcCompat="@drawable/ic_phone"
+                android:layout_gravity="end"
+                android:layout_marginTop='178dp'
+                android:layout_marginEnd="8dp"
+                />
+            <TextView
+                android:id="@+id/fra_bills_add_reciver_info_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="شماره تماس :"
+                android:layout_gravity="end"
+                android:layout_marginTop="178dp"
+                android:layout_marginEnd="35dp"
+                android:fontFamily="@font/text_font"
+                android:textColor="@color/overlay_dark_80"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{order.phone , default="09360332986"}'
+                android:textColor="@color/overlay_dark_80"
+                android:fontFamily="@font/text_font"
+                android:textSize="13dp"
+                android:layout_gravity="end | bottom"
+                android:layout_marginEnd="120dp"
+                android:layout_marginBottom="24dp"
+                />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom |end "
+                android:background="@{order.isSend().equals(`0`)? @drawable/ic_shopping_is_send_not : @drawable/ic_shopping_is_send}"
+                android:layout_marginEnd="6dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{order.isSend().equals(`0`)? "سفارش شما ارسال نشده" : "سفارش شما ارسال شده"}'
+                android:layout_gravity="bottom | end"
+                android:layout_marginEnd="40dp"
+                android:textColor="@color/overlay_dark_80"
+                android:fontFamily="@font/app_font"
+                android:textSize="15dp"
+                />
+        </com.rey.material.widget.FrameLayout>
+    </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

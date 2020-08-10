@@ -223,6 +223,15 @@
             android:name="paymentId"
             android:defaultValue="Non"
             />
+        <action
+            android:id="@+id/action_showOrdersHistory_to_showItemDetailsFragment"
+            app:destination="@id/showItemDetailsFragment"
+            app:enterAnim="@anim/fade_slide_in_right"
+            app:popExitAnim="@anim/fade_slide_out_right"
+            app:popEnterAnim="@anim/fade_slide_in_left"
+            app:exitAnim="@anim/fade_slide_out_left"
+            />
+
     </fragment>
 
 </navigation>

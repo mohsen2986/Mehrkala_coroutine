@@ -186,6 +186,11 @@ class ShowitemsFragment : ScopedFragment() , KodeinAware  , RecyclerAdapter.OnCl
                 fra_show_items_drawer.visibility = View.VISIBLE
                 fra_show_items_search.setLeftActionMode(FloatingSearchView.LEFT_ACTION_MODE_SHOW_SEARCH)
             }
+            "payment" ->{
+//                fra_show_items_drawer.visibility = View.INVISIBLE
+                fra_show_items_search.visibility = View.INVISIBLE
+                fra_show_details_buy.visibility = View.GONE
+            }
             "search" -> {
                 fra_show_items_search.setSearchFocused(true)
                 fra_show_details_buy.visibility = View.GONE
