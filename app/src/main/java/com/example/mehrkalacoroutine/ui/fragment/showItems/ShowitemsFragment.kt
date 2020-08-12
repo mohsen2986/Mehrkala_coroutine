@@ -18,6 +18,7 @@ import androidx.navigation.Navigation
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
 import com.arlib.floatingsearchview.FloatingSearchView
+import com.bumptech.glide.Glide
 import com.example.mehrkala.model.Item
 import com.example.mehrkalacoroutine.R
 import com.example.mehrkalacoroutine.data.network.NetworkState
@@ -166,7 +167,7 @@ class ShowitemsFragment : ScopedFragment() , KodeinAware  , RecyclerAdapter.OnCl
     }
 
     private fun configureObservables() {
-        viewModel.networkState.observe(viewLifecycleOwner, Observer { adapter.updateNetworkState(it) })
+        viewModel.networkState?.observe(viewLifecycleOwner, Observer { adapter.updateNetworkState(it) })
         viewModel.users.observe(viewLifecycleOwner, Observer { adapter.submitList(it as PagedList<Any>) })
     }
 
@@ -217,10 +218,38 @@ class ShowitemsFragment : ScopedFragment() , KodeinAware  , RecyclerAdapter.OnCl
 
 
     }
+    private fun updateUIWhenLoading(size:Int , networkState: NetworkState?){
+        fra_show_items_progress.visibility = if(size == 0 && networkState == NetworkState.RUNNING) View.VISIBLE else View.GONE
+    }
+    private fun updateUIWhenEmptyList(size:Int , networkState: NetworkState?){
+        fra_show_items_img_status.visibility = View.GONE
+        fra_show_items_status_txt.visibility = View.GONE
+        fra_show_items_retry.visibility = View.GONE
+        if(size == 0){
+            when(networkState){
+                NetworkState.SUCCESS ->{
+                    Glide.with(this).load(R.drawable.not_found).into(fra_show_items_img_status)
+                    fra_show_items_status_txt.text = getString(R.string.items_not_found)
+                    fra_show_items_img_status.visibility = View.VISIBLE
+                    fra_show_items_status_txt.visibility = View.VISIBLE
+                    fra_show_items_retry.visibility = View.GONE
+                }
+                NetworkState.FAILED ->{
+                    Glide.with(this).load(R.drawable.no_connection).into(fra_show_items_img_status)
+                    fra_show_items_status_txt.text = getString(R.string.internet_error)
+                    fra_show_items_img_status.visibility = View.VISIBLE
+                    fra_show_items_status_txt.visibility = View.VISIBLE
+                    fra_show_items_retry.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
     override fun onRefresh() {
     }
 
     override fun whenListIsUpdated(size: Int, networkState: NetworkState?) {
+        updateUIWhenEmptyList(size , networkState)
+        updateUIWhenLoading(size , networkState)
     }
      private fun  DeleteDialog(id:Int){
         val dialog = Dialog(context!!)

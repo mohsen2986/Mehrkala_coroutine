@@ -47,6 +47,7 @@ class ItemDataSource<T>(
     private fun executeQuery(page:Int , callBack:(List<T>) -> Unit ){
         networkState.postValue(NetworkState.RUNNING)
         scope.launch (getJobErrorHandler() + supervisorJob){
+            delay(200)
             val request = repository.getItems(page , query)
             retryQuery = null
             networkState.postValue(NetworkState.SUCCESS)

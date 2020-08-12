@@ -33,7 +33,7 @@ class ShowitemsViewModel(
     }
     // OBSERVABLES
     val users = LivePagedListBuilder(itemDataSource ,pagedListConfig()).build()
-    val networkState : LiveData<NetworkState> =
+    val networkState : LiveData<NetworkState>? =
         Transformations.switchMap(itemDataSource.source) { it.getNetworkState() }
 
 

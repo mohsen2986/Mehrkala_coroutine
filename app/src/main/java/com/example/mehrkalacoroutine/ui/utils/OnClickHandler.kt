@@ -1,6 +1,7 @@
 package com.example.mehrkalacoroutine.ui.utils
 
 import android.view.View
+import com.example.mehrkalacoroutine.data.network.NetworkState
 
 interface OnClickHandler<T>{
     fun onClick(element:T)

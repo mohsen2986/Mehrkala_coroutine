@@ -24,4 +24,8 @@ class OrdersRepository(
         api.getReceipt()
     private suspend fun sendPayment(refId:String ) =
         api.sendPaymentInformation(addressId = address.id.toString() , reciverId = reciver.id.toString() , refId = refId)
+    fun addressIsSet() =
+        this::address.isInitialized
+    fun reciverIsSet() =
+        this::reciver.isInitialized
 }

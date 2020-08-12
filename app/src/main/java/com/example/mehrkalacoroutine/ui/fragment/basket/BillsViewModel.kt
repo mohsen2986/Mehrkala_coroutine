@@ -31,4 +31,10 @@ class BillsViewModel(
     fun setReciver(reciver:ReciverInformation){
         order.reciver = reciver
     }
+    fun addressIsSet() =
+        order.addressIsSet()
+    fun reciverIsSet() =
+        order.reciverIsSet()
+
+
 }

@@ -13,7 +13,8 @@
     <androidx.cardview.widget.CardView
         app:cardCornerRadius="15dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="165dp"
@@ -21,9 +22,9 @@
         android:paddingEnd="@dimen/spacing_medium"
         android:paddingStart="@dimen/spacing_medium"
         android:layoutDirection="ltr"
-        android:background="@drawable/round_price_background"
         android:layout_marginStart="3dp"
         android:layout_marginLeft="3dp"
+        android:background="@color/grey_10"
         android:onClick="@{(v) -> onClick.onClick(item)}"
         >
         <ImageView

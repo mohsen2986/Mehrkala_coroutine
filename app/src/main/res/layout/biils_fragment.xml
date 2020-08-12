@@ -15,6 +15,26 @@
         android:layoutDirection="ltr"
         android:fitsSystemWindows="true"
         >
+        <FrameLayout
+            android:id="@+id/fra_bills_loading_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/overlay_light_70"
+            android:alpha="0.9"
+            android:elevation="7dp"
+            >
+        <ProgressBar
+            android:id="@+id/fra_bills_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:elevation="10dp"
+            android:indeterminate="true"
+            android:indeterminateDrawable="@drawable/progress"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+        </FrameLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -13,4 +13,6 @@
     <string name="top_sale">فروش ویژه</string>
     <string name="item_count">تعداد محصول</string>
     <string name="all_products">دسته بندی محصولات</string>
+    <string name="items_not_found">نتیجه ای برای جستجوی شما یافت نشد</string>
+    <string name="internet_error">خطای فنی در ارتباط با سرور رخ داده است!</string>
 </resources>

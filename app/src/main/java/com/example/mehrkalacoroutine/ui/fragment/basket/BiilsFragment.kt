@@ -51,6 +51,8 @@ class BiilsFragment : ScopedFragment() , KodeinAware {
     private var addresses:List<Address> = listOf()
     private var recivers :List<ReciverInformation> = listOf()
     private lateinit var receipt: Receipt
+    private var addressSelected = false
+    private var reciverSelected = false
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -87,6 +89,8 @@ class BiilsFragment : ScopedFragment() , KodeinAware {
                 receiptAdapter.datas = datas.body.item.toMutableList()
                 viewBinding.receipt = datas.body
                 receipt = datas.body
+                fra_bills_progress.visibility = View.GONE
+                fra_bills_loading_layout.visibility = View.GONE
             }
         }
     }
@@ -110,8 +114,10 @@ class BiilsFragment : ScopedFragment() , KodeinAware {
             chooseReciverInformation()
         }
         fra_bills_buy.setOnClickListener{
-            if(receipt?.receipt.receiptOffer.toInt() > 0)
+            if(receipt?.receipt.receiptOffer.toInt() > 0 && viewModel.addressIsSet() && viewModel.reciverIsSet())
                 startPayment(receipt.receipt.receiptOffer.toInt())
+            else
+                Toast.makeText(context , "ادرس و گیرنده را مشخص کنید" , Toast.LENGTH_LONG).show()
 
         }
 //        fra_bills_choose_address.setOnClickListener{

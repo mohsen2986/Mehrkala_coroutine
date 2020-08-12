@@ -96,9 +96,10 @@ class RecyclerAdapter<T> (
             R.layout.row_basket
     }
 
-    override fun getItem(position: Int): T? {
+
+    override fun getItemCount(): Int {
         this.callback.whenListIsUpdated(super.getItemCount() , this.networkState )
-        return super.getItem(position)
+        return super.getItemCount()
     }
     // UTILS ---
     private fun hasExtraRow() = networkState != null && networkState != NetworkState.SUCCESS

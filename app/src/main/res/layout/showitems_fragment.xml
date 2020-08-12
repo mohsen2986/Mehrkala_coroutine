@@ -14,6 +14,49 @@
         android:layout_height="match_parent"
         android:background="@color/overlay_light_60"
         >
+        <ProgressBar
+            android:id="@+id/fra_show_items_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:elevation="10dp"
+            android:indeterminate="true"
+            android:indeterminateDrawable="@drawable/progress"
+            />
+        <ImageView
+            android:id="@+id/fra_show_items_img_status"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="68dp"
+            android:elevation="5dp"
+            />
+        <TextView
+            android:id="@+id/fra_show_items_status_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            android:layout_gravity="center"
+            android:textColor="@color/overlay_dark_80"
+            android:fontFamily="@font/text_font"
+            android:textSize="22dp"
+            android:visibility="invisible"
+            />
+        <Button
+            android:id="@+id/fra_show_items_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="72dp"
+            android:text="تلاش دوباره"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/text_font"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:background="@drawable/round_price_background"
+            android:visibility="invisible"
+            />
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/fra_show_items_sr"
         android:layout_width="match_parent"
