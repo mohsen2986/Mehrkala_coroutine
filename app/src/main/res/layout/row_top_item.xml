@@ -22,8 +22,6 @@
         android:paddingEnd="@dimen/spacing_medium"
         android:paddingStart="@dimen/spacing_medium"
         android:layoutDirection="ltr"
-        android:layout_marginStart="3dp"
-        android:layout_marginLeft="3dp"
         android:background="@color/grey_10"
         android:onClick="@{(v) -> onClick.onClick(item)}"
         >

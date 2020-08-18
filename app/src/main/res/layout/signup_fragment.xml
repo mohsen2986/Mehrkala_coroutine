@@ -43,7 +43,7 @@
             android:text="ایجاد                                   حساب کاربری"
             android:textSize="50sp"
             android:fontFamily="@font/font_one"
-            android:textColor="@color/overlay_dark_80"
+            android:textColor="@color/white"
             android:lineSpacingExtra="-10dp"
             />
         <TextView

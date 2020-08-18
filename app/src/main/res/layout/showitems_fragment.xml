@@ -40,6 +40,7 @@
             android:textColor="@color/overlay_dark_80"
             android:fontFamily="@font/text_font"
             android:textSize="22dp"
+            android:textAlignment="center"
             android:visibility="invisible"
             />
         <Button
@@ -123,9 +124,10 @@
             android:layout_height="25dp"
             android:text="دسته بندی"
             android:fontFamily="@font/lalezar"
-            android:textColor="@color/overlay_dark_70"
+            android:textColor="@color/overlay_dark_80"
+            android:textSize="190dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="75dp"
+            android:layout_marginEnd="115dp"
             android:layout_gravity="end"
             />
         <androidx.recyclerview.widget.RecyclerView

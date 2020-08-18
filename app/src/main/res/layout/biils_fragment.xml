@@ -169,6 +169,7 @@
             app:cardCornerRadius="15dp"
             android:background="@color/grey_40"
             android:backgroundTint="@color/grey_10"
+            android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toTopOf="@id/fra_bills_buy"
             >
         <com.rey.material.widget.FrameLayout

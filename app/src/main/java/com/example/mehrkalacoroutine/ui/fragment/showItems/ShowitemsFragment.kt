@@ -68,6 +68,11 @@ class ShowitemsFragment : ScopedFragment() , KodeinAware  , RecyclerAdapter.OnCl
         bindUI()
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.refreshAllList()
+    }
+
     private fun configureRecyclerView() {
         // show items rv
         adapter =

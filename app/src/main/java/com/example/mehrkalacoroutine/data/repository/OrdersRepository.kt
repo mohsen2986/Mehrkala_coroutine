@@ -28,4 +28,11 @@ class OrdersRepository(
         this::address.isInitialized
     fun reciverIsSet() =
         this::reciver.isInitialized
+
+    fun addressIsValid(): Boolean {
+        return addressIsSet() && address != Address()
+    }
+    fun reciverIsValid(): Boolean {
+        return reciverIsSet() && reciver != ReciverInformation()
+    }
 }

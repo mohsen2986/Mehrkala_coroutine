@@ -26,8 +26,6 @@
     android:layoutDirection="ltr"
     android:background="@drawable/round_price_background"
     android:backgroundTint="@color/gray"
-    android:layout_marginStart="3dp"
-    android:layout_marginEnd="3dp"
     android:onClick="@{(V) -> onClick.onClick(boarder)}"
     >
     <ImageView

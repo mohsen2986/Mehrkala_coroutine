@@ -62,9 +62,6 @@ class AccountFragment : ScopedFragment() , KodeinAware {
         fra_account_logout.setOnClickListener {
             logOutDialog()
         }
-        fra_account_save_ic.setOnClickListener{
-            saveInformationDialog()
-        }
         fra_account_save_txt.setOnClickListener{
             saveInformationDialog()
         }

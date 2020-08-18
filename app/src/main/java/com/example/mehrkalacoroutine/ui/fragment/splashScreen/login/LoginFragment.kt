@@ -59,7 +59,6 @@ class LoginFragment : ScopedFragment() , KodeinAware {
     private fun test(){
         GlobalScope.launch {
             val result = service.login("moshen_123123" , "12341234" ,"login")
-            Log.d("TAG" , "$result")
         }
     }
     private fun bindUI() = launch {

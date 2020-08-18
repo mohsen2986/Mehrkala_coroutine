@@ -34,8 +34,4 @@ class MainActivity : AppCompatActivity() , KodeinAware{
         setContentView(R.layout.activity_main)
         navController = Navigation.findNavController(this , R.id.ac_main_fragment)
     }
-
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-    }
 }

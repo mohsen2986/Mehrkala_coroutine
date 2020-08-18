@@ -85,6 +85,9 @@ class PaymentGatewayFragment : ScopedFragment() , KodeinAware {
             is NetworkResponse.Success -> {
                 receiptAdapter.datas = data.body.item.toMutableList()
                 viewBinding.receipt = data.body
+                viewBinding.address = viewModel.address()
+                viewBinding.reciver = viewModel.reciver()
+                viewModel.resetOrderInformation()
             }
         }
     }

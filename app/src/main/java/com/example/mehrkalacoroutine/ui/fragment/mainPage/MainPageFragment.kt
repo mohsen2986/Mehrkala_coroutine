@@ -179,12 +179,42 @@ class MainPageFragment : ScopedFragment() ,KodeinAware {
             adapter = topItemRecyclerAdapter
             layoutManager =
                 LinearLayoutManager(context , RecyclerView.HORIZONTAL , false)
+            addItemDecoration(object: RecyclerView.ItemDecoration(){
+                override fun getItemOffsets(
+                    outRect: Rect,
+                    view: View,
+                    parent: RecyclerView,
+                    state: RecyclerView.State
+                ) {
+                    with(outRect){
+                        top = 2
+                        left = 10
+                        right =10
+                        bottom = 2
+                    }
+                }
+            })
         }
         // TOP SALES RV
         fra_main_top_sale_rv.apply{
             adapter = topSalesRecyclerAdapter
             layoutManager =
                 LinearLayoutManager( context , RecyclerView.HORIZONTAL , false)
+            addItemDecoration(object: RecyclerView.ItemDecoration(){
+                override fun getItemOffsets(
+                    outRect: Rect,
+                    view: View,
+                    parent: RecyclerView,
+                    state: RecyclerView.State
+                ) {
+                    with(outRect){
+                        top = 2
+                        left = 10
+                        right =10
+                        bottom = 2
+                    }
+                }
+            })
         }
         // CATEGORY
         fra_main_category_rv.apply {

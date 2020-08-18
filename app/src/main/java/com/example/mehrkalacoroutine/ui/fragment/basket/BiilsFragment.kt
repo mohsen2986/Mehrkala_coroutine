@@ -74,7 +74,6 @@ class BiilsFragment : ScopedFragment() , KodeinAware {
         bindAdapters()
         bindUI()
         UIActions()
-        initPayment()
     }
     private fun bindUI() = launch{
         when(val callback = viewModel.addresses.await()){
@@ -114,7 +113,7 @@ class BiilsFragment : ScopedFragment() , KodeinAware {
             chooseReciverInformation()
         }
         fra_bills_buy.setOnClickListener{
-            if(receipt?.receipt.receiptOffer.toInt() > 0 && viewModel.addressIsSet() && viewModel.reciverIsSet())
+            if(receipt?.receipt.receiptOffer.toInt() > 0 && viewModel.addressIsValid() && viewModel.reciverIsValid())
                 startPayment(receipt.receipt.receiptOffer.toInt())
             else
                 Toast.makeText(context , "ادرس و گیرنده را مشخص کنید" , Toast.LENGTH_LONG).show()
@@ -264,17 +263,6 @@ class BiilsFragment : ScopedFragment() , KodeinAware {
                     viewModel.setReciver(it)
                 }
                 dialog.dismiss()
-            }
-        }
-    }
-    private fun initPayment(){
-        val data :Uri ?= activity?.intent?.data
-        ZarinPal.getPurchase(context).verificationPayment(data){
-            isPaymentSuccess, refID, paymentRequest ->
-            if(isPaymentSuccess){
-                Toast.makeText(context , "$refID" , Toast.LENGTH_LONG).show()
-            }else{
-                Toast.makeText(context, "$refID", Toast.LENGTH_LONG).show()
             }
         }
     }

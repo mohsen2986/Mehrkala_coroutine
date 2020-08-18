@@ -31,10 +31,13 @@ class BillsViewModel(
     fun setReciver(reciver:ReciverInformation){
         order.reciver = reciver
     }
-    fun addressIsSet() =
-        order.addressIsSet()
-    fun reciverIsSet() =
-        order.reciverIsSet()
-
+//    fun addressIsSet() =
+//        order.addressIsSet()
+//    fun reciverIsSet() =
+//        order.reciverIsSet()
+    fun addressIsValid() =
+        order.addressIsValid()
+    fun reciverIsValid() =
+        order.reciverIsValid()
 
 }
