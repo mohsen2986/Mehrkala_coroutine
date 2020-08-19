@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.*
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -275,8 +276,12 @@ class BiilsFragment : ScopedFragment() , KodeinAware {
         payment.setCallbackURL("payment://zarrinpal/")
         purchase.startPayment(payment){
             status, authority, paymentGatewayUri, intent ->
-            if (status == 100)
-                activity!!.startActivity(intent)
+            if (status == 100) {
+//                activity!!.startActivity(intent)
+                val builder = CustomTabsIntent.Builder()
+                val customTabsIntent = builder.build()
+                customTabsIntent.launchUrl(context!!, paymentGatewayUri)
+            }
             else{
                 Toast.makeText(context, "خطا در ایجاد درخواست پرداخت" , Toast.LENGTH_LONG).show()
             }

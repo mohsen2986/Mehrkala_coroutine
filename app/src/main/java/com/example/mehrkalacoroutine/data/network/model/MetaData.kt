@@ -8,5 +8,7 @@ data class MetaData(
         @SerializedName("code")
         var code :String ,
         @SerializedName("pages")
-        var pages :Int
+        var pages :Int ,
+        @SerializedName("files")
+        val files: String = "unknown"
 )

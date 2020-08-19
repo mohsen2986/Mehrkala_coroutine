@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="230dp"
             app:sliderIndicatorRadius="2dp"
-            app:sliderIndicatorSelectedColor="@color/red_A700"
+            app:sliderIndicatorSelectedColor="@color/overlay_dark_80"
             app:sliderIndicatorUnselectedColor="@color/red_400"
             app:sliderCircularHandlerEnabled="true"
             app:sliderStartAutoCycle="true"

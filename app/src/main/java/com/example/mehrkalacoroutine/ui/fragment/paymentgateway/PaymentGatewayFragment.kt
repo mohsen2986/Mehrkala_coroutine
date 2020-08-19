@@ -20,6 +20,7 @@ import com.example.mehrkalacoroutine.databinding.PaymentGatewayFragmentBinding
 import com.example.mehrkalacoroutine.ui.adapter.horizontalRecycler.RecyclerViewAdapter
 import com.example.mehrkalacoroutine.ui.adapter.paging.RecyclerAdapter
 import com.example.mehrkalacoroutine.ui.base.ScopedFragment
+import com.example.mehrkalacoroutine.ui.utils.askForPermission
 import com.haroldadmin.cnradapter.NetworkResponse
 import com.zarinpal.ewallets.purchase.ZarinPal
 import kotlinx.android.synthetic.main.dialog_payment_status.*
@@ -27,10 +28,12 @@ import kotlinx.android.synthetic.main.dialog_reciver_informatoin.*
 import kotlinx.android.synthetic.main.payment_gateway_fragment.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import okhttp3.RequestBody
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
+import java.util.jar.Manifest
 
 class PaymentGatewayFragment : ScopedFragment() , KodeinAware {
     override val kodein: Kodein by closestKodein()
@@ -126,6 +129,10 @@ class PaymentGatewayFragment : ScopedFragment() , KodeinAware {
             dialog.dismiss()
             activity?.onBackPressed()
         }
+        dialog.dialog_download_receipt.setOnClickListener{
+            getStoragePermission()
+            downloadReceipt()
+        }
     }
     private fun showPaymentFailed(){
         val dialog = Dialog(activity!!)
@@ -147,5 +154,15 @@ class PaymentGatewayFragment : ScopedFragment() , KodeinAware {
             activity?.onBackPressed()
         }
     }
+    private fun getStoragePermission(){
+        askForPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE , 101 , activity!!)
+    }
+    private fun downloadReceipt() = launch{
+        when(viewModel.downloadReceipt()){
+            true -> Toast.makeText(context , "رسید شما دانلود شد." , Toast.LENGTH_LONG).show()
+            else -> Toast.makeText( context , "مشکل در دانلود رسید." , Toast.LENGTH_LONG).show()
+        }
+    }
+
 
 }

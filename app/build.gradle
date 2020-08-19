@@ -126,4 +126,7 @@ dependencies {
 
     // ZARRIN PAL -- Payment
     implementation 'com.zarinpal:purchase:0.0.10'
+
+    //
+    implementation "androidx.browser:browser:1.0.0"
 }

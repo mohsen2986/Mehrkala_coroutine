@@ -4,8 +4,11 @@ import com.example.mehrkala.model.*
 import com.example.mehrkalacoroutine.data.network.model.*
 import com.haroldadmin.cnradapter.NetworkResponse
 import kotlinx.coroutines.Deferred
+import okhttp3.ResponseBody
+import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
+import retrofit2.http.Url
 
 interface ApiInterface{
     // Login
@@ -131,4 +134,9 @@ interface ApiInterface{
         @Query("reciver_id") reciverId:String ,
         @Query("ref_id") refId:String
     ): NetworkResponse< Receipt , Receipt>
+
+    @GET
+    suspend fun downloadReceipt(
+      @Url url:String
+    ): NetworkResponse<ResponseBody , ResponseBody>
 }

@@ -19,4 +19,6 @@ class PaymentGatewayViewModel(
         order.address = Address()
         order.reciver = ReciverInformation()
     }
+    suspend fun downloadReceipt() =
+        order.downloadReceiptPdf()
 }
