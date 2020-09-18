@@ -22,5 +22,7 @@ data class OrdersHistory(
     @SerializedName("basket_name")
     val basketName:String ,
     @SerializedName("date_time")
-    val dateTime :String
+    val dateTime :String ,
+    @SerializedName("pdf")
+    val pdf :String
 )

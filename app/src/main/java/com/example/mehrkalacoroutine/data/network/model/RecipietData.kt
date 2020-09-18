@@ -8,5 +8,11 @@ data class RecipietData(
     @SerializedName("offer")
     val offer:String ,
     @SerializedName("receipt_offer")
-    val receiptOffer:String
+    val receiptOffer:String ,
+    @SerializedName("post_cost")
+    val postCost: String ,
+    @SerializedName("taxation")
+    val tax: String ,
+    @SerializedName("total")
+    val totalCost: String
 )
