@@ -1,10 +1,7 @@
 package com.example.mehrkalacoroutine.data.repository
 
 import android.util.Log
-import com.example.mehrkala.model.Boarder
-import com.example.mehrkala.model.Item
-import com.example.mehrkala.model.MainPageResponse
-import com.example.mehrkala.model.MetaData
+import com.example.mehrkala.model.*
 import com.example.mehrkalacoroutine.data.network.api.ApiInterface
 import com.example.mehrkalacoroutine.data.network.model.Category
 import com.example.mehrkalacoroutine.data.network.model.CategoryImage
@@ -18,6 +15,11 @@ class   ItemRepository (
         when(query){
             "payment" ->apiInterface.getOrderHistoryPerPage(page)
             else ->     apiInterface.getItemsPerPage(page , query)
+        }
+    suspend fun getOffers() =
+        when(val callbak = getItems(0 , "offers")){
+            is NetworkResponse.Success -> (callbak.body as ItemsResponse).datas
+            else -> mutableListOf<Item>()
         }
 
     suspend fun getPages(query:String):Int {

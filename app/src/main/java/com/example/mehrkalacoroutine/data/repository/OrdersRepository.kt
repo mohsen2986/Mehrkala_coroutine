@@ -36,6 +36,8 @@ class OrdersRepository(
         api.addInfo(name , number)
     suspend fun getReceipt() =
         api.getReceipt()
+    suspend fun getPostReceipt(type :Int , state :String) =
+        api.getPostReceipt(type , state)
 
     private suspend fun sendPayment(refId:String ): NetworkResponse<Receipt, Receipt> {
         val result = api.sendPaymentInformation(
@@ -59,14 +61,27 @@ class OrdersRepository(
     fun reciverIsValid(): Boolean {
         return reciverIsSet() && reciver != ReciverInformation()
     }
-    suspend fun downloadReceiptPdf():Boolean =  withContext(IO) {
-        receiptPdfDirection?.let {
-            val response = api.downloadReceipt(receiptPdfDirection)
+    suspend fun downloadPdf(url: String ):Boolean = withContext(IO){
+        url?.let {
+            val response = api.downloadReceipt(url)
+            val name = url.substringAfterLast('/')
             when (response) {
-                is NetworkResponse.Success -> saveToDisk(response.body, "test.pdf")
+                is NetworkResponse.Success -> saveToDisk(response.body, name)
                 else -> false
             }
         }
+    }
+    suspend fun downloadReceiptPdf():Boolean =  withContext(IO) {
+        receiptPdfDirection?.let {
+            val response = api.downloadReceipt(receiptPdfDirection)
+            Log.d("_debug" , receiptPdfDirection.substringAfterLast('/'))
+            val name = receiptPdfDirection.substringAfterLast('/')
+            when (response) {
+                is NetworkResponse.Success -> saveToDisk(response.body, name)
+                else -> false
+            }
+        }
+
     }
     private suspend fun saveToDisk(body: ResponseBody, filename: String): Boolean {
         val TAG = "SAVE_TO_DISK"
