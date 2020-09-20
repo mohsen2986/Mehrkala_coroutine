@@ -61,18 +61,6 @@ interface ApiInterface{
     suspend fun getNewItems(
     ): NetworkResponse<MainPageResponse , MainPageResponse>
 
-    // get itemData
-    @POST("getItemData.php")
-    fun getItemData(
-        @Query("id") id: String
-    ): Deferred<ItemsResponse>
-
-    // basket Items
-    @POST("getBasket.php")
-    fun getBasketData(
-        @Query("token") username: String
-    ): Deferred<BasketResponse>
-
     //
     @POST("basket.php")
     suspend fun basket(
@@ -127,6 +115,13 @@ interface ApiInterface{
     @POST("getReceipt.php")
     suspend fun getReceipt(
     ): NetworkResponse<Receipt , Receipt>
+
+    @POST("calculatePost.php")
+    suspend fun getPostReceipt(
+        @Query("type") type: Int ,
+        @Query("state") state: String
+    ): NetworkResponse<Receipt , Receipt>
+
 
     @POST("payment.php")
     suspend fun sendPaymentInformation(
