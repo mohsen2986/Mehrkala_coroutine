@@ -4,15 +4,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mehrkalacoroutine.R
+import com.example.mehrkalacoroutine.data.model.PacketType
 import com.example.mehrkalacoroutine.data.network.model.Address
 import com.example.mehrkalacoroutine.data.network.model.ReciverInformation
 import com.example.mehrkalacoroutine.databinding.RowSelectableItemBinding
 import com.example.mehrkalacoroutine.databinding.RowSelectableReciverBinding
+import com.example.mehrkalacoroutine.databinding.RowSelectableTypeBinding
 import com.example.mehrkalacoroutine.ui.utils.OnClickHandler
 import com.example.mehrkalacoroutine.ui.utils.OnItemSelected
 
 class SelectableRecyclerAdapter<T>(
-    private val datas:List<T> = listOf() ,
+    private val datas: List<T> = listOf(),
     private val listener:OnItemSelected<T>
     ):RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     private lateinit var  layoutInflater :LayoutInflater
@@ -25,6 +27,9 @@ class SelectableRecyclerAdapter<T>(
                  RowSelectableItemBinding.inflate( layoutInflater , parent , false) , rowListener as OnItemSelected<Address>)
             R.layout.row_selectable_reciver -> ReciverSelectableViewHolder(
                 RowSelectableReciverBinding.inflate( layoutInflater , parent , false ), rowListener as OnItemSelected<ReciverInformation>)
+            R.layout.row_selectable_type -> PacketTypeSelectableViewHolder(
+                RowSelectableTypeBinding.inflate( layoutInflater , parent , false) , rowListener as OnItemSelected<PacketType>
+            )
 
                else -> throw IllegalArgumentException("unknown view type: $viewType")
         }
@@ -37,6 +42,7 @@ class SelectableRecyclerAdapter<T>(
         when(holder){
             is AddressSelectableViewHolder -> holder.bind(datas[position] as Address)
             is ReciverSelectableViewHolder -> holder.bind(datas[position] as ReciverInformation)
+            is PacketTypeSelectableViewHolder -> holder.bind(datas[position] as PacketType)
             else -> throw IllegalArgumentException("unknown view holder: $holder")
         }
 
@@ -44,6 +50,7 @@ class SelectableRecyclerAdapter<T>(
         when(datas[position]){
             is Address -> R.layout.row_selectable_item
             is ReciverInformation -> R.layout.row_selectable_reciver
+            is PacketType -> R.layout.row_selectable_type
             else -> throw IllegalArgumentException("unknown view type: ${datas[position]}")
         }
     private fun setItemListener(): Any =
@@ -64,6 +71,19 @@ class SelectableRecyclerAdapter<T>(
              is ReciverInformation -> object:OnItemSelected<ReciverInformation> {
                  override fun onItemSelected(item: ReciverInformation) {
                      (datas as List<ReciverInformation>).forEach {
+                         if (it.isSelected && it != item)
+                             it.isSelected = false
+                         else if (item.isSelected && it == item)
+                             it.isSelected = true
+
+                         notifyDataSetChanged()
+                     }
+                     listener.onItemSelected(item as T)
+                 }
+             }
+             is PacketType -> object:OnItemSelected<PacketType>{
+                 override fun onItemSelected(item: PacketType) {
+                     (datas as List<PacketType>).forEach {
                          if (it.isSelected && it != item)
                              it.isSelected = false
                          else if (item.isSelected && it == item)

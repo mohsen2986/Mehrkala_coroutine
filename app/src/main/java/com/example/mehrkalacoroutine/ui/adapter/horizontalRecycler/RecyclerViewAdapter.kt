@@ -60,12 +60,12 @@ class RecyclerViewAdapter<T>(
         }
     }
 
-    override fun getItemCount(): Int = datas.size
+    override fun getItemCount(): Int = if (boarder == null )datas.size else datas.size+1
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) =
         when(holder) {
             is BoarderViewHolder -> holder.bind(boarder!!, onBoarderClick)
-            is TopItemViewHolder -> holder.bind(datas[position - 1] as Item, onClick = onClick)
+            is TopItemViewHolder -> holder.bind((if(itemType ==3) datas[position] else datas[position - 1]) as Item, onClick = onClick) // todo if(itemType ==1) datas[position] else
             is CategoryViewHolder-> holder.bind(datas[position] as Category, onClick = onClick)
             is ReceiptViewHolder -> holder.bind(datas[position] as Item)
             is CategoryImageViewHolder -> holder.bind(datas[position] as CategoryImage , onClick = onClick)
@@ -76,7 +76,7 @@ class RecyclerViewAdapter<T>(
     override fun getItemViewType(position: Int): Int =
         if( boarder != null && position == 0)
                 R.layout.row_boarder
-        else if (datas[0] is Item && boarder != null)
+        else if (datas[0] is Item && (boarder != null || itemType ==3))
                 R.layout.row_top_item
         else if(datas[0] is Category)
                 R.layout.row_category
