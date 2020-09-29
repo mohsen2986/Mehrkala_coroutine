@@ -115,7 +115,7 @@
             <FrameLayout
                 android:id="@+id/fra_payment_gateway_consts"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="99dp"
                 app:layout_constraintBottom_toTopOf="@id/fra_payment_gateway_info_card"
                 >
                 <TextView
@@ -157,18 +157,36 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/overlay_dark_80"
+                    android:fontFamily="@font/text_font"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="53dp"
+                    android:text="مالیات :"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{receipt.receipt.tax}"
+                    android:textColor="@color/overlay_dark_80"
+                    android:fontFamily="@font/text_font"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginTop="50dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="مجموع نهایی خرید بااعمال  تخفیف:"
                     android:fontFamily="@font/text_font"
                     android:textColor="@color/overlay_dark_80"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="72dp"
                     android:layout_gravity="end"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="45dp"
+                    android:layout_marginTop="70dp"
                     android:layout_marginStart="9dp"
-                    android:text="@{receipt.receipt.receiptOffer}"
+                    android:text="@{receipt.receipt.totalCost}"
                     android:textColor="@color/overlay_dark_80"
                     />
             </FrameLayout>

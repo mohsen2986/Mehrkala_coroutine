@@ -201,7 +201,16 @@
     <fragment
         android:id="@+id/biilsFragment"
         android:name="com.example.mehrkalacoroutine.ui.fragment.basket.BiilsFragment"
-        android:label="BiilsFragment" />
+        android:label="BiilsFragment" >
+        <action
+            android:id="@+id/action_biilsFragment_to_sendBillsBasketFragment"
+            app:destination="@id/sendBillsBasketFragment"
+            app:enterAnim="@anim/fade_slide_in_right"
+            app:popExitAnim="@anim/fade_slide_out_right"
+            app:popEnterAnim="@anim/fade_slide_in_left"
+            app:exitAnim="@anim/fade_slide_out_left"
+            />
+    </fragment>
     <fragment
         android:id="@+id/paymentGatewayFragment"
         android:name="com.example.mehrkalacoroutine.ui.fragment.paymentgateway.PaymentGatewayFragment"
@@ -233,5 +242,9 @@
             />
 
     </fragment>
+    <fragment
+        android:id="@+id/sendBillsBasketFragment"
+        android:name="com.example.mehrkalacoroutine.ui.fragment.sendBillsBasket.SendBillsBasketFragment"
+        android:label="SendBillsBasketFragment" />
 
 </navigation>

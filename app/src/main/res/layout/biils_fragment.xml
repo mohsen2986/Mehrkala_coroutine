@@ -105,8 +105,9 @@
         <FrameLayout
             android:id="@+id/fra_bills_consts"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            app:layout_constraintBottom_toTopOf="@id/fra_bills_info_card"
+            android:layout_height="100dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toTopOf="@id/fra_bills_buy"
             >
             <TextView
                 android:id="@+id/fra_bills_const"
@@ -117,6 +118,7 @@
                 android:textColor="@color/overlay_dark_80"
                 android:layout_gravity="end"
                 android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
                 />
 
             <TextView
@@ -125,6 +127,7 @@
                 android:layout_marginTop="5dp"
                 android:text="@{receipt.receipt.receipt}"
                 android:layout_marginStart="9dp"
+                android:fontFamily="@font/text_font"
                 android:textColor="@color/overlay_dark_80"
                 />
             <TextView
@@ -134,6 +137,7 @@
                 android:fontFamily="@font/text_font"
                 android:textColor="@color/overlay_dark_80"
                 android:layout_marginTop="30dp"
+                android:layout_marginEnd="5dp"
                 android:layout_gravity="end"
                 />
             <TextView
@@ -142,6 +146,7 @@
                 android:text="@{ receipt != null ? '-' + receipt.receipt.offer : String.valueOf(0)}"
                 android:textColor="@color/overlay_dark_80"
                 android:layout_marginTop="25dp"
+                android:fontFamily="@font/text_font"
                 android:layout_marginStart="9dp"
                 />
             <TextView
@@ -151,199 +156,45 @@
                 android:fontFamily="@font/text_font"
                 android:textColor="@color/overlay_dark_80"
                 android:layout_marginTop="50dp"
+                android:layout_marginEnd="5dp"
                 android:layout_gravity="end"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="45dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginStart="9dp"
                 android:text="@{receipt.receipt.receiptOffer}"
-                android:textColor="@color/overlay_dark_80"
-                />
-        </FrameLayout>
-        <androidx.cardview.widget.CardView
-            android:id="@+id/fra_bills_info_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="15dp"
-            android:background="@color/grey_40"
-            android:backgroundTint="@color/grey_10"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintBottom_toTopOf="@id/fra_bills_buy"
-            >
-        <com.rey.material.widget.FrameLayout
-            android:id="@+id/fra_bills_info"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_margin="7dp"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="مشخصات دریافت کننده"
                 android:fontFamily="@font/text_font"
                 android:textColor="@color/overlay_dark_80"
-                android:layout_gravity="center_horizontal"
-                />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_location"
-                android:layout_gravity="end"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="7dp"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ادرس:"
+                android:text="مالیات :"
                 android:fontFamily="@font/text_font"
                 android:textColor="@color/overlay_dark_80"
                 android:layout_gravity="end"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="35dp"
-                />
-            <FrameLayout
-                android:id="@+id/fra_bills_choose_address"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginEnd="82dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/round_background"
-                android:layout_marginStart="7dp"
-                >
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/ic_expand_more"
-                    />
-                <TextView
-                    android:id="@+id/fra_bills_city"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="35dp"
-                    android:layout_gravity="center_vertical"
-                    android:text="شهر"
-                    android:paddingEnd="7dp"
-                    android:fontFamily="@font/text_font"
-                    android:textColor="@color/overlay_dark_80"
-                    />
-            </FrameLayout>
-            <ImageView
-                android:id="@+id/fra_bills_add_address"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                app:srcCompat="@drawable/ic_plus"
-                android:layout_gravity="end"
-                android:layout_marginTop="69dp"
-                android:layout_marginEnd="8dp"
-                />
-            <TextView
-                android:id="@+id/fra_bills_add_address_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="افزودن ادرس"
-                android:fontFamily="@font/text_font"
-                android:textColor="@color/overlay_dark_80"
-                android:layout_gravity="end"
-                android:layout_marginTop="66dp"
-                android:layout_marginEnd="35dp"
-                />
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/red_400"
-                android:layout_marginTop="100dp"
-                android:layout_marginStart="5dp"
+                android:layout_marginTop="75dp"
                 android:layout_marginEnd="5dp"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="مشخصات دریافت کننده"
-                android:fontFamily="@font/text_font"
+                android:text="@{receipt.receipt.tax}"
                 android:textColor="@color/overlay_dark_80"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="110dp"
-                />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_person_black_24dp"
-                android:layout_marginTop="140dp"
-                android:layout_marginEnd="7dp"
-                android:layout_gravity="end"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="143dp"
-                android:layout_marginEnd="35dp"
-                android:layout_gravity="end"
-                android:text="نام:"
                 android:fontFamily="@font/text_font"
-                android:textColor="@color/overlay_dark_80"
+                android:layout_marginTop="77dp"
+                android:layout_marginStart="9dp"
                 />
-            <FrameLayout
-                android:id="@+id/fra_bills_choose_reciver"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginTop="143dp"
-                android:layout_marginEnd="82dp"
-                android:background="@drawable/round_background"
-                android:layout_marginStart="7dp"
-                >
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/ic_expand_more"
-                    />
-                <TextView
-                    android:id="@+id/fra_bills_reciver"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="35dp"
-                    android:layout_gravity="center_vertical"
-                    android:text="دریافت کننده"
-                    android:paddingEnd="7dp"
-                    android:fontFamily="@font/text_font"
-                    android:textColor="@color/overlay_dark_80"
-                    />
-            </FrameLayout>
-            <ImageView
-                android:id="@+id/fra_bills_add_reciver_info"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                app:srcCompat="@drawable/ic_plus"
-                android:layout_gravity="end"
-                android:layout_marginTop='178dp'
-                android:layout_marginEnd="8dp"
-                />
-            <TextView
-                android:id="@+id/fra_bills_add_reciver_info_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="افزودن مشخصات"
-                android:layout_gravity="end"
-                android:layout_marginTop="178dp"
-                android:layout_marginEnd="35dp"
-                android:fontFamily="@font/text_font"
-                android:textColor="@color/overlay_dark_80"
-                />
-        </com.rey.material.widget.FrameLayout>
-        </androidx.cardview.widget.CardView>
+        </FrameLayout>
         <Button
             android:id="@+id/fra_bills_buy"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_gravity="bottom"
             android:layout_margin="7dp"
-            android:text="پرداخت حساب"
+            android:text="تایید رسید"
             android:fontFamily="@font/text_font"
             android:textSize="25dp"
             android:textColor="@color/white"

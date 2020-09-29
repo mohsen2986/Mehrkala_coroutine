@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="data"
+            type="com.example.mehrkalacoroutine.data.model.PacketType"
+            />
+        <variable
+            name="onClick"
+            type="com.example.mehrkalacoroutine.ui.utils.OnClickHandler"
+            />
+        <variable
+            name="select"
+            type="com.example.mehrkalacoroutine.ui.utils.OnItemClickHandler" />
+    </data>
+<CheckedTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/row_selectable_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="32dp"
+    android:gravity="center_vertical"
+    android:onClick="@{select::onClick}"
+    android:text="@{data.type}"
+    android:fontFamily="@font/text_font"
+    android:textStyle="bold"
+    android:textSize="14sp"
+    android:textColor="@color/overlay_dark_80"
+    android:checkMark="?android:attr/listChoiceIndicatorSingle"
+    android:paddingTop="16dp"
+    android:paddingRight="16dp"
+    android:checkMarkTint="@color/colorPrimary"
+    android:paddingBottom="16dp"
+    >
+
+</CheckedTextView>
+</layout>
