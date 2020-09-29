@@ -102,6 +102,7 @@ class ShowitemsFragment : ScopedFragment() , KodeinAware  , RecyclerAdapter.OnCl
                                     bundle
                                 )
                             }
+
                         }
                     }
 
@@ -121,6 +122,18 @@ class ShowitemsFragment : ScopedFragment() , KodeinAware  , RecyclerAdapter.OnCl
                                     }
                                     R.id.row_basket_delete -> {
                                         DeleteDialog(element.id)
+                                    }
+                                }
+                            }
+                            is OrdersHistory -> {
+                                when(view.id) {
+                                    R.id.row_orders_download -> {
+                                        launch {
+                                            if(viewModel.downloadPdf(element.pdf))
+                                                Toast.makeText(context , "رسید شما دانلود شد." , Toast.LENGTH_LONG).show()
+                                            else
+                                                Toast.makeText( context , "مشکل در دانلود رسید." , Toast.LENGTH_LONG).show()
+                                        }
                                     }
                                 }
                             }

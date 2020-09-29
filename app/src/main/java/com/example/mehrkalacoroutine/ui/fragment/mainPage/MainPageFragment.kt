@@ -52,6 +52,8 @@ class MainPageFragment : ScopedFragment() ,KodeinAware {
     private lateinit var topItemRecyclerAdapter: RecyclerViewAdapter<Item>
     private lateinit var topSalesRecyclerAdapter: RecyclerViewAdapter<Item>
     private lateinit var categoryRecyclerAdapter: RecyclerViewAdapter<CategoryImage>
+    private lateinit var offersRecyclerViewAdapter: RecyclerViewAdapter<Item>
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -83,11 +85,15 @@ class MainPageFragment : ScopedFragment() ,KodeinAware {
         // TopItems
         topItemRecyclerAdapter.boarder = viewModel.boarderItems.await()[0]
         topItemRecyclerAdapter.datas = viewModel.newItems.await().toMutableList()
+        Log.d("_debug" , "${viewModel.newItems.await()}")
         // TopSales
         topSalesRecyclerAdapter.boarder = viewModel.boarderItems.await()[1]
         topSalesRecyclerAdapter.datas = viewModel.topSales.await().toMutableList()
+        Log.d("_debug" , "${viewModel.topSales.await()}")
         // category
         categoryRecyclerAdapter.datas = viewModel.category.await().toMutableList()
+        // OFFERS
+        offersRecyclerViewAdapter.datas = viewModel.offers.await() as MutableList<Item>
     }
     private fun initAdapters(){
         // IMAGE SLIDER ADAPTER
@@ -168,6 +174,20 @@ class MainPageFragment : ScopedFragment() ,KodeinAware {
 
             override fun onClickView(view: View, element: CategoryImage) {}
         }
+
+//     OFFERS
+        offersRecyclerViewAdapter = RecyclerViewAdapter()
+        offersRecyclerViewAdapter.itemType = 3;
+        offersRecyclerViewAdapter.onClick = object : OnClickHandler<Item>{
+            override fun onClick(element: Item) {
+                val bundle = bundleOf("item" to element)
+                navController.navigate(R.id.action_mainPageFragment_to_showItemDetailsFragment,
+                    bundle
+                )
+            }
+
+            override fun onClickView(view: View, element: Item) {}
+        }
     }
     private fun bindAdapters(){
         // -- TOP BOARDER IMAGE SLIDER
@@ -220,10 +240,11 @@ class MainPageFragment : ScopedFragment() ,KodeinAware {
         fra_main_category_rv.apply {
             adapter = categoryRecyclerAdapter
         }
+        // OFFERS RV
         val displayMetrics = DisplayMetrics()
         activity?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
         fra_main_offers_rv.apply{
-            adapter = topItemRecyclerAdapter
+            adapter = offersRecyclerViewAdapter
             layoutManager = GridLayoutManager(activity!! , if((displayMetrics.widthPixels / displayMetrics.xdpi) > 4) 3 else 2)
             addItemDecoration(object:RecyclerView.ItemDecoration(){
                 override fun getItemOffsets(
@@ -276,10 +297,7 @@ class MainPageFragment : ScopedFragment() ,KodeinAware {
             }
         }
     }
-    private fun expand(view:View){
-//        val animation = expandAnimation(view)
-//        view.startAnimation(animation)
-    }
+
     private fun expandAnimation(view:View) {
         view.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         val actualheight = view.measuredHeight

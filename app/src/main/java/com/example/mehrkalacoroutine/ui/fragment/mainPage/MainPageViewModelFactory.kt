@@ -6,12 +6,11 @@ import com.example.mehrkalacoroutine.data.repository.ItemRepository
 import com.example.mehrkalacoroutine.data.repository.OrdersRepository
 
 class MainPageViewModelFactory(
-    private val itemRepository:ItemRepository ,
-    private val ordersRepository: OrdersRepository
+    private val itemRepository:ItemRepository
 ): ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return MainPageViewModel(itemRepository , ordersRepository) as T
+        return MainPageViewModel(itemRepository ) as T
     }
 }

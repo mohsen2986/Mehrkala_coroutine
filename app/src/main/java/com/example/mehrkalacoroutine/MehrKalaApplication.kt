@@ -17,6 +17,7 @@ import com.example.mehrkalacoroutine.ui.fragment.account.AccountViewModelFactory
 import com.example.mehrkalacoroutine.ui.fragment.basket.BillsViewModelFactory
 import com.example.mehrkalacoroutine.ui.fragment.mainPage.MainPageViewModelFactory
 import com.example.mehrkalacoroutine.ui.fragment.paymentgateway.PaymentGatewayViewModelFactory
+import com.example.mehrkalacoroutine.ui.fragment.sendBillsBasket.SendBillsBasketViewModelFactory
 import com.example.mehrkalacoroutine.ui.fragment.showImage.ShowImageViewModelFactory
 import com.example.mehrkalacoroutine.ui.fragment.showItems.ShowItemsViewModleFactory
 import com.example.mehrkalacoroutine.ui.fragment.showOrdersHistory.ShowOrdersHistoryViewModel
@@ -50,13 +51,14 @@ class MehrKalaApplication(): MultiDexApplication() , KodeinAware{
         bind() from provider { LoadingViewModelFactory(instance()) }
         bind() from provider { SignUpViewModelFactory(instance())}
         bind() from provider { LoginViewModelFactory(instance())}
-        bind() from provider { MainPageViewModelFactory(instance() , instance())}
-        bind() from provider { ShowItemsViewModleFactory(instance(),instance())}
+        bind() from provider { MainPageViewModelFactory(instance())}
+        bind() from provider { ShowItemsViewModleFactory(instance(),instance() , instance())}
         bind() from provider { ShowItemDetailsFragmentViewModelFactory(instance())}
         bind() from provider { ShowImageViewModelFactory() }
         bind() from provider { AccountViewModelFactory(instance()) }
         bind() from provider { BillsViewModelFactory(instance())}
         bind() from provider { PaymentGatewayViewModelFactory(instance())}
         bind() from provider { ShowOrdersHistoryViewModelFactory(instance()) }
+        bind() from provider { SendBillsBasketViewModelFactory(instance()) }
     }
 }

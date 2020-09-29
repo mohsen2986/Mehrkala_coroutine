@@ -9,6 +9,7 @@ import com.example.mehrkala.model.Item
 import com.example.mehrkalacoroutine.data.dataSource.ItemDataSourceFactory
 import com.example.mehrkalacoroutine.data.network.NetworkState
 import com.example.mehrkalacoroutine.data.repository.ItemRepository
+import com.example.mehrkalacoroutine.data.repository.OrdersRepository
 import com.example.mehrkalacoroutine.data.repository.UserInformationRepository
 import com.example.mehrkalacoroutine.ui.base.lazyDeferred
 import kotlinx.coroutines.CoroutineScope
@@ -17,7 +18,8 @@ import kotlinx.coroutines.cancel
 
 class ShowitemsViewModel(
     private val itemRepository: ItemRepository ,
-    private val userInformationRepository: UserInformationRepository
+    private val userInformationRepository: UserInformationRepository ,
+    private val ordersRepository: OrdersRepository
 ) : ViewModel() {
     // User Information
     val url by lazyDeferred{
@@ -66,4 +68,8 @@ class ShowitemsViewModel(
         super.onCleared()
         ioScope.coroutineContext.cancel()
     }
+
+    // download orders PDF selected
+    suspend fun downloadPdf(url: String) =
+        ordersRepository.downloadPdf(url)
 }

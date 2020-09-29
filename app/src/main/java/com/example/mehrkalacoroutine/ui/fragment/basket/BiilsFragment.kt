@@ -1,10 +1,11 @@
 package com.example.mehrkalacoroutine.ui.fragment.basket
 
 import android.app.Dialog
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
@@ -32,6 +33,8 @@ import kotlinx.android.synthetic.main.dialog_add_address.*
 import kotlinx.android.synthetic.main.dialog_choose_address.*
 import kotlinx.android.synthetic.main.dialog_choose_reciver.*
 import kotlinx.android.synthetic.main.dialog_reciver_informatoin.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -52,8 +55,7 @@ class BiilsFragment : ScopedFragment() , KodeinAware {
     private var addresses:List<Address> = listOf()
     private var recivers :List<ReciverInformation> = listOf()
     private lateinit var receipt: Receipt
-    private var addressSelected = false
-    private var reciverSelected = false
+    private val stateList: MutableList<String> = ArrayList()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -75,6 +77,7 @@ class BiilsFragment : ScopedFragment() , KodeinAware {
         bindAdapters()
         bindUI()
         UIActions()
+        getStateData()
     }
     private fun bindUI() = launch{
         when(val callback = viewModel.addresses.await()){
@@ -94,31 +97,15 @@ class BiilsFragment : ScopedFragment() , KodeinAware {
             }
         }
     }
+    private fun getStateData(){
+        GlobalScope.launch (Default){
+            stateList.addAll(resources.getStringArray(R.array.states))
+            stateList.add("[Select one]")
+        }
+    }
     private fun UIActions(){
-        fra_bills_add_address.setOnClickListener{
-            getAddressDialog()
-        }
-        fra_bills_add_address_txt.setOnClickListener{
-            getAddressDialog()
-        }
-        fra_bills_add_reciver_info.setOnClickListener{
-            getReciverInfo()
-        }
-        fra_bills_add_reciver_info_txt.setOnClickListener{
-            getReciverInfo()
-        }
-        fra_bills_choose_address.setOnClickListener {
-            chooseAddress()
-        }
-        fra_bills_choose_reciver.setOnClickListener{
-            chooseReciverInformation()
-        }
         fra_bills_buy.setOnClickListener{
-            if(receipt?.receipt.receiptOffer.toInt() > 0 && viewModel.addressIsValid() && viewModel.reciverIsValid())
-                startPayment(receipt.receipt.receiptOffer.toInt())
-            else
-                Toast.makeText(context , "ادرس و گیرنده را مشخص کنید" , Toast.LENGTH_LONG).show()
-
+            navController.navigate(R.id.action_biilsFragment_to_sendBillsBasketFragment)
         }
 //        fra_bills_choose_address.setOnClickListener{
 //            chooseAddress()
@@ -127,62 +114,6 @@ class BiilsFragment : ScopedFragment() , KodeinAware {
     }
     private fun initAdapters(){
         receiptAdapter = RecyclerViewAdapter()
-    }
-
-    private fun getAddressDialog(){
-        val dialog = Dialog(activity!!)
-        dialog.apply {
-            requestWindowFeature(Window.FEATURE_NO_TITLE)
-            setContentView(R.layout.dialog_add_address)
-            dialog.setCancelable(true)
-        }
-        val lp = WindowManager.LayoutParams()
-        lp.apply {
-            copyFrom(dialog.window?.attributes)
-            width = WindowManager.LayoutParams.MATCH_PARENT
-            height = WindowManager.LayoutParams.MATCH_PARENT
-        }
-        dialog.show()
-        dialog.window?.attributes = lp
-        dialog.dialog_add_address_submit.setOnClickListener {
-            sendAddress(dialog.dialog_add_address.text.toString() , dialog.dialog_add_address_post_number.text.toString())
-            dialog.dismiss()
-        }
-    }
-    private fun getReciverInfo(){
-        val dialog = Dialog(activity!!)
-        dialog.apply {
-            requestWindowFeature(Window.FEATURE_NO_TITLE)
-            setContentView(R.layout.dialog_reciver_informatoin)
-            dialog.setCancelable(true)
-        }
-        val lp = WindowManager.LayoutParams()
-        lp.apply {
-            copyFrom(dialog.window?.attributes)
-            width = WindowManager.LayoutParams.MATCH_PARENT
-            height = WindowManager.LayoutParams.WRAP_CONTENT
-        }
-        dialog.show()
-        dialog.window?.attributes = lp
-        dialog.dialog_reciver_submit.setOnClickListener {
-            sendReciverInfo(dialog.dialog_reciver_name.text.toString() , dialog.dialog_reciver_phone_number.text.toString())
-            Log.d("TAG" , dialog.dialog_reciver_phone_number.text.toString())
-            dialog.dismiss()
-        }
-    }
-    private fun sendAddress(address:String,postNumber:String) = launch {
-        when(val callback = viewModel.addAddress(address , postNumber)){
-            is NetworkResponse.Success ->
-                if(callback.body.metaData.code == "105")
-                    Toast.makeText(activity!! , "با موفقیت اضافه شد" , Toast.LENGTH_SHORT).show()
-        }
-    }
-    private fun sendReciverInfo(name:String , phoneNumber:String) =launch {
-        when(val callback = viewModel.addReciverInfo(name , phoneNumber)){
-            is NetworkResponse.Success ->
-                if(callback.body.metaData.code == "105")
-                    Toast.makeText(activity!! , "با موفقیت اضافه شد" , Toast.LENGTH_SHORT).show()
-        }
     }
     private fun bindAdapters(){
 //        lm = LinearLayoutManager(activity)
@@ -197,74 +128,6 @@ class BiilsFragment : ScopedFragment() , KodeinAware {
         fra_bills_rv.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = receiptAdapter
-        }
-    }
-    private fun chooseAddress(){
-        val dialog = Dialog(activity!!)
-        dialog.apply {
-            requestWindowFeature(Window.FEATURE_NO_TITLE)
-            setContentView(R.layout.dialog_choose_address)
-            dialog.setCancelable(true)
-        }
-        val lp = WindowManager.LayoutParams()
-        lp.apply {
-            copyFrom(dialog.window?.attributes)
-            width = WindowManager.LayoutParams.MATCH_PARENT
-            height = WindowManager.LayoutParams.WRAP_CONTENT
-        }
-        dialog.show()
-        dialog.window?.attributes = lp
-        var address:Address? = null
-        dialog.dialog_choose_address_rv.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = SelectableRecyclerAdapter<Address>( addresses , object :OnItemSelected<Address>{
-                override fun onItemSelected(item: Address) {
-                    address = item
-                }
-            })
-        }
-        dialog.dialog_choose_address_submit.setOnClickListener {
-            GlobalScope.launch(Main) {
-                address?.let {
-                    fra_bills_city.text = it.address
-                    viewModel.setAddress(it)
-                }
-                dialog.dismiss()
-            }
-        }
-    }
-    private fun chooseReciverInformation(){
-        val dialog = Dialog(activity!!)
-        dialog.apply {
-            requestWindowFeature(Window.FEATURE_NO_TITLE)
-            setContentView(R.layout.dialog_choose_reciver)
-            dialog.setCancelable(true)
-        }
-        val lp = WindowManager.LayoutParams()
-        lp.apply {
-            copyFrom(dialog.window?.attributes)
-            width = WindowManager.LayoutParams.MATCH_PARENT
-            height = WindowManager.LayoutParams.WRAP_CONTENT
-        }
-        dialog.show()
-        dialog.window?.attributes = lp
-        var reciver: ReciverInformation? = null
-        dialog.dialog_choose_reciver_rv.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = SelectableRecyclerAdapter<ReciverInformation>( recivers , object :OnItemSelected<ReciverInformation>{
-                override fun onItemSelected(item: ReciverInformation) {
-                    reciver = item
-                }
-            })
-        }
-        dialog.dialog_choose_reciver_submit.setOnClickListener {
-            GlobalScope.launch(Main) {
-                reciver?.let {
-                    fra_bills_reciver.text = it.name
-                    viewModel.setReciver(it)
-                }
-                dialog.dismiss()
-            }
         }
     }
     private fun startPayment( cost :Int){
