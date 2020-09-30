@@ -8,19 +8,20 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.mehrkalacoroutine.R
 
-class AboutUs_fragment : Fragment() {
+class AboutUsFragment : Fragment() {
 
     companion object {
-        fun newInstance() = AboutUs_fragment()
+        fun newInstance() = AboutUsFragment()
     }
 
     private lateinit var viewModel: AboutUsFragmentViewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.about_us_fragment_fragment, container, false)
+        return inflater.inflate(R.layout.about_us_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
