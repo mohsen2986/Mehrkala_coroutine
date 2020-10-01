@@ -213,12 +213,12 @@
                     />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <ImageButton
+            <Button
                 android:id="@+id/fra_signup_login"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_margin="15dp"
-                app:srcCompat="@drawable/ic_arrow_left_black"
+                android:background="@drawable/ic_arrow_left_black"
                 android:rotation="180"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>

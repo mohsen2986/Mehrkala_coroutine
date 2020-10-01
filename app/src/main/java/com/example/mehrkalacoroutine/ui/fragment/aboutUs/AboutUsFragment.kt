@@ -11,13 +11,14 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.example.mehrkalacoroutine.R
 import com.example.mehrkalacoroutine.databinding.AboutUsFragmentBinding
+import com.example.mehrkalacoroutine.ui.base.ScopedFragment
 import com.example.mehrkalacoroutine.ui.utils.OnItemClickHandler
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.x.closestKodein
 
-class AboutUsFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = AboutUsFragment()
-    }
+class AboutUsFragment : ScopedFragment() , KodeinAware {
+    override val kodein: Kodein by closestKodein()
 
     private lateinit var viewModel: AboutUsFragmentViewModel
     private lateinit var navController: NavController
@@ -48,7 +49,7 @@ class AboutUsFragment : Fragment() {
             override fun onClick(view: View) {
                 when(view.id){
                     R.id.fra_aboutUS_back ->
-                        navController.navigate(R.id.action_aboutUsFragment_to_mainPageFragment)
+                        activity!!.onBackPressed()
                 }
             }
         }

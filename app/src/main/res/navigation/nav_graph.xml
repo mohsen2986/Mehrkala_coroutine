@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_gragh"
-    app:startDestination="@id/aboutUsFragment">
+    app:startDestination="@id/loadingFragment">
 
     <fragment
         android:id="@+id/loadingFragment"
@@ -149,7 +149,12 @@
             />
         <action
             android:id="@+id/action_mainPageFragment_to_aboutUsFragment"
-            app:destination="@id/aboutUsFragment" />
+            app:destination="@id/aboutUsFragment"
+            app:enterAnim="@anim/fade_slide_in_right"
+            app:popExitAnim="@anim/fade_slide_out_right"
+            app:popEnterAnim="@anim/fade_slide_in_left"
+            app:exitAnim="@anim/fade_slide_out_left"
+            />
     </fragment>
     <fragment
         android:id="@+id/showItemDetailsFragment"
@@ -253,10 +258,8 @@
         android:id="@+id/aboutUsFragment"
         android:name="com.example.mehrkalacoroutine.ui.fragment.aboutUs.AboutUsFragment"
         android:label="about_us_fragment"
-        tools:layout="@layout/about_us_fragment" >
-        <action
-            android:id="@+id/action_aboutUsFragment_to_mainPageFragment"
-            app:destination="@id/mainPageFragment" />
+        tools:layout="@layout/about_us_fragment"
+        >
     </fragment>
 
 </navigation>

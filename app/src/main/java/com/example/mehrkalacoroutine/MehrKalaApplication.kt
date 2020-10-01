@@ -13,6 +13,7 @@ import com.example.mehrkalacoroutine.data.repository.OrdersRepository
 import com.example.mehrkalacoroutine.data.repository.TokenRepository
 import com.example.mehrkalacoroutine.data.repository.UserInformationRepository
 import com.example.mehrkalacoroutine.ui.fragment.ShowItemDetailsFragment.ShowItemDetailsFragmentViewModelFactory
+import com.example.mehrkalacoroutine.ui.fragment.aboutUs.AboutUsViewModelFactory
 import com.example.mehrkalacoroutine.ui.fragment.account.AccountViewModelFactory
 import com.example.mehrkalacoroutine.ui.fragment.basket.BillsViewModelFactory
 import com.example.mehrkalacoroutine.ui.fragment.mainPage.MainPageViewModelFactory
@@ -60,5 +61,6 @@ class MehrKalaApplication(): MultiDexApplication() , KodeinAware{
         bind() from provider { PaymentGatewayViewModelFactory(instance())}
         bind() from provider { ShowOrdersHistoryViewModelFactory(instance()) }
         bind() from provider { SendBillsBasketViewModelFactory(instance()) }
+        bind() from provider { AboutUsViewModelFactory() }
     }
 }

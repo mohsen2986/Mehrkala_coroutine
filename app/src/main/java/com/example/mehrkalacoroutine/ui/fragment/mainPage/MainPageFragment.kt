@@ -296,10 +296,6 @@ class MainPageFragment : ScopedFragment(), KodeinAware {
                     }
                     R.id.fra_main_all_items,
                     R.id.fra_main_all_items_text -> {
-//                        val bundle = bundleOf("query" to "product")
-//                        navController.navigate(R.id.action_mainPageFragment_to_showitemsFragment ,
-//                            bundle
-//                        )
                         if (fra_main_category_rv.visibility == View.VISIBLE)
                             collapse(fra_main_category_rv)
                         else
