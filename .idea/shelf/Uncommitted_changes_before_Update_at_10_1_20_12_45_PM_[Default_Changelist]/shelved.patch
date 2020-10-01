@@ -1,0 +1,540 @@
+Index: app/src/main/res/drawable/ic_shopping_cart.xml
+===================================================================
+--- app/src/main/res/drawable/ic_shopping_cart.xml	(revision 477063014942678100eaef763c718f8623d163bc)
++++ app/src/main/res/drawable/ic_shopping_cart.xml	(revision 477063014942678100eaef763c718f8623d163bc)
+@@ -1,9 +0,0 @@
+-<vector xmlns:android="http://schemas.android.com/apk/res/android"
+-        android:width="24dp"
+-        android:height="24dp"
+-        android:viewportWidth="24.0"
+-        android:viewportHeight="24.0">
+-    <path
+-        android:fillColor="#FF000000"
+-        android:pathData="M7,18c-1.1,0 -1.99,0.9 -1.99,2S5.9,22 7,22s2,-0.9 2,-2 -0.9,-2 -2,-2zM1,2v2h2l3.6,7.59 -1.35,2.45c-0.16,0.28 -0.25,0.61 -0.25,0.96 0,1.1 0.9,2 2,2h12v-2L7.42,15c-0.14,0 -0.25,-0.11 -0.25,-0.25l0.03,-0.12 0.9,-1.63h7.45c0.75,0 1.41,-0.41 1.75,-1.03l3.58,-6.49c0.08,-0.14 0.12,-0.31 0.12,-0.48 0,-0.55 -0.45,-1 -1,-1L5.21,4l-0.94,-2L1,2zM17,18c-1.1,0 -1.99,0.9 -1.99,2s0.89,2 1.99,2 2,-0.9 2,-2 -0.9,-2 -2,-2z"/>
+-</vector>
+Index: app/src/main/java/com/example/mehrkalacoroutine/ui/fragment/aboutUs/AboutUsFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.mehrkalacoroutine.ui.fragment.aboutUs\n\nimport androidx.lifecycle.ViewModelProvider\nimport android.os.Bundle\nimport androidx.fragment.app.Fragment\nimport android.view.LayoutInflater\nimport android.view.View\nimport android.view.ViewGroup\nimport com.example.mehrkalacoroutine.R\n\nclass AboutUsFragment : Fragment() {\n\n    companion object {\n        fun newInstance() = AboutUsFragment()\n    }\n\n    private lateinit var viewModel: AboutUsFragmentViewModel\n\n    override fun onCreateView(\n        inflater: LayoutInflater,\n        container: ViewGroup?,\n        savedInstanceState: Bundle?\n    ): View? {\n        return inflater.inflate(R.layout.about_us_fragment, container, false)\n    }\n\n    override fun onActivityCreated(savedInstanceState: Bundle?) {\n        super.onActivityCreated(savedInstanceState)\n        viewModel = ViewModelProvider(this).get(AboutUsFragmentViewModel::class.java)\n        // TODO: Use the ViewModel\n    }\n\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/mehrkalacoroutine/ui/fragment/aboutUs/AboutUsFragment.kt	(revision 477063014942678100eaef763c718f8623d163bc)
++++ app/src/main/java/com/example/mehrkalacoroutine/ui/fragment/aboutUs/AboutUsFragment.kt	(date 1601536797000)
+@@ -6,7 +6,12 @@
+ import android.view.LayoutInflater
+ import android.view.View
+ import android.view.ViewGroup
++import androidx.navigation.NavController
++import androidx.navigation.Navigation
++import androidx.navigation.fragment.findNavController
+ import com.example.mehrkalacoroutine.R
++import com.example.mehrkalacoroutine.databinding.AboutUsFragmentBinding
++import com.example.mehrkalacoroutine.ui.utils.OnItemClickHandler
+ 
+ class AboutUsFragment : Fragment() {
+ 
+@@ -15,19 +20,38 @@
+     }
+ 
+     private lateinit var viewModel: AboutUsFragmentViewModel
++    private lateinit var navController: NavController
++    private lateinit var viewBinding:AboutUsFragmentBinding
+ 
+     override fun onCreateView(
+         inflater: LayoutInflater,
+         container: ViewGroup?,
+         savedInstanceState: Bundle?
+     ): View? {
+-        return inflater.inflate(R.layout.about_us_fragment, container, false)
++        viewBinding = AboutUsFragmentBinding.inflate(layoutInflater,container,false)
++        return viewBinding.root
++    }
++
++    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
++        super.onViewCreated(view, savedInstanceState)
++        navController = Navigation.findNavController(view)
+     }
+ 
+     override fun onActivityCreated(savedInstanceState: Bundle?) {
+         super.onActivityCreated(savedInstanceState)
+         viewModel = ViewModelProvider(this).get(AboutUsFragmentViewModel::class.java)
+-        // TODO: Use the ViewModel
++        onItemClickListeners()
++    }
++
++    private fun onItemClickListeners() {
++        viewBinding.onClick = object : OnItemClickHandler {
++            override fun onClick(view: View) {
++                when(view.id){
++                    R.id.fra_aboutUS_back ->
++                        navController.navigate(R.id.action_aboutUsFragment_to_mainPageFragment)
++                }
++            }
++        }
+     }
+ 
+ }
+\ No newline at end of file
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\n  <component name=\"GradleSettings\">\n    <option name=\"linkedExternalProjectsSettings\">\n      <GradleProjectSettings>\n        <option name=\"testRunner\" value=\"PLATFORM\" />\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\n        <option name=\"modules\">\n          <set>\n            <option value=\"$PROJECT_DIR$\" />\n            <option value=\"$PROJECT_DIR$/app\" />\n          </set>\n        </option>\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\n      </GradleProjectSettings>\n    </option>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision 477063014942678100eaef763c718f8623d163bc)
++++ .idea/gradle.xml	(date 1601542730000)
+@@ -14,6 +14,7 @@
+           </set>
+         </option>
+         <option name="resolveModulePerSourceSet" value="false" />
++        <option name="useQualifiedModuleNames" value="true" />
+       </GradleProjectSettings>
+     </option>
+   </component>
+Index: app/src/main/java/com/example/mehrkalacoroutine/ui/fragment/mainPage/MainPageFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.mehrkalacoroutine.ui.fragment.mainPage\n\nimport android.graphics.Rect\nimport android.os.Bundle\nimport android.util.DisplayMetrics\nimport android.util.Log\nimport android.view.Display\nimport android.view.LayoutInflater\nimport android.view.View\nimport android.view.ViewGroup\nimport android.view.animation.Animation\nimport android.view.animation.Transformation\nimport android.widget.Toast\nimport androidx.core.os.bundleOf\nimport androidx.lifecycle.ViewModelProvider\nimport androidx.navigation.NavController\nimport androidx.navigation.Navigation\nimport androidx.recyclerview.widget.GridLayoutManager\nimport androidx.recyclerview.widget.LinearLayoutManager\nimport androidx.recyclerview.widget.RecyclerView\nimport com.example.mehrkala.model.Boarder\nimport com.example.mehrkala.model.Item\n\nimport com.example.mehrkalacoroutine.R\nimport com.example.mehrkalacoroutine.data.network.model.CategoryImage\nimport com.example.mehrkalacoroutine.databinding.MainPageFragmentBinding\nimport com.example.mehrkalacoroutine.ui.adapter.imageSlider.ImageSliderAdapter\nimport com.example.mehrkalacoroutine.ui.adapter.horizontalRecycler.RecyclerViewAdapter\nimport com.example.mehrkalacoroutine.ui.base.ScopedFragment\nimport com.example.mehrkalacoroutine.ui.utils.OnClickHandler\nimport com.example.mehrkalacoroutine.ui.utils.OnItemClickHandler\nimport com.haroldadmin.cnradapter.NetworkResponse\nimport kotlinx.android.synthetic.main.main_page_fragment.*\nimport kotlinx.coroutines.Dispatchers.Main\nimport kotlinx.coroutines.GlobalScope\nimport kotlinx.coroutines.delay\nimport kotlinx.coroutines.launch\nimport org.kodein.di.Kodein\nimport org.kodein.di.KodeinAware\nimport org.kodein.di.android.x.closestKodein\nimport org.kodein.di.generic.instance\n\nclass MainPageFragment : ScopedFragment() ,KodeinAware {\n    override val kodein: Kodein by closestKodein()\n    private val  viewModelFactory: MainPageViewModelFactory by instance()\n\n    private lateinit var viewModel: MainPageViewModel\n    private lateinit var navController: NavController\n    private lateinit var viewBinding:MainPageFragmentBinding\n    // FOR DATA--\n    private lateinit var imageSliderAdapter: ImageSliderAdapter<Item>\n    private lateinit var topItemRecyclerAdapter: RecyclerViewAdapter<Item>\n    private lateinit var topSalesRecyclerAdapter: RecyclerViewAdapter<Item>\n    private lateinit var categoryRecyclerAdapter: RecyclerViewAdapter<CategoryImage>\n    private lateinit var offersRecyclerViewAdapter: RecyclerViewAdapter<Item>\n\n    override fun onCreateView(\n        inflater: LayoutInflater,\n        container: ViewGroup?,\n        savedInstanceState: Bundle?\n    ): View? {\n        viewBinding = MainPageFragmentBinding.inflate(inflater , container , false)\n        return viewBinding.root\n    }\n\n    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {\n        super.onViewCreated(view, savedInstanceState)\n        navController = Navigation.findNavController(view)\n    }\n\n    override fun onActivityCreated(savedInstanceState: Bundle?) {\n        super.onActivityCreated(savedInstanceState)\n        viewModel = ViewModelProvider(this , viewModelFactory).get(MainPageViewModel::class.java)\n        initAdapters()\n        bindAdapters()\n        onItemClickListeners()\n        bindUI()\n    }\n\n\n    private fun bindUI() = launch{\n        val datas = viewModel.topSales.await()\n        // ImageSlider\n        imageSliderAdapter.datas =  datas\n        // TopItems\n        topItemRecyclerAdapter.boarder = viewModel.boarderItems.await()[0]\n        topItemRecyclerAdapter.datas = viewModel.newItems.await().toMutableList()\n        Log.d(\"_debug\" , \"${viewModel.newItems.await()}\")\n        // TopSales\n        topSalesRecyclerAdapter.boarder = viewModel.boarderItems.await()[1]\n        topSalesRecyclerAdapter.datas = viewModel.topSales.await().toMutableList()\n        Log.d(\"_debug\" , \"${viewModel.topSales.await()}\")\n        // category\n        categoryRecyclerAdapter.datas = viewModel.category.await().toMutableList()\n        // OFFERS\n        offersRecyclerViewAdapter.datas = viewModel.offers.await() as MutableList<Item>\n    }\n    private fun initAdapters(){\n        // IMAGE SLIDER ADAPTER\n        imageSliderAdapter =\n            ImageSliderAdapter()\n        imageSliderAdapter.onClick = object : OnClickHandler<Item> {\n            override fun onClick(element: Item) {\n                val bundle = bundleOf(\"item\" to element)\n                navController.navigate(R.id.action_mainPageFragment_to_showItemDetailsFragment ,\n                    bundle\n                )\n            }\n            override fun onClickView(view: View, element: Item) {\n            }\n        }\n        // TOP ITEM ADAPTER\n        topItemRecyclerAdapter =\n            RecyclerViewAdapter()\n        topItemRecyclerAdapter.onClick = object: OnClickHandler<Item> {\n            override fun onClick(element: Item) {\n                val bundle = bundleOf(\"item\"  to element)\n                navController.navigate(R.id.action_mainPageFragment_to_showItemDetailsFragment ,\n                    bundle\n                )\n            }\n\n            override fun onClickView(view: View, element: Item) {\n\n            }\n        }\n        topItemRecyclerAdapter.onBoarderClick = object: OnClickHandler<Boarder>{\n            override fun onClick(element: Boarder) {\n                val bundle = bundleOf(\"query\" to \"topItem\")\n                navController.navigate(R.id.action_mainPageFragment_to_showitemsFragment ,\n                    bundle\n                )\n            }\n\n            override fun onClickView(view: View, element: Boarder) {\n\n            }\n        }\n        // TOP SALES ADAPTER\n        topSalesRecyclerAdapter =\n            RecyclerViewAdapter()\n        topSalesRecyclerAdapter.onClick = object: OnClickHandler<Item> {\n            override fun onClick(element: Item) {\n                val bundle = bundleOf(\"item\" to element)\n                navController.navigate(R.id.action_mainPageFragment_to_showItemDetailsFragment,\n                    bundle\n                )\n            }\n\n            override fun onClickView(view: View, element: Item) {\n\n            }\n        }\n        topSalesRecyclerAdapter.onBoarderClick = object: OnClickHandler<Boarder> {\n            override fun onClick(element: Boarder) {\n                val bundle = bundleOf(\"query\" to \"topSale\")\n                navController.navigate(R.id.action_mainPageFragment_to_showitemsFragment ,\n                    bundle\n                )\n            }\n\n            override fun onClickView(view: View, element: Boarder) {\n            }\n        }\n        // CATEGORY\n        categoryRecyclerAdapter = RecyclerViewAdapter()\n        categoryRecyclerAdapter.onClick = object: OnClickHandler<CategoryImage>{\n            override fun onClick(element: CategoryImage) {\n                val bundle = bundleOf(\"query\" to \"${element.category_id}\")\n                navController.navigate(R.id.action_mainPageFragment_to_showitemsFragment ,\n                    bundle\n                )\n            }\n\n            override fun onClickView(view: View, element: CategoryImage) {}\n        }\n\n//     OFFERS\n        offersRecyclerViewAdapter = RecyclerViewAdapter()\n        offersRecyclerViewAdapter.itemType = 3;\n        offersRecyclerViewAdapter.onClick = object : OnClickHandler<Item>{\n            override fun onClick(element: Item) {\n                val bundle = bundleOf(\"item\" to element)\n                navController.navigate(R.id.action_mainPageFragment_to_showItemDetailsFragment,\n                    bundle\n                )\n            }\n\n            override fun onClickView(view: View, element: Item) {}\n        }\n    }\n    private fun bindAdapters(){\n        // -- TOP BOARDER IMAGE SLIDER\n        fra_main_image_slider.apply{\n            sliderAdapter = imageSliderAdapter\n        }\n        // -- TOP ITEM RV\n        fra_main_top_rv.apply {\n            adapter = topItemRecyclerAdapter\n            layoutManager =\n                LinearLayoutManager(context , RecyclerView.HORIZONTAL , false)\n            addItemDecoration(object: RecyclerView.ItemDecoration(){\n                override fun getItemOffsets(\n                    outRect: Rect,\n                    view: View,\n                    parent: RecyclerView,\n                    state: RecyclerView.State\n                ) {\n                    with(outRect){\n                        top = 2\n                        left = 10\n                        right =10\n                        bottom = 2\n                    }\n                }\n            })\n        }\n        // TOP SALES RV\n        fra_main_top_sale_rv.apply{\n            adapter = topSalesRecyclerAdapter\n            layoutManager =\n                LinearLayoutManager( context , RecyclerView.HORIZONTAL , false)\n            addItemDecoration(object: RecyclerView.ItemDecoration(){\n                override fun getItemOffsets(\n                    outRect: Rect,\n                    view: View,\n                    parent: RecyclerView,\n                    state: RecyclerView.State\n                ) {\n                    with(outRect){\n                        top = 2\n                        left = 10\n                        right =10\n                        bottom = 2\n                    }\n                }\n            })\n        }\n        // CATEGORY\n        fra_main_category_rv.apply {\n            adapter = categoryRecyclerAdapter\n        }\n        // OFFERS RV\n        val displayMetrics = DisplayMetrics()\n        activity?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)\n        fra_main_offers_rv.apply{\n            adapter = offersRecyclerViewAdapter\n            layoutManager = GridLayoutManager(activity!! , if((displayMetrics.widthPixels / displayMetrics.xdpi) > 4) 3 else 2)\n            addItemDecoration(object:RecyclerView.ItemDecoration(){\n                override fun getItemOffsets(\n                    outRect: Rect,\n                    view: View,\n                    parent: RecyclerView,\n                    state: RecyclerView.State\n                ) {\n                    with(outRect){\n                        top = 17\n                        left = 22\n                        right =22\n                        bottom = 17\n                    }\n                }\n            })\n        }\n    }\n    private fun onItemClickListeners(){\n        viewBinding.onClick = object:OnItemClickHandler{\n            override fun onClick(view: View) {\n                when(view.id){\n                    R.id.fra_main_account ->\n                        navController.navigate(R.id.action_mainPageFragment_to_accountFragment)\n\n                    R.id.fra_main_basket -> {\n                        val bundle = bundleOf(\"query\" to \"basket\")\n                        navController.navigate(R.id.action_mainPageFragment_to_showitemsFragment ,\n                            bundle\n                        )\n                    }\n                    R.id.fra_main_all_items -> {\n//                        val bundle = bundleOf(\"query\" to \"product\")\n//                        navController.navigate(R.id.action_mainPageFragment_to_showitemsFragment ,\n//                            bundle\n//                        )\n                        if(fra_main_category_rv.visibility == View.VISIBLE)\n                            collapse(fra_main_category_rv)\n                        else\n                            expandAnimation(fra_main_category_rv)\n                    }\n                    R.id.fra_main_search ->{\n                        val bundle = bundleOf(\"query\"  to \"search\")\n                        navController.navigate(R.id.action_mainPagefragment_to_showItemsFragment_search ,\n                            bundle\n                        )\n                    }\n\n                }\n            }\n        }\n    }\n\n    private fun expandAnimation(view:View) {\n        view.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)\n        val actualheight = view.measuredHeight\n\n        val animation: Animation = object : Animation() {\n            override fun applyTransformation(\n                interpolatedTime: Float,\n                t: Transformation\n            ) {\n                view.layoutParams.height =\n                    if (interpolatedTime == 1f) ViewGroup.LayoutParams.WRAP_CONTENT else (actualheight * interpolatedTime).toInt()\n                view.requestLayout()\n            }\n        }\n        animation.duration = ((actualheight / view.context.resources.displayMetrics.density)*2).toLong()\n        view.layoutParams.height = 0\n        view.startAnimation(animation)\n        GlobalScope.launch(Main) {\n            delay(200)\n            view.visibility = View.VISIBLE\n        }\n//        view.visibility = View.VISIBLE\n    }\n    private fun collapse(view:View){\n        val actualHeight = view.measuredHeight\n        val animation: Animation = object : Animation() {\n            override fun applyTransformation(\n                interpolatedTime: Float,\n                t: Transformation\n            ) {\n                if (interpolatedTime == 1f) {\n                    view.visibility = View.GONE\n                } else {\n                    view.layoutParams.height =\n                        actualHeight - (actualHeight * interpolatedTime).toInt()\n                    view.requestLayout()\n                }\n            }\n        }\n        animation.duration = (actualHeight / view.context.resources.displayMetrics.density).toLong()\n        view.startAnimation(animation)\n    }\n\n}\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/mehrkalacoroutine/ui/fragment/mainPage/MainPageFragment.kt	(revision 477063014942678100eaef763c718f8623d163bc)
++++ app/src/main/java/com/example/mehrkalacoroutine/ui/fragment/mainPage/MainPageFragment.kt	(date 1601536797000)
+@@ -40,13 +40,14 @@
+ import org.kodein.di.android.x.closestKodein
+ import org.kodein.di.generic.instance
+ 
+-class MainPageFragment : ScopedFragment() ,KodeinAware {
++class MainPageFragment : ScopedFragment(), KodeinAware {
+     override val kodein: Kodein by closestKodein()
+-    private val  viewModelFactory: MainPageViewModelFactory by instance()
++    private val viewModelFactory: MainPageViewModelFactory by instance()
+ 
+     private lateinit var viewModel: MainPageViewModel
+     private lateinit var navController: NavController
+-    private lateinit var viewBinding:MainPageFragmentBinding
++    private lateinit var viewBinding: MainPageFragmentBinding
++
+     // FOR DATA--
+     private lateinit var imageSliderAdapter: ImageSliderAdapter<Item>
+     private lateinit var topItemRecyclerAdapter: RecyclerViewAdapter<Item>
+@@ -59,7 +60,7 @@
+         container: ViewGroup?,
+         savedInstanceState: Bundle?
+     ): View? {
+-        viewBinding = MainPageFragmentBinding.inflate(inflater , container , false)
++        viewBinding = MainPageFragmentBinding.inflate(inflater, container, false)
+         return viewBinding.root
+     }
+ 
+@@ -70,7 +71,7 @@
+ 
+     override fun onActivityCreated(savedInstanceState: Bundle?) {
+         super.onActivityCreated(savedInstanceState)
+-        viewModel = ViewModelProvider(this , viewModelFactory).get(MainPageViewModel::class.java)
++        viewModel = ViewModelProvider(this, viewModelFactory).get(MainPageViewModel::class.java)
+         initAdapters()
+         bindAdapters()
+         onItemClickListeners()
+@@ -78,44 +79,48 @@
+     }
+ 
+ 
+-    private fun bindUI() = launch{
++    private fun bindUI() = launch {
+         val datas = viewModel.topSales.await()
+         // ImageSlider
+-        imageSliderAdapter.datas =  datas
++        imageSliderAdapter.datas = datas
+         // TopItems
+         topItemRecyclerAdapter.boarder = viewModel.boarderItems.await()[0]
+         topItemRecyclerAdapter.datas = viewModel.newItems.await().toMutableList()
+-        Log.d("_debug" , "${viewModel.newItems.await()}")
++        Log.d("_debug", "${viewModel.newItems.await()}")
+         // TopSales
+         topSalesRecyclerAdapter.boarder = viewModel.boarderItems.await()[1]
+         topSalesRecyclerAdapter.datas = viewModel.topSales.await().toMutableList()
+-        Log.d("_debug" , "${viewModel.topSales.await()}")
++        Log.d("_debug", "${viewModel.topSales.await()}")
+         // category
+         categoryRecyclerAdapter.datas = viewModel.category.await().toMutableList()
+         // OFFERS
+         offersRecyclerViewAdapter.datas = viewModel.offers.await() as MutableList<Item>
+     }
+-    private fun initAdapters(){
++
++    private fun initAdapters() {
+         // IMAGE SLIDER ADAPTER
+         imageSliderAdapter =
+             ImageSliderAdapter()
+         imageSliderAdapter.onClick = object : OnClickHandler<Item> {
+             override fun onClick(element: Item) {
+                 val bundle = bundleOf("item" to element)
+-                navController.navigate(R.id.action_mainPageFragment_to_showItemDetailsFragment ,
++                navController.navigate(
++                    R.id.action_mainPageFragment_to_showItemDetailsFragment,
+                     bundle
+                 )
+             }
++
+             override fun onClickView(view: View, element: Item) {
+             }
+         }
+         // TOP ITEM ADAPTER
+         topItemRecyclerAdapter =
+             RecyclerViewAdapter()
+-        topItemRecyclerAdapter.onClick = object: OnClickHandler<Item> {
++        topItemRecyclerAdapter.onClick = object : OnClickHandler<Item> {
+             override fun onClick(element: Item) {
+-                val bundle = bundleOf("item"  to element)
+-                navController.navigate(R.id.action_mainPageFragment_to_showItemDetailsFragment ,
++                val bundle = bundleOf("item" to element)
++                navController.navigate(
++                    R.id.action_mainPageFragment_to_showItemDetailsFragment,
+                     bundle
+                 )
+             }
+@@ -124,10 +129,11 @@
+ 
+             }
+         }
+-        topItemRecyclerAdapter.onBoarderClick = object: OnClickHandler<Boarder>{
++        topItemRecyclerAdapter.onBoarderClick = object : OnClickHandler<Boarder> {
+             override fun onClick(element: Boarder) {
+                 val bundle = bundleOf("query" to "topItem")
+-                navController.navigate(R.id.action_mainPageFragment_to_showitemsFragment ,
++                navController.navigate(
++                    R.id.action_mainPageFragment_to_showitemsFragment,
+                     bundle
+                 )
+             }
+@@ -139,10 +145,11 @@
+         // TOP SALES ADAPTER
+         topSalesRecyclerAdapter =
+             RecyclerViewAdapter()
+-        topSalesRecyclerAdapter.onClick = object: OnClickHandler<Item> {
++        topSalesRecyclerAdapter.onClick = object : OnClickHandler<Item> {
+             override fun onClick(element: Item) {
+                 val bundle = bundleOf("item" to element)
+-                navController.navigate(R.id.action_mainPageFragment_to_showItemDetailsFragment,
++                navController.navigate(
++                    R.id.action_mainPageFragment_to_showItemDetailsFragment,
+                     bundle
+                 )
+             }
+@@ -151,10 +158,11 @@
+ 
+             }
+         }
+-        topSalesRecyclerAdapter.onBoarderClick = object: OnClickHandler<Boarder> {
++        topSalesRecyclerAdapter.onBoarderClick = object : OnClickHandler<Boarder> {
+             override fun onClick(element: Boarder) {
+                 val bundle = bundleOf("query" to "topSale")
+-                navController.navigate(R.id.action_mainPageFragment_to_showitemsFragment ,
++                navController.navigate(
++                    R.id.action_mainPageFragment_to_showitemsFragment,
+                     bundle
+                 )
+             }
+@@ -164,10 +172,11 @@
+         }
+         // CATEGORY
+         categoryRecyclerAdapter = RecyclerViewAdapter()
+-        categoryRecyclerAdapter.onClick = object: OnClickHandler<CategoryImage>{
++        categoryRecyclerAdapter.onClick = object : OnClickHandler<CategoryImage> {
+             override fun onClick(element: CategoryImage) {
+                 val bundle = bundleOf("query" to "${element.category_id}")
+-                navController.navigate(R.id.action_mainPageFragment_to_showitemsFragment ,
++                navController.navigate(
++                    R.id.action_mainPageFragment_to_showitemsFragment,
+                     bundle
+                 )
+             }
+@@ -178,10 +187,11 @@
+ //     OFFERS
+         offersRecyclerViewAdapter = RecyclerViewAdapter()
+         offersRecyclerViewAdapter.itemType = 3;
+-        offersRecyclerViewAdapter.onClick = object : OnClickHandler<Item>{
++        offersRecyclerViewAdapter.onClick = object : OnClickHandler<Item> {
+             override fun onClick(element: Item) {
+                 val bundle = bundleOf("item" to element)
+-                navController.navigate(R.id.action_mainPageFragment_to_showItemDetailsFragment,
++                navController.navigate(
++                    R.id.action_mainPageFragment_to_showItemDetailsFragment,
+                     bundle
+                 )
+             }
+@@ -189,48 +199,49 @@
+             override fun onClickView(view: View, element: Item) {}
+         }
+     }
+-    private fun bindAdapters(){
++
++    private fun bindAdapters() {
+         // -- TOP BOARDER IMAGE SLIDER
+-        fra_main_image_slider.apply{
++        fra_main_image_slider.apply {
+             sliderAdapter = imageSliderAdapter
+         }
+         // -- TOP ITEM RV
+         fra_main_top_rv.apply {
+             adapter = topItemRecyclerAdapter
+             layoutManager =
+-                LinearLayoutManager(context , RecyclerView.HORIZONTAL , false)
+-            addItemDecoration(object: RecyclerView.ItemDecoration(){
++                LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
++            addItemDecoration(object : RecyclerView.ItemDecoration() {
+                 override fun getItemOffsets(
+                     outRect: Rect,
+                     view: View,
+                     parent: RecyclerView,
+                     state: RecyclerView.State
+                 ) {
+-                    with(outRect){
++                    with(outRect) {
+                         top = 2
+                         left = 10
+-                        right =10
++                        right = 10
+                         bottom = 2
+                     }
+                 }
+             })
+         }
+         // TOP SALES RV
+-        fra_main_top_sale_rv.apply{
++        fra_main_top_sale_rv.apply {
+             adapter = topSalesRecyclerAdapter
+             layoutManager =
+-                LinearLayoutManager( context , RecyclerView.HORIZONTAL , false)
+-            addItemDecoration(object: RecyclerView.ItemDecoration(){
++                LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
++            addItemDecoration(object : RecyclerView.ItemDecoration() {
+                 override fun getItemOffsets(
+                     outRect: Rect,
+                     view: View,
+                     parent: RecyclerView,
+                     state: RecyclerView.State
+                 ) {
+-                    with(outRect){
++                    with(outRect) {
+                         top = 2
+                         left = 10
+-                        right =10
++                        right = 10
+                         bottom = 2
+                     }
+                 }
+@@ -243,62 +254,75 @@
+         // OFFERS RV
+         val displayMetrics = DisplayMetrics()
+         activity?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
+-        fra_main_offers_rv.apply{
++        fra_main_offers_rv.apply {
+             adapter = offersRecyclerViewAdapter
+-            layoutManager = GridLayoutManager(activity!! , if((displayMetrics.widthPixels / displayMetrics.xdpi) > 4) 3 else 2)
+-            addItemDecoration(object:RecyclerView.ItemDecoration(){
++            layoutManager = GridLayoutManager(
++                activity!!,
++                if ((displayMetrics.widthPixels / displayMetrics.xdpi) > 4) 3 else 2
++            )
++            addItemDecoration(object : RecyclerView.ItemDecoration() {
+                 override fun getItemOffsets(
+                     outRect: Rect,
+                     view: View,
+                     parent: RecyclerView,
+                     state: RecyclerView.State
+                 ) {
+-                    with(outRect){
++                    with(outRect) {
+                         top = 17
+                         left = 22
+-                        right =22
++                        right = 22
+                         bottom = 17
+                     }
+                 }
+             })
+         }
+     }
+-    private fun onItemClickListeners(){
+-        viewBinding.onClick = object:OnItemClickHandler{
++
++    private fun onItemClickListeners() {
++        viewBinding.onClick = object : OnItemClickHandler {
+             override fun onClick(view: View) {
+-                when(view.id){
+-                    R.id.fra_main_account ->
++                when (view.id) {
++                    R.id.fra_main_account,
++                    R.id.fra_main_account_text ->
+                         navController.navigate(R.id.action_mainPageFragment_to_accountFragment)
+ 
+-                    R.id.fra_main_basket -> {
++                    R.id.fra_main_basket,
++                    R.id.fra_main_basket_text -> {
+                         val bundle = bundleOf("query" to "basket")
+-                        navController.navigate(R.id.action_mainPageFragment_to_showitemsFragment ,
++                        navController.navigate(
++                            R.id.action_mainPageFragment_to_showitemsFragment,
+                             bundle
+                         )
+                     }
+-                    R.id.fra_main_all_items -> {
++                    R.id.fra_main_all_items,
++                    R.id.fra_main_all_items_text -> {
+ //                        val bundle = bundleOf("query" to "product")
+ //                        navController.navigate(R.id.action_mainPageFragment_to_showitemsFragment ,
+ //                            bundle
+ //                        )
+-                        if(fra_main_category_rv.visibility == View.VISIBLE)
++                        if (fra_main_category_rv.visibility == View.VISIBLE)
+                             collapse(fra_main_category_rv)
+                         else
+                             expandAnimation(fra_main_category_rv)
+                     }
+-                    R.id.fra_main_search ->{
+-                        val bundle = bundleOf("query"  to "search")
+-                        navController.navigate(R.id.action_mainPagefragment_to_showItemsFragment_search ,
++                    R.id.fra_main_search -> {
++                        val bundle = bundleOf("query" to "search")
++                        navController.navigate(
++                            R.id.action_mainPagefragment_to_showItemsFragment_search,
+                             bundle
+                         )
+                     }
+ 
++                    R.id.fra_main_aboutUs,
++                    R.id.fra_main_aboutUs_text -> {
++                        navController.navigate(R.id.action_mainPageFragment_to_aboutUsFragment)
++                    }
+                 }
+             }
+         }
+     }
+ 
+-    private fun expandAnimation(view:View) {
++    private fun expandAnimation(view: View) {
+         view.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+         val actualheight = view.measuredHeight
+ 
+@@ -312,7 +336,8 @@
+                 view.requestLayout()
+             }
+         }
+-        animation.duration = ((actualheight / view.context.resources.displayMetrics.density)*2).toLong()
++        animation.duration =
++            ((actualheight / view.context.resources.displayMetrics.density) * 2).toLong()
+         view.layoutParams.height = 0
+         view.startAnimation(animation)
+         GlobalScope.launch(Main) {
+@@ -321,7 +346,8 @@
+         }
+ //        view.visibility = View.VISIBLE
+     }
+-    private fun collapse(view:View){
++
++    private fun collapse(view: View) {
+         val actualHeight = view.measuredHeight
+         val animation: Animation = object : Animation() {
+             override fun applyTransformation(
+Index: app/src/main/res/layout/signup_fragment.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<androidx.core.widget.NestedScrollView\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:orientation=\"vertical\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    android:background=\"@color/red_50\"\n    tools:context=\".ui.fragment.splashScreen.singup.SignupFragment\"\n    android:fillViewport=\"true\"\n    android:fitsSystemWindows=\"true\">\n    <RelativeLayout\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"match_parent\"\n        android:background=\"@color/pink_A400\"\n        >\n        <ImageView\n            android:layout_width=\"250dp\"\n            android:layout_height=\"250dp\"\n            android:src=\"@drawable/circle_drawable\"\n            android:layout_alignParentEnd=\"true\"\n            android:layout_marginTop=\"-120dp\"\n            android:layout_marginEnd=\"-120dp\"\n            android:alpha=\"0.2\"\n            />\n        <ImageView\n            android:layout_width=\"250dp\"\n            android:layout_height=\"match_parent\"\n            android:rotation=\"-30\"\n            android:alpha=\".2\"\n            android:src=\"@drawable/rectangle_drawable\"\n            />\n        <TextView\n            android:id=\"@+id/header\"\n            android:layout_width=\"wrap_content\"\n            android:layout_height=\"wrap_content\"\n            android:layout_marginTop=\"50dp\"\n            android:layout_marginStart=\"16dp\"\n            android:layout_marginEnd=\"16dp\"\n            android:layout_alignParentEnd=\"true\"\n            android:padding=\"4dp\"\n            android:text=\"ایجاد                                   حساب کاربری\"\n            android:textSize=\"50sp\"\n            android:fontFamily=\"@font/font_one\"\n            android:textColor=\"@color/white\"\n            android:lineSpacingExtra=\"-10dp\"\n            />\n        <TextView\n            android:id=\"@+id/fra_signup_go_login\"\n            android:layout_width=\"wrap_content\"\n            android:layout_height=\"wrap_content\"\n            android:layout_below=\"@id/header\"\n            android:layout_toStartOf=\"@id/text\"\n            android:layout_marginEnd=\"9dp\"\n            android:layout_marginTop=\"-6dp\"\n            android:text=\"وارد شوید\"\n            android:fontFamily=\"@font/app_font_bold\"\n            android:textSize=\"21dp\"\n            android:textColor=\"@color/white\"\n            />\n        <TextView\n            android:id=\"@+id/text\"\n            android:layout_width=\"wrap_content\"\n            android:layout_height=\"wrap_content\"\n            android:layout_below=\"@id/header\"\n            android:layout_marginEnd=\"16dp\"\n            android:layout_alignParentEnd=\"true\"\n            android:text=\"قبلا ثبت نام کرده اید ؟\"\n            android:fontFamily=\"@font/iran_sans_medium\"\n            android:textSize=\"17dp\"\n            android:textColor=\"@color/white\"\n            />\n\n        <androidx.constraintlayout.widget.ConstraintLayout\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"30dp\"\n            android:layout_marginTop=\"13dp\"\n            android:layout_below=\"@id/text\"\n            android:layout_alignParentBottom=\"true\"\n            android:background=\"@drawable/one_corner_rectangle_drawable\"\n            >\n            <!--                username  -->\n            <LinearLayout\n                android:id=\"@+id/username\"\n                android:layout_width=\"wrap_content\"\n                android:layout_height=\"wrap_content\"\n                android:orientation=\"horizontal\"\n                android:layout_marginTop=\"44dp\"\n                android:layout_marginEnd=\"20dp\"\n                app:layout_constraintEnd_toEndOf=\"parent\"\n                app:layout_constraintTop_toTopOf=\"parent\">\n                <TextView\n                    android:layout_gravity=\"center\"\n                    android:text=\"@string/username\"\n                    android:fontFamily=\"@font/font_one\"\n                    android:textColor=\"@color/overlay_dark_80\"\n                    android:textSize=\"19dp\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_margin=\"5dp\"/>\n                <ImageView\n                    android:layout_width=\"29dp\"\n                    android:layout_height=\"29dp\"\n                    app:srcCompat=\"@drawable/ic_person_black_24dp\"/>\n\n            </LinearLayout>\n            <com.google.android.material.textfield.TextInputLayout\n                style=\"@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense\"\n                android:id=\"@+id/username_layout\"\n                android:layout_height=\"wrap_content\"\n                android:layout_width=\"0dp\"\n                android:layout_marginTop=\"5dp\"\n                android:layout_marginStart=\"16dp\"\n                android:layout_marginEnd=\"16dp\"\n                app:boxBackgroundMode=\"filled\"\n                app:boxCornerRadiusBottomStart=\"6dp\"\n                app:layout_constraintStart_toStartOf=\"parent\"\n                app:layout_constraintEnd_toEndOf=\"parent\"\n                app:layout_constraintTop_toBottomOf=\"@+id/username\">\n                <com.google.android.material.textfield.TextInputEditText\n                    android:id=\"@+id/fra_signup_username\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_width=\"match_parent\"\n                    android:inputType=\"text\"\n                    />\n            </com.google.android.material.textfield.TextInputLayout>\n            <!--            phoneNumber  -->\n            <LinearLayout\n                android:id=\"@+id/phone_number\"\n                android:layout_width=\"wrap_content\"\n                android:layout_height=\"wrap_content\"\n                android:orientation=\"horizontal\"\n                android:layout_marginTop=\"9dp\"\n                android:layout_marginEnd=\"20dp\"\n                app:layout_constraintEnd_toEndOf=\"parent\"\n                app:layout_constraintTop_toBottomOf=\"@id/username_layout\">\n                <TextView\n                    android:layout_gravity=\"center\"\n                    android:text=\"@string/phone_number\"\n                    android:fontFamily=\"@font/font_one\"\n                    android:textColor=\"@color/overlay_dark_80\"\n                    android:textSize=\"19dp\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_margin=\"3dp\"/>\n                <ImageView\n                    android:layout_width=\"29dp\"\n                    android:layout_height=\"29dp\"\n                    app:srcCompat=\"@drawable/ic_phone\"/>\n\n            </LinearLayout>\n            <com.google.android.material.textfield.TextInputLayout\n                android:id=\"@+id/phone_number_layout\"\n                android:layout_height=\"wrap_content\"\n                android:layout_width=\"0dp\"\n                android:layout_marginTop=\"5dp\"\n                android:layout_marginStart=\"16dp\"\n                android:layout_marginEnd=\"16dp\"\n                app:boxCornerRadiusBottomStart=\"6dp\"\n                app:layout_constraintStart_toStartOf=\"parent\"\n                app:layout_constraintEnd_toEndOf=\"parent\"\n                app:layout_constraintTop_toBottomOf=\"@+id/phone_number\">\n                <com.google.android.material.textfield.TextInputEditText\n                    android:id=\"@+id/fra_signup_phone\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_width=\"match_parent\"\n                    android:inputType=\"numberDecimal\"\n                    />\n            </com.google.android.material.textfield.TextInputLayout>\n            <!--            password  -->\n            <LinearLayout\n                android:id=\"@+id/password\"\n                android:layout_width=\"wrap_content\"\n                android:layout_height=\"wrap_content\"\n                android:orientation=\"horizontal\"\n                android:layout_marginTop=\"9dp\"\n                android:layout_marginEnd=\"20dp\"\n                app:layout_constraintEnd_toEndOf=\"parent\"\n                app:layout_constraintTop_toBottomOf=\"@id/phone_number_layout\">\n                <TextView\n                    android:layout_gravity=\"center\"\n                    android:text=\"@string/password\"\n                    android:fontFamily=\"@font/font_one\"\n                    android:textColor=\"@color/overlay_dark_80\"\n                    android:textSize=\"19dp\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_margin=\"3dp\"/>\n                <ImageView\n                    android:layout_width=\"29dp\"\n                    android:layout_height=\"29dp\"\n                    app:srcCompat=\"@drawable/ic_password\"/>\n\n            </LinearLayout>\n            <com.google.android.material.textfield.TextInputLayout\n                android:id=\"@+id/password_layout\"\n                android:layout_height=\"wrap_content\"\n                android:layout_width=\"0dp\"\n                android:layout_marginStart=\"16dp\"\n                android:layout_marginEnd=\"16dp\"\n                app:passwordToggleEnabled=\"true\"\n                app:passwordToggleTint=\"@color/black\"\n                app:layout_constraintTop_toBottomOf=\"@id/password\"\n                app:layout_constraintStart_toStartOf=\"parent\"\n                app:layout_constraintEnd_toEndOf=\"parent\"\n                >\n                <com.google.android.material.textfield.TextInputEditText\n                    android:id=\"@+id/fra_signup_password\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_width=\"match_parent\"\n                    android:inputType=\"textPassword\"\n                    />\n            </com.google.android.material.textfield.TextInputLayout>\n\n            <Button\n                android:id=\"@+id/fra_signup_login\"\n                android:layout_width=\"45dp\"\n                android:layout_height=\"45dp\"\n                android:layout_margin=\"15dp\"\n                android:background=\"@drawable/ic_arrow_left_black\"\n                android:rotation=\"180\"\n                app:layout_constraintEnd_toEndOf=\"parent\"\n                app:layout_constraintBottom_toBottomOf=\"parent\"/>\n\n        </androidx.constraintlayout.widget.ConstraintLayout>\n\n\n\n    </RelativeLayout>\n\n\n</androidx.core.widget.NestedScrollView>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/signup_fragment.xml	(revision 477063014942678100eaef763c718f8623d163bc)
++++ app/src/main/res/layout/signup_fragment.xml	(date 1601536797000)
+@@ -213,12 +213,12 @@
+                     />
+             </com.google.android.material.textfield.TextInputLayout>
+ 
+-            <Button
++            <ImageButton
+                 android:id="@+id/fra_signup_login"
+                 android:layout_width="45dp"
+                 android:layout_height="45dp"
+                 android:layout_margin="15dp"
+-                android:background="@drawable/ic_arrow_left_black"
++                app:srcCompat="@drawable/ic_arrow_left_black"
+                 android:rotation="180"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintBottom_toBottomOf="parent"/>
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import com.google.gms.googleservices.GoogleServicesPlugin\n\napply plugin: 'com.android.application'\napply plugin: 'kotlin-android'\napply plugin: 'kotlin-android-extensions'\napply plugin: 'kotlin-kapt'\napply plugin: 'androidx.navigation.safeargs'\napply plugin: 'com.google.gms.google-services'\napply plugin: 'com.google.firebase.crashlytics'\n\n\nandroid {\n    compileSdkVersion 29\n    buildToolsVersion \"29.0.2\"\n    dataBinding {\n        enabled = true\n    }\n\n    defaultConfig {\n        applicationId \"com.example.mehrkalacoroutine\"\n        minSdkVersion 19\n        targetSdkVersion 29\n        versionCode 1\n        versionName \"1.0\"\n\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\n        vectorDrawables.useSupportLibrary = true\n        multiDexEnabled true\n    }\n\n    compileOptions {\n        sourceCompatibility JavaVersion.VERSION_1_8\n        targetCompatibility JavaVersion.VERSION_1_8\n    }\n    kotlinOptions {\n        jvmTarget = JavaVersion.VERSION_1_8.toString()\n    }\n\n    buildTypes {\n        release {\n            minifyEnabled false\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\n        }\n    }\n\n}\n\ndependencies {\n    implementation fileTree(dir: 'libs', include: ['*.jar'])\n    // KOTLIN\n    implementation \"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version\"\n    implementation \"org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version\"\n    implementation \"org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version\"\n    // ANDROID\n    implementation \"androidx.appcompat:appcompat:$app_compat_version\"\n    implementation \"androidx.constraintlayout:constraintlayout:$constraint_layout_version\"\n    implementation \"com.google.android.material:material:$android_material_version\"\n    // NETWORK\n    implementation \"com.squareup.retrofit2:retrofit:$retrofit_version\"\n    implementation \"com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$retrofit_coroutines_adapter_version\"\n    implementation \"com.squareup.retrofit2:converter-gson:$retrofit_gson_adapter_version\"\n    // GSON\n    implementation \"com.google.code.gson:gson:$gson_version\"\n    implementation \"androidx.paging:paging-runtime:$pagination_version\"\n    // OKHTTP\n    implementation \"com.squareup.okhttp3:logging-interceptor:$okhttp_version\"\n    implementation 'androidx.legacy:legacy-support-v4:1.0.0'\n\n    // KODEIN\n    implementation \"org.kodein.di:kodein-di-generic-jvm:$kodein_version\"\n    implementation \"org.kodein.di:kodein-di-framework-android-x:$kodein_version\"\n\n    // Glide\n    implementation \"com.github.bumptech.glide:glide:$glide_version\"\n\n    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'\n    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'\n    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'\n    kapt \"com.github.bumptech.glide:compiler:$glide_version\"\n    // ViewModel\n    implementation \"androidx.lifecycle:lifecycle-extensions:$lifecycle_version\"\n    implementation \"androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version\"\n    kapt \"androidx.lifecycle:lifecycle-compiler:$lifecycle_version\"\n\n    // MATERIAL DIALOG\n    implementation \"com.afollestad.material-dialogs:core:$material_dialog_version\"\n\n    // Room\n    implementation \"androidx.room:room-runtime:$room_version\"\n    implementation \"androidx.legacy:legacy-support-v4:1.0.0\"\n\n    implementation 'androidx.room:room-ktx:2.2.5'\n    kapt \"androidx.room:room-compiler:2.2.5\"\n\n    // navigation\n    implementation 'androidx.navigation:navigation-fragment-ktx:2.2.1'\n    implementation 'androidx.navigation:navigation-ui-ktx:2.2.1'\n\n    // lottie\n    implementation \"com.airbnb.android:lottie:3.0.7\"\n    // Image Slider\n    implementation 'com.github.smarteist:autoimageslider:1.3.2'\n\n    // zoom image\n    implementation 'com.github.chrisbanes:PhotoView:2.3.0'\n\n    //material button\n    implementation 'com.github.rey5137:material:1.2.5'\n\n    // FIREBASE\n    implementation 'com.google.firebase:firebase-analytics:17.2.2'\n\n    // CRASHLYTICS\n    implementation 'com.google.firebase:firebase-analytics:17.4.0'\n\n    // multiDEX\n    implementation 'com.android.support:multidex:1.0.3'\n\n    // NetworkCallAdapter\n    implementation \"com.github.haroldadmin:NetworkResponseAdapter:4.0.1\"\n\n    //HASHTAG VIEW\n    implementation \"com.github.greenfrvr:hashtag-view:1.3.1\"\n\n    // SEARCH\n    implementation \"com.github.arimorty:floatingsearchview:2.1.1\"\n\n    // ZARRIN PAL -- Payment\n    implementation 'com.zarinpal:purchase:0.0.10'\n\n    //\n    implementation \"androidx.browser:browser:1.0.0\"\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision 477063014942678100eaef763c718f8623d163bc)
++++ app/build.gradle	(date 1601536797000)
+@@ -18,7 +18,7 @@
+ 
+     defaultConfig {
+         applicationId "com.example.mehrkalacoroutine"
+-        minSdkVersion 19
++        minSdkVersion 17
+         targetSdkVersion 29
+         versionCode 1
+         versionName "1.0"
+@@ -130,4 +130,7 @@
+ 
+     //
+     implementation "androidx.browser:browser:1.0.0"
++
++    // MOTION LAYOUT
++    implementation "androidx.constraintlayout:constraintlayout:2.0.0-rc1"
+ }
+Index: app/src/main/res/navigation/nav_graph.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<navigation\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:id=\"@+id/nav_gragh\"\n    app:startDestination=\"@id/loadingFragment\">\n\n    <fragment\n        android:id=\"@+id/loadingFragment\"\n        android:name=\"com.example.mehrkalacoroutine.ui.fragment.splashScreen.loading.LoadingFragment\"\n        android:label=\"loading_fragment\"\n        tools:layout=\"@layout/loading_fragment\" >\n        <action\n            android:id=\"@+id/action_loadingFragment_to_mainPageFragment\"\n            app:destination=\"@id/mainPageFragment\"\n            app:enterAnim=\"@anim/fade_slide_in_right\"\n            app:popExitAnim=\"@anim/fade_slide_out_right\"\n            app:popEnterAnim=\"@anim/fade_slide_in_left\"\n            app:exitAnim=\"@anim/fade_slide_out_left\"\n            app:popUpTo=\"@id/loadingFragment\"\n            app:popUpToInclusive=\"true\"\n            />\n\n        <action\n            android:id=\"@+id/action_loadingFragment_to_signupFragment\"\n            app:destination=\"@id/signupFragment\"\n            app:enterAnim=\"@anim/fade_slide_in_right\"\n            app:popExitAnim=\"@anim/fade_slide_out_right\"\n            app:popEnterAnim=\"@anim/fade_slide_in_left\"\n            app:exitAnim=\"@anim/fade_slide_out_left\"\n            app:popUpTo=\"@id/loadingFragment\"\n            app:popUpToInclusive=\"true\"\n            />\n    </fragment>\n    <fragment\n        android:id=\"@+id/loginFragment\"\n        android:name=\"com.example.mehrkalacoroutine.ui.fragment.splashScreen.login.LoginFragment\"\n        android:label=\"login_fragment\"\n        tools:layout=\"@layout/login_fragment\" >\n        <action\n            android:id=\"@+id/action_loginFragment_to_mainPageFragment\"\n            app:destination=\"@id/mainPageFragment\"\n            app:enterAnim=\"@anim/fade_slide_in_right\"\n            app:popExitAnim=\"@anim/fade_slide_out_right\"\n            app:popEnterAnim=\"@anim/fade_slide_in_left\"\n            app:exitAnim=\"@anim/fade_slide_out_left\"\n\n            app:popUpTo=\"@id/signupFragment\"\n            app:popUpToInclusive=\"true\"\n            />\n    </fragment>\n    <fragment\n        android:id=\"@+id/signupFragment\"\n        android:name=\"com.example.mehrkalacoroutine.ui.fragment.splashScreen.singup.SignupFragment\"\n        android:label=\"signup_fragment\"\n        tools:layout=\"@layout/signup_fragment\" >\n        <action\n            android:id=\"@+id/action_signupFragment_to_mainPageFragment\"\n            app:destination=\"@id/mainPageFragment\"\n            app:enterAnim=\"@anim/fade_slide_in_right\"\n            app:popExitAnim=\"@anim/fade_slide_out_right\"\n            app:popEnterAnim=\"@anim/fade_slide_in_left\"\n            app:exitAnim=\"@anim/fade_slide_out_left\"\n            app:popUpTo=\"@id/signupFragment\"\n            app:popUpToInclusive=\"true\"\n            />\n        <action\n            android:id=\"@+id/action_signupFragment_to_loginFragment\"\n            app:destination=\"@id/loginFragment\"\n            app:enterAnim=\"@anim/fade_slide_in_right\"\n            app:popExitAnim=\"@anim/fade_slide_out_right\"\n            app:popEnterAnim=\"@anim/fade_slide_in_left\"\n            app:exitAnim=\"@anim/fade_slide_out_left\"\n            />\n    </fragment>\n<!--    app:popUpTo=\"@id/signupFragment\"-->\n<!--    app:popUpToInclusive=\"true\"-->\n    <fragment\n        android:id=\"@+id/showitemsFragment\"\n        android:name=\"com.example.mehrkalacoroutine.ui.fragment.showItems.ShowitemsFragment\"\n        android:label=\"showitems_fragment\"\n        tools:layout=\"@layout/showitems_fragment\" >\n        <action\n            android:id=\"@+id/action_showitemsFragment_to_showItemDetailsFragment\"\n            app:destination=\"@id/showItemDetailsFragment\"\n            app:enterAnim=\"@anim/fade_slide_in_right\"\n            app:popExitAnim=\"@anim/fade_slide_out_right\"\n            app:popEnterAnim=\"@anim/fade_slide_in_left\"\n            app:exitAnim=\"@anim/fade_slide_out_left\"\n            />\n        <argument\n            android:name=\"query\"\n            android:defaultValue=\"Non\"\n            />\n        <action\n            android:id=\"@+id/action_showitemsFragment_to_biilsFragment\"\n            app:destination=\"@id/biilsFragment\"\n            app:enterAnim=\"@anim/fade_slide_in_right\"\n            app:popExitAnim=\"@anim/fade_slide_out_right\"\n            app:popEnterAnim=\"@anim/fade_slide_in_left\"\n            app:exitAnim=\"@anim/fade_slide_out_left\"\n            />\n        <action\n            android:id=\"@+id/action_showitemsFragment_to_showOrdersHistory\"\n            app:destination=\"@id/showOrdersHistory\"\n            app:enterAnim=\"@anim/fade_slide_in_right\"\n            app:popExitAnim=\"@anim/fade_slide_out_right\"\n            app:popEnterAnim=\"@anim/fade_slide_in_left\"\n            app:exitAnim=\"@anim/fade_slide_out_left\"\n            />\n    </fragment>\n    <fragment\n        android:id=\"@+id/mainPageFragment\"\n        android:name=\"com.example.mehrkalacoroutine.ui.fragment.mainPage.MainPageFragment\"\n        android:label=\"main_page_fragment\"\n        tools:layout=\"@layout/main_page_fragment\" >\n        <action\n            android:id=\"@+id/action_mainPageFragment_to_showitemsFragment\"\n            app:destination=\"@id/showitemsFragment\"\n            app:enterAnim=\"@anim/fade_slide_in_right\"\n            app:popExitAnim=\"@anim/fade_slide_out_right\"\n            app:popEnterAnim=\"@anim/fade_slide_in_left\"\n            app:exitAnim=\"@anim/fade_slide_out_left\"\n            />\n        <action\n            android:id=\"@+id/action_mainPagefragment_to_showItemsFragment_search\"\n            app:destination=\"@id/showitemsFragment\"\n            app:enterAnim=\"@anim/fade_in\"\n            app:popExitAnim=\"@anim/fade_out\"\n            app:popEnterAnim=\"@anim/fade_in\"\n            app:exitAnim=\"@anim/fade_out\"\n            />\n        <action\n            android:id=\"@+id/action_mainPageFragment_to_showItemDetailsFragment\"\n            app:destination=\"@id/showItemDetailsFragment\"\n            app:enterAnim=\"@anim/fade_slide_in_right\"\n            app:popExitAnim=\"@anim/fade_slide_out_right\"\n            app:popEnterAnim=\"@anim/fade_slide_in_left\"\n            app:exitAnim=\"@anim/fade_slide_out_left\"\n            />\n        <action\n            android:id=\"@+id/action_mainPageFragment_to_accountFragment\"\n            app:destination=\"@id/accountFragment\"\n            app:enterAnim=\"@anim/fade_slide_in_right\"\n            app:popExitAnim=\"@anim/fade_slide_out_right\"\n            app:popEnterAnim=\"@anim/fade_slide_in_left\"\n            app:exitAnim=\"@anim/fade_slide_out_left\"\n            />\n    </fragment>\n    <fragment\n        android:id=\"@+id/showItemDetailsFragment\"\n        android:name=\"com.example.mehrkalacoroutine.ui.fragment.ShowItemDetailsFragment.ShowItemDetailsFragment\"\n        android:label=\"show_item_details_fragment\"\n        tools:layout=\"@layout/show_item_details_fragment\" >\n\n        <argument\n            android:name=\"item\"\n            app:argType=\"com.example.mehrkala.model.Item\"\n            />\n        <action\n            android:id=\"@+id/action_showItemDetailsFragment_to_showImageFragment\"\n            app:destination=\"@id/showImageFragment\"\n            app:enterAnim=\"@anim/fade_slide_in_right\"\n            app:popExitAnim=\"@anim/fade_slide_out_right\"\n            app:popEnterAnim=\"@anim/fade_slide_in_left\"\n            app:exitAnim=\"@anim/fade_slide_out_left\"\n            />\n        <action\n            android:id=\"@+id/action_showItemDetailsFragment_to_showItemsFragment\"\n            app:destination=\"@id/showitemsFragment\"\n            app:enterAnim=\"@anim/fade_slide_in_right\"\n            app:popExitAnim=\"@anim/fade_slide_out_right\"\n            app:popEnterAnim=\"@anim/fade_slide_in_left\"\n            app:exitAnim=\"@anim/fade_slide_out_left\"\n            />\n    </fragment>\n    <fragment\n        android:id=\"@+id/showImageFragment\"\n        android:name=\"com.example.mehrkalacoroutine.ui.fragment.showImage.ShowImageFragment\"\n        android:label=\"ShowImageFragment\" >\n        <argument\n            android:name=\"url\"\n            android:defaultValue=\"Non\"\n            />\n    </fragment>\n    <fragment\n        android:id=\"@+id/accountFragment\"\n        android:name=\"com.example.mehrkalacoroutine.ui.fragment.account.AccountFragment\"\n        android:label=\"account_fragment\"\n        tools:layout=\"@layout/account_fragment\" >\n        <action\n            android:id=\"@+id/action_accountFragment_to_showitemsFragment\"\n            app:destination=\"@id/showitemsFragment\"\n            app:enterAnim=\"@anim/fade_slide_in_right\"\n            app:popExitAnim=\"@anim/fade_slide_out_right\"\n            app:popEnterAnim=\"@anim/fade_slide_in_left\"\n            app:exitAnim=\"@anim/fade_slide_out_left\"\n            />\n    </fragment>\n    <fragment\n        android:id=\"@+id/biilsFragment\"\n        android:name=\"com.example.mehrkalacoroutine.ui.fragment.basket.BiilsFragment\"\n        android:label=\"BiilsFragment\" >\n        <action\n            android:id=\"@+id/action_biilsFragment_to_sendBillsBasketFragment\"\n            app:destination=\"@id/sendBillsBasketFragment\"\n            app:enterAnim=\"@anim/fade_slide_in_right\"\n            app:popExitAnim=\"@anim/fade_slide_out_right\"\n            app:popEnterAnim=\"@anim/fade_slide_in_left\"\n            app:exitAnim=\"@anim/fade_slide_out_left\"\n            />\n    </fragment>\n    <fragment\n        android:id=\"@+id/paymentGatewayFragment\"\n        android:name=\"com.example.mehrkalacoroutine.ui.fragment.paymentgateway.PaymentGatewayFragment\"\n        android:label=\"PaymentGatewayFragment\" >\n        <argument\n            android:name=\"receipt\"\n            app:nullable=\"true\"\n            />\n        <deepLink\n            android:id=\"@+id/deepLink\"\n            app:uri=\"payment://zarrinpal/\"\n            />\n    </fragment>\n    <fragment\n        android:id=\"@+id/showOrdersHistory\"\n        android:name=\"com.example.mehrkalacoroutine.ui.fragment.showOrdersHistory.ShowOrdersHistory\"\n        android:label=\"ShowOrdersHistory\" >\n        <argument\n            android:name=\"paymentId\"\n            android:defaultValue=\"Non\"\n            />\n        <action\n            android:id=\"@+id/action_showOrdersHistory_to_showItemDetailsFragment\"\n            app:destination=\"@id/showItemDetailsFragment\"\n            app:enterAnim=\"@anim/fade_slide_in_right\"\n            app:popExitAnim=\"@anim/fade_slide_out_right\"\n            app:popEnterAnim=\"@anim/fade_slide_in_left\"\n            app:exitAnim=\"@anim/fade_slide_out_left\"\n            />\n\n    </fragment>\n    <fragment\n        android:id=\"@+id/sendBillsBasketFragment\"\n        android:name=\"com.example.mehrkalacoroutine.ui.fragment.sendBillsBasket.SendBillsBasketFragment\"\n        android:label=\"SendBillsBasketFragment\" />\n\n</navigation>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/navigation/nav_graph.xml	(revision 477063014942678100eaef763c718f8623d163bc)
++++ app/src/main/res/navigation/nav_graph.xml	(date 1601536797000)
+@@ -1,10 +1,10 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<navigation
++         <navigation
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:id="@+id/nav_gragh"
+-    app:startDestination="@id/loadingFragment">
++    app:startDestination="@id/aboutUsFragment">
+ 
+     <fragment
+         android:id="@+id/loadingFragment"
+@@ -147,6 +147,9 @@
+             app:popEnterAnim="@anim/fade_slide_in_left"
+             app:exitAnim="@anim/fade_slide_out_left"
+             />
++        <action
++            android:id="@+id/action_mainPageFragment_to_aboutUsFragment"
++            app:destination="@id/aboutUsFragment" />
+     </fragment>
+     <fragment
+         android:id="@+id/showItemDetailsFragment"
+@@ -246,5 +249,14 @@
+         android:id="@+id/sendBillsBasketFragment"
+         android:name="com.example.mehrkalacoroutine.ui.fragment.sendBillsBasket.SendBillsBasketFragment"
+         android:label="SendBillsBasketFragment" />
++    <fragment
++        android:id="@+id/aboutUsFragment"
++        android:name="com.example.mehrkalacoroutine.ui.fragment.aboutUs.AboutUsFragment"
++        android:label="about_us_fragment"
++        tools:layout="@layout/about_us_fragment" >
++        <action
++            android:id="@+id/action_aboutUsFragment_to_mainPageFragment"
++            app:destination="@id/mainPageFragment" />
++    </fragment>
+ 
+ </navigation>
+\ No newline at end of file
