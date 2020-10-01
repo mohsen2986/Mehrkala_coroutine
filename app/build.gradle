@@ -18,7 +18,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.mehrkalacoroutine"
-        minSdkVersion 19
+        minSdkVersion 17
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -130,4 +130,7 @@ dependencies {
 
     //
     implementation "androidx.browser:browser:1.0.0"
+
+    // MOTION LAYOUT
+    implementation "androidx.constraintlayout:constraintlayout:2.0.0-rc1"
 }
