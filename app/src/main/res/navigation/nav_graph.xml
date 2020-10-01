@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation
+         <navigation
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_gragh"
-    app:startDestination="@id/loadingFragment">
+    app:startDestination="@id/aboutUsFragment">
 
     <fragment
         android:id="@+id/loadingFragment"
@@ -147,6 +147,9 @@
             app:popEnterAnim="@anim/fade_slide_in_left"
             app:exitAnim="@anim/fade_slide_out_left"
             />
+        <action
+            android:id="@+id/action_mainPageFragment_to_aboutUsFragment"
+            app:destination="@id/aboutUsFragment" />
     </fragment>
     <fragment
         android:id="@+id/showItemDetailsFragment"
@@ -246,5 +249,14 @@
         android:id="@+id/sendBillsBasketFragment"
         android:name="com.example.mehrkalacoroutine.ui.fragment.sendBillsBasket.SendBillsBasketFragment"
         android:label="SendBillsBasketFragment" />
+    <fragment
+        android:id="@+id/aboutUsFragment"
+        android:name="com.example.mehrkalacoroutine.ui.fragment.aboutUs.AboutUsFragment"
+        android:label="about_us_fragment"
+        tools:layout="@layout/about_us_fragment" >
+        <action
+            android:id="@+id/action_aboutUsFragment_to_mainPageFragment"
+            app:destination="@id/mainPageFragment" />
+    </fragment>
 
 </navigation>
