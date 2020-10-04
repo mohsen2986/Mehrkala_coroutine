@@ -106,14 +106,12 @@
 
             </LinearLayout>
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                 android:id="@+id/username_layout"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                app:boxBackgroundMode="filled"
                 app:boxCornerRadiusBottomStart="6dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
