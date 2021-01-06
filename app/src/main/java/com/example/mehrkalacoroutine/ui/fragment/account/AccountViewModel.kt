@@ -15,8 +15,8 @@ class AccountViewModel(
     suspend fun userInformation():UserInformation?  =
             userInformationRepository.getUserInformation()
 
-    suspend fun updateUserInformation(username:String , password:String , phone:String) =
-        userInformationRepository.updateUserInformation(username, password, phone)
+    suspend fun updateUserInformation(username:String , password:String , phone:String , email: String) :Boolean=
+        userInformationRepository.updateUserInformation(username, password, phone , email)
 
     suspend fun logOut() =
         userInformationRepository.logOut()

@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -12,8 +13,6 @@ import com.example.mehrkalacoroutine.R
 import com.example.mehrkalacoroutine.databinding.AccountFragmentBinding
 import com.example.mehrkalacoroutine.ui.base.ScopedFragment
 import kotlinx.android.synthetic.main.account_fragment.*
-import kotlinx.android.synthetic.main.dialog_info.*
-import kotlinx.android.synthetic.main.dialog_logout.*
 import kotlinx.android.synthetic.main.dialog_logout.dialog_no
 import kotlinx.android.synthetic.main.dialog_logout.dialog_yes
 import kotlinx.coroutines.launch
@@ -76,10 +75,13 @@ class AccountFragment : ScopedFragment() , KodeinAware {
         }
     }
     private fun updateAccount() = launch {
-        viewModel.updateUserInformation(fra_account_username.text.toString() ,
+        if(viewModel.updateUserInformation(fra_account_username.text.toString() ,
                                         fra_account_password.text.toString() ,
-                                        fra_account_phone.text.toString())
-        activity!!.onBackPressed()
+                                        fra_account_phone.text.toString() ,
+                                        fra_account_email.text.toString() )
+        )activity!!.onBackPressed()
+        else
+            Toast.makeText(context , "اشکال در بارگداری." , Toast.LENGTH_SHORT).show()
     }
     private fun logOut() = launch {
         viewModel.logOut()
