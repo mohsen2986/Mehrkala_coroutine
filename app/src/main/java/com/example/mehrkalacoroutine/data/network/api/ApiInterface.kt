@@ -24,7 +24,8 @@ interface ApiInterface{
      suspend fun signUp(
                @Query("username") username: String,
                @Query("password") password: String,
-               @Query("phone") phone: String
+               @Query("phone") phone: String ,
+               @Query("email") email: String
     ): NetworkResponse<RequestInformation , RequestInformation>
 
     // get paged items
@@ -73,7 +74,8 @@ interface ApiInterface{
     suspend fun updateAccount(
         @Query("username") username: String,
         @Query("password") password: String,
-        @Query("phone") phone:String
+        @Query("phone") phone:String ,
+        @Query("email") email: String
     ): NetworkResponse <RequestInformation , RequestInformation>
 
     // category
