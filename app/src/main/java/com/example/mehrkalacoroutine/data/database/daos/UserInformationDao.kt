@@ -15,6 +15,6 @@ interface UserInformationDao{
     @Insert(onConflict = REPLACE)
     suspend fun upset(userInformation: UserInformation)
     // getUserInformation
-    @Query("SELECT * FROM user_information ")
+    @Query("SELECT * FROM user_information")
     suspend fun getUserInformation(): UserInformation
 }
