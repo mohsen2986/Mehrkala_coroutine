@@ -11,7 +11,8 @@ data class UserInformation(
     var password :String = "unknown",
     var phone :String = "1234" ,
     var token :String = "unknown" ,
-    var logined :Boolean = false
+    var logined :Boolean = false ,
+    var email :String = "Unknown"
 ){
     @PrimaryKey(autoGenerate = false)
     var id:Int =
