@@ -54,7 +54,7 @@ class SignupFragment : ScopedFragment() , KodeinAware{
 
     }
     fun onClick() = launch {
-        val state = viewModel.signUp(fra_signup_username.text.toString() , fra_signup_password.text.toString() , fra_signup_phone.text.toString())
+        val state = viewModel.signUp(fra_signup_username.text.toString() , fra_signup_password.text.toString() , fra_signup_phone.text.toString() , fra_signup_email.text.toString())
         when(state){
             is NetworkResponse.Success ->{
                if(state.body.code.equals("105"))
@@ -86,7 +86,8 @@ class SignupFragment : ScopedFragment() , KodeinAware{
     private fun checkColumns() :Boolean =
         fra_signup_username.text?.isNotEmpty()!!&&
                 fra_signup_phone.text?.isNotEmpty()!! &&
-                fra_signup_password.text?.isNotEmpty()!!
+                fra_signup_password.text?.isNotEmpty()!! &&
+                fra_signup_email.text?.isNotEmpty()!!
 
     private fun checkSpaces() :Boolean {
         val pattern = "[\\s]+".toRegex()

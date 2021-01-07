@@ -30,14 +30,14 @@ class   ItemRepository (
         return  0
     }
 
-    suspend fun getNewItems(): List<Item> {
+    suspend fun getNewItems(): List<Item>? {
         val response = apiInterface.getNewItems()
         when(response){
             is NetworkResponse.Success -> return response.body.datas
         }
         return emptyList()
     }
-    suspend fun getTopSapesItems(): List<Item> {
+    suspend fun getTopSapesItems(): List<Item>? {
         val response = apiInterface.getTopSales()
         when(response) {
             is NetworkResponse.Success -> return response.body.datas
@@ -45,7 +45,7 @@ class   ItemRepository (
         return emptyList()
     }
 
-    suspend fun getBoarders(): List<Boarder> {
+    suspend fun getBoarders(): List<Boarder>? {
         val response = apiInterface.getNewItems()
         when(response){
             is NetworkResponse.Success -> return response.body.boarders

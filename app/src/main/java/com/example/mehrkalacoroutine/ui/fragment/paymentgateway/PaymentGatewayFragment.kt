@@ -158,7 +158,7 @@ class PaymentGatewayFragment : ScopedFragment() , KodeinAware {
         askForPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE , 101 , activity!!)
     }
     private fun downloadReceipt() = launch{
-        when(viewModel.downloadReceipt()){
+        when(viewModel.downloadReceipt(context!!)){
             true -> Toast.makeText(context , "رسید شما دانلود شد." , Toast.LENGTH_LONG).show()
             else -> Toast.makeText( context , "مشکل در دانلود رسید." , Toast.LENGTH_LONG).show()
         }

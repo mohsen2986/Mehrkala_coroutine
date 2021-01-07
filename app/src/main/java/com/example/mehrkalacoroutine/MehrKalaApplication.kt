@@ -26,6 +26,7 @@ import com.example.mehrkalacoroutine.ui.fragment.showOrdersHistory.ShowOrdersHis
 import com.example.mehrkalacoroutine.ui.fragment.splashScreen.loading.LoadingViewModelFactory
 import com.example.mehrkalacoroutine.ui.fragment.splashScreen.login.LoginViewModelFactory
 import com.example.mehrkalacoroutine.ui.fragment.splashScreen.singup.SignUpViewModelFactory
+import com.facebook.stetho.Stetho
 import okhttp3.OkHttpClient
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -62,5 +63,10 @@ class MehrKalaApplication(): MultiDexApplication() , KodeinAware{
         bind() from provider { ShowOrdersHistoryViewModelFactory(instance()) }
         bind() from provider { SendBillsBasketViewModelFactory(instance()) }
         bind() from provider { AboutUsViewModelFactory() }
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        Stetho.initializeWithDefaults(this)
     }
 }

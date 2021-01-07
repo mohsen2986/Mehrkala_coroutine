@@ -1,5 +1,6 @@
 package com.example.mehrkalacoroutine.data.repository
 
+import android.util.Log
 import com.example.mehrkalacoroutine.data.database.daos.UserInformationDao
 import com.example.mehrkalacoroutine.data.database.model.UserInformation
 import com.example.mehrkalacoroutine.data.network.api.ApiInterface
@@ -27,8 +28,8 @@ class UserInformationRepository(
     }
 
     // signUp
-     suspend fun signUp(username:String , password:String , phone: String): NetworkResponse<RequestInformation, RequestInformation> {
-        val callBack = sendSignUpData(username , password, phone)
+     suspend fun signUp(username:String , password:String , phone: String , email: String): NetworkResponse<RequestInformation, RequestInformation> {
+        val callBack = sendSignUpData(username , password, phone , email)
         when(callBack){
             is NetworkResponse.Success ->{
                 if(callBack.body.code.equals("105"))
@@ -42,9 +43,9 @@ class UserInformationRepository(
 //        return false
         return callBack
     }
-    private suspend fun sendSignUpData(username:String , password: String , phone: String) : NetworkResponse<RequestInformation, RequestInformation> =
+    private suspend fun sendSignUpData(username:String , password: String , phone: String , email: String) : NetworkResponse<RequestInformation, RequestInformation> =
         withContext(IO){
-            return@withContext apiInterface.signUp(username , password , phone)
+            return@withContext apiInterface.signUp(username , password , phone , email)
         }
     // login
     suspend fun login(username:String , password:String):NetworkResponse<RequestInformation, RequestInformation> {
@@ -52,7 +53,7 @@ class UserInformationRepository(
         when (callBack) {
             is NetworkResponse.Success -> {
                 if (callBack.body.code.equals("105"))
-                insertData(UserInformation(username , password , callBack.body.phone , callBack.body.token , true))
+                insertData(UserInformation(username , password , callBack.body.phone , callBack.body.token , true , callBack.body.email))
             }
         }
         return callBack
@@ -77,19 +78,22 @@ class UserInformationRepository(
             return@withContext apiInterface.login(username , password,"login")
         }
     // update userInfo
-    suspend fun updateUserInformation(username:String , password:String , phone:String){
-        val callBack = sendUpdateUser(username , password , phone)
-        when(callBack) {
-            is NetworkResponse.Success ->
-            if (callBack.code.equals("105")) {
-                val user = UserInformation(username, password, phone, callBack.body.token, true)
-                insertData(user)
+    suspend fun updateUserInformation(username:String , password:String , phone:String , email: String):Boolean{
+        return when(val callBack = sendUpdateUser(username , password , phone , email)) {
+            is NetworkResponse.Success -> {
+                if (callBack.body.code.equals("105")) {
+                    val user = UserInformation(username, password, phone, callBack.body.token, true, email)
+                    insertData(user)
+                    true
+                } else
+                    false
             }
+            else -> false
         }
     }
-    private suspend fun sendUpdateUser(username:String , password:String , phone:String) : NetworkResponse<RequestInformation, RequestInformation> =
+    private suspend fun sendUpdateUser(username:String , password:String , phone:String , email: String) : NetworkResponse<RequestInformation, RequestInformation> =
         withContext(IO){
-            return@withContext apiInterface.updateAccount(username , password , phone)
+            return@withContext apiInterface.updateAccount(username , password , phone , email)
         }
     // logOut
     suspend fun logOut(){

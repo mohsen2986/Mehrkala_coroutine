@@ -86,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="44dp"
+                android:layout_marginTop="9dp"
                 android:layout_marginEnd="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -109,7 +109,7 @@
                 android:id="@+id/username_layout"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="3dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 app:boxCornerRadiusBottomStart="6dp"
@@ -129,7 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="9dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/username_layout">
@@ -152,7 +152,7 @@
                 android:id="@+id/phone_number_layout"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="3dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 app:boxCornerRadiusBottomStart="6dp"
@@ -166,16 +166,61 @@
                     android:inputType="numberDecimal"
                     />
             </com.google.android.material.textfield.TextInputLayout>
+            <!--            email -->
+            <LinearLayout
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/phone_number_layout">
+                <TextView
+                    android:layout_gravity="center"
+                    android:text="ایمیل"
+                    android:fontFamily="@font/font_one"
+                    android:textColor="@color/overlay_dark_80"
+                    android:textSize="19dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"/>
+                <ImageView
+                    android:layout_width="29dp"
+                    android:layout_height="29dp"
+                    app:srcCompat="@drawable/ic_email"
+                    />
+
+            </LinearLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phone_email_layout"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:boxCornerRadiusBottomStart="6dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/email"
+                >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fra_signup_email"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:inputType="textEmailAddress"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
             <!--            password  -->
             <LinearLayout
                 android:id="@+id/password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="9dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginEnd="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/phone_number_layout">
+                app:layout_constraintTop_toBottomOf="@id/phone_email_layout">
                 <TextView
                     android:layout_gravity="center"
                     android:text="@string/password"

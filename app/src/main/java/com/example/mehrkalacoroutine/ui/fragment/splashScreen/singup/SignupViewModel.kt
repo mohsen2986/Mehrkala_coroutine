@@ -17,7 +17,7 @@ import java.util.*
 class SignupViewModel(
     private val repository: UserInformationRepository
 ) : ViewModel() {
-    suspend fun signUp(username:String , password:String , phone:String): NetworkResponse<RequestInformation, RequestInformation> =
-        repository.signUp(username , password , phone)
+    suspend fun signUp(username:String , password:String , phone:String , email: String ): NetworkResponse<RequestInformation, RequestInformation> =
+        repository.signUp(username , password , phone , email)
 
 }

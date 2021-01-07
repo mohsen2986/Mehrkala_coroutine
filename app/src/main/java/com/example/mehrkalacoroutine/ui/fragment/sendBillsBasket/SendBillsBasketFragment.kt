@@ -47,11 +47,12 @@ class SendBillsBasketFragment : ScopedFragment() , KodeinAware {
     private lateinit var navController:NavController
     // -- FOR DATA
     private lateinit var viewBinding: SendBillsBasketFragmentBinding
-    private var addresses: List<Address> = listOf()
-    private var recivers: List<ReciverInformation> = listOf()
+    private var addresses: List<Address>? = listOf()
+    private var recivers: List<ReciverInformation>? = listOf()
     private lateinit var receipt: Receipt
     private val stateList: MutableList<String> = ArrayList()
     private var type: PacketType? = null // packet type
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -75,7 +76,8 @@ class SendBillsBasketFragment : ScopedFragment() , KodeinAware {
     }
     private fun bindUI() = launch {
         when(val callback = viewModel.addresses.await()){
-            is NetworkResponse.Success -> addresses = callback.body.address
+            is NetworkResponse.Success ->
+                addresses = callback.body.address
         }
         when(val callback = viewModel.reciverInformation.await()){
             is NetworkResponse.Success ->
@@ -89,9 +91,6 @@ class SendBillsBasketFragment : ScopedFragment() , KodeinAware {
                 disableLoading()
             }
         }
-//        recivers.forEach {
-//            Log.d(":debug" , "reload${it.name}")
-//        }
     }
 
     private fun initAdapters(){
@@ -100,7 +99,7 @@ class SendBillsBasketFragment : ScopedFragment() , KodeinAware {
     private fun getStateData(){
         GlobalScope.launch (Dispatchers.Default){
             stateList.addAll(resources.getStringArray(R.array.states))
-            stateList.add("[Select one]")
+            stateList.add("استان خود را انتخاب کنید.")
         }
     }
     private fun UIActions(){
@@ -117,10 +116,16 @@ class SendBillsBasketFragment : ScopedFragment() , KodeinAware {
             getReciverInfo()
         }
         fra_send_bills_choose_address.setOnClickListener {
-            chooseAddress()
+            if(addresses != null)
+                chooseAddress()
+            else
+                Toast.makeText(context , "هیچ ادرسی در سیستم ثبت نشده است.", Toast.LENGTH_SHORT).show()
         }
         fra_send_bills_choose_reciver.setOnClickListener{
-            chooseReciverInformation()
+            if(recivers != null)
+                chooseReciverInformation()
+            else
+                Toast.makeText(context , "هیچ گییرنده در سیستم ثبت نشده است.", Toast.LENGTH_SHORT).show()
         }
         fra_send_bills_packet_type.setOnClickListener{
             choosePacketType()
@@ -141,7 +146,7 @@ class SendBillsBasketFragment : ScopedFragment() , KodeinAware {
 
             }
             if(receipt?.receipt.receiptOffer.toInt() > 0 && viewModel.addressIsValid() && viewModel.reciverIsValid())
-                startPayment(receipt.receipt.receiptOffer.toInt())
+                startPayment(receipt.receipt.totalCost.toInt())
             else
                 Toast.makeText(context , "ادرس و گیرنده را مشخص کنید" , Toast.LENGTH_LONG).show()
 
@@ -160,9 +165,6 @@ class SendBillsBasketFragment : ScopedFragment() , KodeinAware {
             width = WindowManager.LayoutParams.MATCH_PARENT
             height = WindowManager.LayoutParams.MATCH_PARENT
         }
-//        dialog.show()
-//        dialog.window?.attributes = lp
-        // TODO BIG DISS
         val adapter = object : ArrayAdapter<String>(dialog.context, android.R.layout.simple_spinner_item, stateList as List<String?>) {
             override fun getCount(): Int {
                 return stateList.size - 1 // Truncate the list
@@ -173,20 +175,26 @@ class SendBillsBasketFragment : ScopedFragment() , KodeinAware {
         dialog.dialog_state_spinner.setSelection(stateList.size-1)
         dialog.dialog_state_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(p0: AdapterView<*>?) {
-                Toast.makeText(dialog.context , "u clicked noting!!" , Toast.LENGTH_LONG).show()
+                Toast.makeText(dialog.context , "هیچ استانی را انتخاب نکرده اید." , Toast.LENGTH_LONG).show()
             }
 
             override fun onItemSelected(adapter: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                if (position != (stateList.size-1))
+                if (position != (stateList.size-1)){
                     Toast.makeText(dialog.context , "${adapter?.getItemAtPosition(position)}" , Toast.LENGTH_LONG).show()
+                }
             }
         }
         //
         dialog.show()
         dialog.window?.attributes = lp
         dialog.dialog_add_address_submit.setOnClickListener {
-            sendAddress(dialog.dialog_add_address.text.toString() , dialog.dialog_add_address_post_number.text.toString())
-            dialog.dismiss()
+            if(dialog.dialog_add_address.text.isNotEmpty() && dialog.dialog_add_address_post_number.text.isNotEmpty() && dialog.dialog_state_spinner.selectedItemPosition != 31){
+                sendAddress(dialog.dialog_state_spinner.selectedItem.toString() + " / " + dialog.dialog_add_address.text.toString() , dialog.dialog_add_address_post_number.text.toString())
+                dialog.dismiss()
+            }else{
+                Toast.makeText(context , "همه مقادیر را وارد کنید." , Toast.LENGTH_SHORT).show()
+            }
+
         }
     }
     private fun getReciverInfo(){
@@ -205,9 +213,13 @@ class SendBillsBasketFragment : ScopedFragment() , KodeinAware {
         dialog.show()
         dialog.window?.attributes = lp
         dialog.dialog_reciver_submit.setOnClickListener {
+            if(dialog.dialog_reciver_name.text?.isNotEmpty()!! && dialog.dialog_reciver_phone_number.text?.isNotEmpty()!!){
             sendReciverInfo(dialog.dialog_reciver_name.text.toString() , dialog.dialog_reciver_phone_number.text.toString())
-            Log.d("TAG" , dialog.dialog_reciver_phone_number.text.toString())
             dialog.dismiss()
+            }else{
+                Toast.makeText(context , "همه مقادیر را وارد کنید." , Toast.LENGTH_SHORT).show()
+            }
+
         }
     }
     private fun sendAddress(address:String,postNumber:String) = launch {
@@ -247,7 +259,7 @@ class SendBillsBasketFragment : ScopedFragment() , KodeinAware {
         var address:Address? = null
         dialog.dialog_choose_address_rv.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = SelectableRecyclerAdapter<Address>( addresses , object :
+            adapter = SelectableRecyclerAdapter<Address>( addresses!! , object :
                 OnItemSelected<Address> {
                 override fun onItemSelected(item: Address) {
                     address = item
@@ -282,7 +294,7 @@ class SendBillsBasketFragment : ScopedFragment() , KodeinAware {
         var reciver: ReciverInformation? = null
         dialog.dialog_choose_reciver_rv.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = SelectableRecyclerAdapter<ReciverInformation>( recivers , object :
+            adapter = SelectableRecyclerAdapter<ReciverInformation>( recivers!! , object :
                 OnItemSelected<ReciverInformation> {
                 override fun onItemSelected(item: ReciverInformation) {
                     reciver = item
@@ -348,6 +360,7 @@ class SendBillsBasketFragment : ScopedFragment() , KodeinAware {
         when(val callback = viewModel.getPostReceipt( packetType, "خراسان جنوبی")){
             is NetworkResponse.Success -> {
                 viewBinding.receipt = callback.body
+                receipt = callback.body
                 disableLoading()
             }
         }

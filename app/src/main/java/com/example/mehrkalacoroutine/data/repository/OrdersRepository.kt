@@ -1,5 +1,9 @@
 package com.example.mehrkalacoroutine.data.repository
 
+import android.app.DownloadManager
+import android.content.Context
+import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import android.util.Log
 import android.util.Pair
@@ -61,68 +65,87 @@ class OrdersRepository(
     fun reciverIsValid(): Boolean {
         return reciverIsSet() && reciver != ReciverInformation()
     }
-    suspend fun downloadPdf(url: String ):Boolean = withContext(IO){
+    suspend fun downloadPdf(url: String , context: Context):Boolean = withContext(IO){
         url?.let {
             val response = api.downloadReceipt(url)
             val name = url.substringAfterLast('/')
             when (response) {
-                is NetworkResponse.Success -> saveToDisk(response.body, name)
+                is NetworkResponse.Success -> saveToDisk(response.body, name , context)
                 else -> false
             }
         }
     }
-    suspend fun downloadReceiptPdf():Boolean =  withContext(IO) {
+    suspend fun downloadReceiptPdf(context: Context):Boolean =  withContext(IO) {
         receiptPdfDirection?.let {
             val response = api.downloadReceipt(receiptPdfDirection)
             Log.d("_debug" , receiptPdfDirection.substringAfterLast('/'))
             val name = receiptPdfDirection.substringAfterLast('/')
             when (response) {
-                is NetworkResponse.Success -> saveToDisk(response.body, name)
+                is NetworkResponse.Success -> saveToDisk(response.body, name , context)
                 else -> false
             }
         }
 
     }
-    private suspend fun saveToDisk(body: ResponseBody, filename: String): Boolean {
+    private suspend fun saveToDisk(body: ResponseBody, filename: String , context: Context): Boolean {
         val TAG = "SAVE_TO_DISK"
-        try {
-            val destinationFile = File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-                filename
-            )
-            var inputStream: InputStream? = null
-            var outputStream: OutputStream? = null
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            Log.e(TAG , "start download")
+            val request = DownloadManager.Request(Uri.parse("https://www.paarandco.ir/mehrkala/pdfs/$filename"))
+            val tempTitle: String = filename
+            request.setTitle(tempTitle)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                request.allowScanningByMediaScanner()
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            }
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "$tempTitle.pdf")
+            val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager?
+            request.setMimeType("application/pdf")
+            request.allowScanningByMediaScanner()
+            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE or DownloadManager.Request.NETWORK_WIFI)
+            downloadManager!!.enqueue(request)
+            return true
+
+        } else {
             try {
-                inputStream = body.byteStream()
-                outputStream = FileOutputStream(destinationFile)
-                val data = ByteArray(4096)
-                var count: Int
-                var progress = 0
-                val fileSize = body.contentLength()
-                Log.d(TAG, "File Size=$fileSize")
-                while (inputStream.read(data).also { count = it } != -1) {
-                    outputStream.write(data, 0, count)
-                    progress += count
-                    Log.d(
-                        TAG,
-                        "Progress: " + progress + "/" + fileSize + " >>>> " + progress.toFloat() / fileSize
-                    )
+                val destinationFile = File(
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                    filename
+                )
+                var inputStream: InputStream? = null
+                var outputStream: OutputStream? = null
+                try {
+                    inputStream = body.byteStream()
+                    outputStream = FileOutputStream(destinationFile)
+                    val data = ByteArray(4096)
+                    var count: Int
+                    var progress = 0
+                    val fileSize = body.contentLength()
+                    Log.d(TAG, "File Size=$fileSize")
+                    while (inputStream.read(data).also { count = it } != -1) {
+                        outputStream.write(data, 0, count)
+                        progress += count
+                        Log.d(
+                            TAG,
+                            "Progress: " + progress + "/" + fileSize + " >>>> " + progress.toFloat() / fileSize
+                        )
+                    }
+                    outputStream.flush()
+                    Log.d(TAG, destinationFile.parent)
+                    return true
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                    Log.d(TAG, "Failed to save the file!")
+                    return false
+                } finally {
+                    inputStream?.close()
+                    outputStream?.close()
                 }
-                outputStream.flush()
-                Log.d(TAG, destinationFile.parent)
-                return true
             } catch (e: IOException) {
                 e.printStackTrace()
                 Log.d(TAG, "Failed to save the file!")
                 return false
-            } finally {
-                inputStream?.close()
-                outputStream?.close()
             }
-        } catch (e: IOException) {
-            e.printStackTrace()
-            Log.d(TAG, "Failed to save the file!")
-            return false
         }
     }
 }

@@ -1,8 +1,9 @@
 package com.example.mehrkalacoroutine.ui.fragment.splashScreen.login
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,7 @@ import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
+
 
 class LoginFragment : ScopedFragment() , KodeinAware {
     override val kodein: Kodein by closestKodein()
@@ -52,7 +54,7 @@ class LoginFragment : ScopedFragment() , KodeinAware {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
-        test()
+//        test()
         bindUI()
         anims()
     }
@@ -67,6 +69,9 @@ class LoginFragment : ScopedFragment() , KodeinAware {
         ac_login_btn.setOnClickListener{
             if (checkColumns())
                 onClick()
+        }
+        ac_login_reset.setOnClickListener{
+            resetPassword()
         }
 
     }
@@ -170,5 +175,9 @@ class LoginFragment : ScopedFragment() , KodeinAware {
             return false
         }
         return true
+    }
+    private fun resetPassword(){
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.paarandco.ir/mehr-kala/adminmehrkala1424/request-form-app"))
+        startActivity(browserIntent)
     }
 }

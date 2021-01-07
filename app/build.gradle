@@ -133,4 +133,9 @@ dependencies {
 
     // MOTION LAYOUT
     implementation "androidx.constraintlayout:constraintlayout:2.0.0-rc1"
+
+    // NETWORK MONITORING
+    implementation 'com.facebook.stetho:stetho:1.5.1'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
+
 }

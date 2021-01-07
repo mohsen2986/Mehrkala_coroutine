@@ -82,15 +82,16 @@ class MainPageFragment : ScopedFragment(), KodeinAware {
     private fun bindUI() = launch {
         val datas = viewModel.topSales.await()
         // ImageSlider
-        imageSliderAdapter.datas = datas
+        imageSliderAdapter.datas = datas!!
         // TopItems
-        topItemRecyclerAdapter.boarder = viewModel.boarderItems.await()[0]
-        topItemRecyclerAdapter.datas = viewModel.newItems.await().toMutableList()
-        Log.d("_debug", "${viewModel.newItems.await()}")
+        Log.d("_debug", "${viewModel.boarderItems.await()}")
+        topItemRecyclerAdapter.boarder = viewModel.boarderItems?.await()!![0]
+        topItemRecyclerAdapter.datas = viewModel.newItems.await()?.toMutableList()!!
+//        Log.d("_debug", "${viewModel.newItems.await()}")
         // TopSales
-        topSalesRecyclerAdapter.boarder = viewModel.boarderItems.await()[1]
-        topSalesRecyclerAdapter.datas = viewModel.topSales.await().toMutableList()
         Log.d("_debug", "${viewModel.topSales.await()}")
+        topSalesRecyclerAdapter.boarder = viewModel.boarderItems.await()!![1]
+        topSalesRecyclerAdapter.datas = viewModel.topSales.await()?.toMutableList()!!
         // category
         categoryRecyclerAdapter.datas = viewModel.category.await().toMutableList()
         // OFFERS

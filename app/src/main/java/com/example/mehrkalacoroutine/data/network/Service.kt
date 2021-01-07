@@ -12,7 +12,7 @@ class Service(
 ){
     operator fun invoke() :ApiInterface{
         return Retrofit.Builder()
-            .baseUrl("http://www.paarandco.ir/mehrkala/api/ver1/")
+            .baseUrl("https://www.paarandco.ir/mehrkala/api/ver1/")
             .addCallAdapterFactory(NetworkResponseAdapterFactory())
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)

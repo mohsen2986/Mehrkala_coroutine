@@ -129,7 +129,7 @@ class ShowitemsFragment : ScopedFragment() , KodeinAware  , RecyclerAdapter.OnCl
                                 when(view.id) {
                                     R.id.row_orders_download -> {
                                         launch {
-                                            if(viewModel.downloadPdf(element.pdf))
+                                            if(viewModel.downloadPdf(element.pdf, context!!))
                                                 Toast.makeText(context , "رسید شما دانلود شد." , Toast.LENGTH_LONG).show()
                                             else
                                                 Toast.makeText( context , "مشکل در دانلود رسید." , Toast.LENGTH_LONG).show()

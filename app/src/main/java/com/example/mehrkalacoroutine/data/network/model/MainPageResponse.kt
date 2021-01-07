@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class MainPageResponse(
         @SerializedName("data")
-        var datas:List<Item> ,
+        var datas:List<Item>? ,
         @SerializedName("boarders")
-        var boarders:List<Boarder> ,
+        var boarders:List<Boarder>? ,
         @SerializedName("metadata")
-        var MetaData: RequestInformation
+        var MetaData: RequestInformation?
 )

@@ -13,7 +13,7 @@ companion object {
         if(url != null)
             Glide
                 .with(imageView.context)
-                .load("http://www.paarandco.ir/mehr-kala/storage/images/$url")
+                .load("https://www.paarandco.ir/mehr-kala/storage/images/$url")
                 .into(imageView)
     }
 }

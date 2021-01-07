@@ -1,5 +1,6 @@
 package com.example.mehrkalacoroutine.ui.fragment.showItems
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
@@ -70,6 +71,6 @@ class ShowitemsViewModel(
     }
 
     // download orders PDF selected
-    suspend fun downloadPdf(url: String) =
-        ordersRepository.downloadPdf(url)
+    suspend fun downloadPdf(url: String , context: Context) =
+        ordersRepository.downloadPdf(url , context)
 }

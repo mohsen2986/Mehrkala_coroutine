@@ -10,6 +10,8 @@ data class RequestInformation (
         @SerializedName("token")
         var token :String ,
         @SerializedName("phone")
-        var phone:String
+        var phone:String ,
+        @SerializedName("email")
+        val email: String
 )
 
