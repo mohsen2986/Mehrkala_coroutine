@@ -18,7 +18,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="165dp"
-        android:layout_height="294dp"
+        android:layout_height="260dp"
         android:paddingEnd="@dimen/spacing_medium"
         android:paddingStart="@dimen/spacing_medium"
         android:layoutDirection="ltr"
@@ -30,7 +30,7 @@
             android:layout_width="140dp"
             android:layout_height="175dp"
             android:layout_gravity="center"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="@dimen/spacing_medium"
             android:loadImage="@{item.image}"
             />
@@ -39,7 +39,7 @@
             android:text="@{item.name}"
             android:fontFamily="@font/text_font"
             android:textSize="16dp"
-            android:maxLines="2"
+            android:maxLines="1"
             android:ellipsize="end"
             android:textColor="@color/overlay_dark_80"
             android:layout_width="match_parent"

@@ -20,7 +20,7 @@
 
     android:orientation="vertical" 
     android:layout_width="165dp"
-    android:layout_height="290dp"
+    android:layout_height="260dp"
     android:paddingEnd="@dimen/spacing_medium"
     android:paddingStart="@dimen/spacing_medium"
     android:layoutDirection="ltr"
