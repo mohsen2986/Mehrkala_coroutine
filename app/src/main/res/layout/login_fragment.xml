@@ -82,7 +82,7 @@
             android:background="@drawable/login_form_edit_txt_background"
             android:layout_marginTop="10dp"
             android:textColor="@color/white"
-            android:inputType="numberDecimal"
+            android:inputType="numberPassword"
             android:maxLength="11"
             android:maxLines="1"
             android:paddingEnd="15dp"
