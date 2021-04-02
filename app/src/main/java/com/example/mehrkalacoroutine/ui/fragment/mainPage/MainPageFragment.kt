@@ -82,20 +82,28 @@ class MainPageFragment : ScopedFragment(), KodeinAware {
     private fun bindUI() = launch {
         val datas = viewModel.topSales.await()
         // ImageSlider
-        imageSliderAdapter.datas = datas!!
+        datas?.let{
+            imageSliderAdapter.datas = it
+        }
         // TopItems
-        Log.d("_debug", "${viewModel.boarderItems.await()}")
+//        Log.d("_debug", "${viewModel.boarderItems.await()}")
         topItemRecyclerAdapter.boarder = viewModel.boarderItems?.await()!![0]
-        topItemRecyclerAdapter.datas = viewModel.newItems.await()?.toMutableList()!!
-//        Log.d("_debug", "${viewModel.newItems.await()}")
+        viewModel.newItems.await()?.let{
+            topItemRecyclerAdapter.datas = it.toMutableList()
+        }
         // TopSales
-        Log.d("_debug", "${viewModel.topSales.await()}")
-        topSalesRecyclerAdapter.boarder = viewModel.boarderItems.await()!![1]
-        topSalesRecyclerAdapter.datas = viewModel.topSales.await()?.toMutableList()!!
+        topSalesRecyclerAdapter.boarder = viewModel.boarderItems?.await()!![1]
+        viewModel.topSales.await()?.let{
+            topSalesRecyclerAdapter.datas = it.toMutableList()
+        }
         // category
-        categoryRecyclerAdapter.datas = viewModel.category.await().toMutableList()
+        viewModel.category.await()?.let{
+            categoryRecyclerAdapter.datas = it.toMutableList()
+        }
         // OFFERS
-        offersRecyclerViewAdapter.datas = viewModel.offers.await() as MutableList<Item>
+        viewModel.offers.await()?.let{
+            offersRecyclerViewAdapter.datas = it as MutableList<Item>
+        }
     }
 
     private fun initAdapters() {

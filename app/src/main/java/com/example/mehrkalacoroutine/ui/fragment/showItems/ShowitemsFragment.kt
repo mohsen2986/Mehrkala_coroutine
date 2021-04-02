@@ -269,7 +269,7 @@ class ShowitemsFragment : ScopedFragment() , KodeinAware  , RecyclerAdapter.OnCl
         updateUIWhenEmptyList(size , networkState)
         updateUIWhenLoading(size , networkState)
     }
-     private fun  DeleteDialog(id:Int){
+    private fun  DeleteDialog(id:Int){
         val dialog = Dialog(context!!)
         dialog.apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)

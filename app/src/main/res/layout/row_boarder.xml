@@ -16,51 +16,51 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         >
-<LinearLayout
+        <LinearLayout
 
-    android:orientation="vertical" 
-    android:layout_width="165dp"
-    android:layout_height="290dp"
-    android:paddingEnd="@dimen/spacing_medium"
-    android:paddingStart="@dimen/spacing_medium"
-    android:layoutDirection="ltr"
-    android:background="@drawable/round_price_background"
-    android:backgroundTint="@color/gray"
-    android:onClick="@{(V) -> onClick.onClick(boarder)}"
-    >
-    <ImageView
-        android:id="@+id/row_boarder_img"
-        android:layout_width="140dp"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="12dp"
-        android:loadImage="@{boarder.image}"
-        />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="end"
-        >
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ic_arrow_left"
-        />
+            android:orientation="vertical"
+            android:layout_width="165dp"
+            android:layout_height="260dp"
+            android:paddingEnd="@dimen/spacing_medium"
+            android:paddingStart="@dimen/spacing_medium"
+            android:layoutDirection="ltr"
+            android:background="@drawable/round_price_background"
+            android:backgroundTint="@color/gray"
+            android:onClick="@{(V) -> onClick.onClick(boarder)}"
+            >
+            <ImageView
+                android:id="@+id/row_boarder_img"
+                android:layout_width="140dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="12dp"
+                android:loadImage="@{boarder.image}"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_arrow_left"
+                    />
 
-        <TextView
-        android:textSize="12dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:layout_marginTop="@dimen/spacing_medium"
-        android:textColor="@color/white"
-        android:text="موارد بیشتر"
-        />
-    </LinearLayout>
+                <TextView
+                    android:textSize="12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:textColor="@color/white"
+                    android:text="موارد بیشتر"
+                    />
+            </LinearLayout>
 
-</LinearLayout>
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>
