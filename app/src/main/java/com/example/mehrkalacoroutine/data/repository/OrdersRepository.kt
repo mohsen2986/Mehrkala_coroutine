@@ -148,4 +148,7 @@ class OrdersRepository(
             }
         }
     }
+
+    suspend fun checkBasket() =
+        api.checkBasket()
 }

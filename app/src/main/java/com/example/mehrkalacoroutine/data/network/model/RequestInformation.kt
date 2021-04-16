@@ -12,6 +12,8 @@ data class RequestInformation (
         @SerializedName("phone")
         var phone:String ,
         @SerializedName("email")
-        val email: String
+        val email: String ,
+        @SerializedName("user_name")
+        val userName: String
 )
 

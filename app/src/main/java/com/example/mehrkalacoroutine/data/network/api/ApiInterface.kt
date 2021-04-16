@@ -11,6 +11,7 @@ import retrofit2.http.Query
 import retrofit2.http.Url
 
 interface ApiInterface{
+//    checkBasket.php
     // Login
     @POST("login.php")
     suspend fun login(
@@ -136,4 +137,8 @@ interface ApiInterface{
     suspend fun downloadReceipt(
       @Url url:String
     ): NetworkResponse<ResponseBody , ResponseBody>
+
+    @POST("checkBasket.php")
+    suspend fun checkBasket(
+    ): NetworkResponse< CheckResponse , CheckResponse>
 }

@@ -1,16 +1,14 @@
 package com.example.mehrkalacoroutine.ui.fragment.showItems
 
 import android.app.Dialog
-import android.content.Intent
-import android.graphics.Color
+import android.app.ProgressDialog
+import android.content.DialogInterface
 import android.graphics.Rect
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -28,6 +26,7 @@ import com.example.mehrkalacoroutine.ui.adapter.horizontalRecycler.RecyclerViewA
 import com.example.mehrkalacoroutine.ui.adapter.paging.RecyclerAdapter
 import com.example.mehrkalacoroutine.ui.base.ScopedFragment
 import com.example.mehrkalacoroutine.ui.utils.OnClickHandler
+import com.haroldadmin.cnradapter.NetworkResponse
 import kotlinx.android.synthetic.main.dialog_info.*
 import kotlinx.android.synthetic.main.showitems_fragment.*
 import kotlinx.coroutines.launch
@@ -46,6 +45,12 @@ class ShowitemsFragment : ScopedFragment() , KodeinAware  , RecyclerAdapter.OnCl
     private lateinit var viewModel: ShowitemsViewModel
     private lateinit var navController:NavController
 
+    private lateinit var configureViewModelQuery: String
+
+    private val progress : ProgressDialog by lazy {
+        ProgressDialog(context)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -61,7 +66,8 @@ class ShowitemsFragment : ScopedFragment() , KodeinAware  , RecyclerAdapter.OnCl
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this , viewModelFactory).get(ShowitemsViewModel::class.java)
-        configViewModel(arguments!!.getString("query").toString())
+        configureViewModelQuery = arguments!!.getString("query").toString()
+        configViewModel(configureViewModelQuery)
         configureObservables()
         configureRecyclerView()
         configureSearchView()
@@ -202,11 +208,18 @@ class ShowitemsFragment : ScopedFragment() , KodeinAware  , RecyclerAdapter.OnCl
         categoryAdapter.datas = categories
 
         fra_show_details_buy.setOnClickListener {
-//            showBasket()
+            progress.setTitle("در حال پردازش")
+            progress.setMessage("لطفا صبر کنید...")
+            progress.setCancelable(false) // disable dismiss by tapping outside of the dialog
+            progress.show()
+
             if(fra_show_items_rv.getChildAt(0) != null)
-                navController.navigate(R.id.action_showitemsFragment_to_biilsFragment)
-            else
-                Toast.makeText(context , "کالایی د ر سبد خرید وجود ندارد." , Toast.LENGTH_SHORT).show()
+                checkBasket()
+            else {
+                progress.dismiss()
+                Toast.makeText(context, "کالایی د ر سبد خرید وجود ندارد.", Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
     }
     private fun updateCategories() = launch{
@@ -247,7 +260,11 @@ class ShowitemsFragment : ScopedFragment() , KodeinAware  , RecyclerAdapter.OnCl
             when(networkState){
                 NetworkState.SUCCESS ->{
                     Glide.with(this).load(R.drawable.not_found).into(fra_show_items_img_status)
-                    fra_show_items_status_txt.text = getString(R.string.items_not_found)
+                    if(configureViewModelQuery == "basket")
+                        fra_show_items_status_txt.text = getString(R.string.items_not_found_basket)
+                    else
+                        fra_show_items_status_txt.text = getString(R.string.items_not_found)
+
                     fra_show_items_img_status.visibility = View.VISIBLE
                     fra_show_items_status_txt.visibility = View.VISIBLE
                     fra_show_items_retry.visibility = View.GONE
@@ -311,4 +328,30 @@ class ShowitemsFragment : ScopedFragment() , KodeinAware  , RecyclerAdapter.OnCl
 
     }
 
+    // check basket
+    private fun checkBasket() = launch {
+        when(val callback = viewModel.checkBasket()){
+            is NetworkResponse.Success ->{
+                if(callback.body.code == "105"){
+                    navController.navigate(R.id.action_showitemsFragment_to_biilsFragment)
+                    progress.dismiss()
+
+                }else {
+                    progress.dismiss()
+                    val builder = AlertDialog.Builder(context!!)
+                    builder.apply {
+                        setMessage(callback.body.massage)
+                        setCancelable(false)
+                    }
+                    builder.setPositiveButton(
+                        "تایید",
+                        DialogInterface.OnClickListener { dialog, which ->
+                            dialog.cancel()
+                        }
+                    )
+                    builder.show()
+                }
+            }
+        }
+    }
 }

@@ -53,7 +53,7 @@ class UserInformationRepository(
         when (callBack) {
             is NetworkResponse.Success -> {
                 if (callBack.body.code.equals("105"))
-                insertData(UserInformation(username , password , callBack.body.phone , callBack.body.token , true , callBack.body.email))
+                    insertData(UserInformation(callBack.body.userName , password , callBack.body.phone , callBack.body.token , true , callBack.body.email))
             }
         }
         return callBack

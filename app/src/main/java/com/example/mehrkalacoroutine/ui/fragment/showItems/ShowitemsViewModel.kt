@@ -73,4 +73,8 @@ class ShowitemsViewModel(
     // download orders PDF selected
     suspend fun downloadPdf(url: String , context: Context) =
         ordersRepository.downloadPdf(url , context)
+
+    // check basket status
+    suspend fun checkBasket() =
+        ordersRepository.checkBasket()
 }

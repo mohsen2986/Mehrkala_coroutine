@@ -54,14 +54,8 @@ class LoginFragment : ScopedFragment() , KodeinAware {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
-//        test()
         bindUI()
         anims()
-    }
-    private fun test(){
-        GlobalScope.launch {
-            val result = service.login("moshen_123123" , "12341234" ,"login")
-        }
     }
     private fun bindUI() = launch {
         ac_login_show_status.setAnimation(R.raw.waiting)

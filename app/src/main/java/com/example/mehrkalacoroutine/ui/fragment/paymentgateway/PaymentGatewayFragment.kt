@@ -22,6 +22,7 @@ import com.example.mehrkalacoroutine.ui.adapter.paging.RecyclerAdapter
 import com.example.mehrkalacoroutine.ui.base.ScopedFragment
 import com.example.mehrkalacoroutine.ui.utils.askForPermission
 import com.haroldadmin.cnradapter.NetworkResponse
+import com.haroldadmin.cnradapter.executeWithRetry
 import com.zarinpal.ewallets.purchase.ZarinPal
 import kotlinx.android.synthetic.main.dialog_payment_status.*
 import kotlinx.android.synthetic.main.dialog_reciver_informatoin.*
@@ -83,8 +84,7 @@ class PaymentGatewayFragment : ScopedFragment() , KodeinAware {
 
     }
     private fun getReceipt(refId:String) = launch {
-        val data = viewModel.sendPaymentInfo(refId)
-        when(data){
+        when(val data = executeWithRetry(times = 5) {viewModel.sendPaymentInfo(refId)}) {
             is NetworkResponse.Success -> {
                 receiptAdapter.datas = data.body.item.toMutableList()
                 viewBinding.receipt = data.body
